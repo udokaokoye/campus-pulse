@@ -1,71 +1,65 @@
-import { AppText } from '@/components/AppText';
-import EventCard from '@/components/EventCard';
-import { ACCENT_COLOR, colorCombos } from '@/utils/constants';
-import { Event } from '@/utils/types';
-import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
-import { Icon } from '@rneui/base';
-import { Image } from 'expo-image';
-import { GoogleMaps } from 'expo-maps';
-import { GoogleMapsColorScheme } from 'expo-maps/build/google/GoogleMaps.types';
-import { router } from 'expo-router';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Dimensions, PermissionsAndroid, Platform, Switch, Text, TouchableOpacity, View } from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
+import { AppText } from '@/components/AppText'
+import EventCard from '@/components/EventCard'
+import { ACCENT_COLOR, colorCombos } from '@/utils/constants'
+import { Icon } from '@rneui/base'
+import { router } from 'expo-router'
+import { StatusBar } from 'expo-status-bar'
+import React, { useState } from 'react'
+import { FlatList, TextInput, TouchableOpacity, View } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
-import MapView, { Marker } from 'react-native-maps';
-export default function HomeScreen() {
-  const [initialPostion, setinitialPostion] = useState({
-    latitude: 39.129894,
-    longitude: -84.516852,
-    latitudeDelta: 0.01,  // Adjust this value to zoom in more or less
-    longitudeDelta: 0.01
-  })
-  const [events, setevents] = useState<any>([]);
-  const [selectedEvent, setselectedEvent] = useState<any>(null)
+const AllEvents = () => {
   const [activeCategory, setactiveCategory] = useState(0)
-  const [isEnabled, setisEnabled] = useState(false)
-  const { width, height } = Dimensions.get('window')
 
-  const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => ['30%', '60%'], []);
-  const mapRef = useRef<MapView>(null);
-  // callbacks
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log('handleSheetChanges', index);
-  }, []);
-
-
-  const categories = [
+  const dummyEventThemes = [
     {
-      name: 'all events',
+      value: 'all events',
       icon: null,
       iconType: null
     },
     {
-      name: 'sports',
+      value: "Arts",
+      icon: "brush",
+      iconType: "material-community"
+    },
+    {
+
+      value: "Athletics",
       icon: "soccer-ball-o",
       iconType: "font-awesome"
     },
     {
-      name: 'movies',
-      icon: "movie-open-star-outline",
-      iconType: "material-community"
+      value: "Community Service",
+      icon: "people-carry",
+      iconType: "font-awesome-5"
     },
     {
-      name: 'Tech',
-      icon: "laptop",
-      iconType: "foundation"
+      value: "Cultural",
+      icon: "globe",
+      iconType: "entypo"
+    },
+    {
+      value: "Group Business",
+      icon: "briefcase",
+      iconType: "feather"
+    },
+    {
+      value: "Social",
+      icon: "hipchat",
+      iconType: "fontisto"
+    },
+    {
+      value: "Spirituality",
+      icon: "pray",
+      iconType: "font-awesome-5"
+    },
+    {
+      value: "Thoughtful Learning",
+      icon: "blackboard",
+      iconType: "entypo"
     }
   ]
-
-  const cameraPosition = {
-    coordinates: {
-      latitude: 39.129894,
-      longitude: -84.516852,
-    },
-    zoom: 15
-  }
-
   const dummyEvents = [
     {
       "id": "11361570",
@@ -1697,315 +1691,83 @@ export default function HomeScreen() {
     }
   ]
 
-  const dummyEventThemes = [
-    {
-      value: 'all events',
-      icon: null,
-      iconType: null
-    },
-    {
-      value: "Arts",
-      icon: "brush",
-      iconType: "material-community"
-    },
-    {
-
-      value: "Athletics",
-      icon: "soccer-ball-o",
-      iconType: "font-awesome"
-    },
-    {
-      value: "Community Service",
-      icon: "people-carry",
-      iconType: "font-awesome-5"
-    },
-    {
-      value: "Cultural",
-      icon: "globe",
-      iconType: "entypo"
-    },
-    {
-      value: "Group Business",
-      icon: "briefcase",
-      iconType: "feather"
-    },
-    {
-      value: "Social",
-      icon: "hipchat",
-      iconType: "fontisto"
-    },
-    {
-      value: "Spirituality",
-      icon: "pray",
-      iconType: "font-awesome-5"
-    },
-    {
-      value: "Thoughtful Learning",
-      icon: "blackboard",
-      iconType: "entypo"
-    }
-  ]
-
-  const fetchEvents = async () => {
-    const res = await fetch("https://campuslink.uc.edu/api/discovery/event/search?take=50&endsAfter=2025-08-28T00:00:00Z");
-    const data = await res.json();
-
-    setevents(data.value);
-
-  }
-
-  useEffect(() => {
-    // If you show user location, request permission first (Android)
-    (async () => {
-      if (Platform.OS === 'android') {
-        await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-        );
-      }
-    })();
-  }, []);
-
-  useEffect(() => {
-    // fetchEvents()
-    setevents(dummyEvents)
-  }, [])
-
-  const toggleSwitch = () => {
-    setisEnabled(!isEnabled)
-  }
-
   const handleCategoryClick = (index: number) => {
     setactiveCategory(index)
   }
-
-  const centerWithOffset = async (
-    coord: any,                 // target { latitude, longitude }
-    { x = 0, y = 0, zoom = 16 } // x/y in pixels (+y = down)
-  ) => {
-    if (!mapRef.current) return;
-
-    // 1) Make sure the map knows about the target coordinate
-    // (optional but helps correctness if you're jumping far)
-    await mapRef.current.animateCamera({ center: coord, zoom }, { duration: 0 });
-
-    // 2) Find the current screen point of the target coordinate
-    const pt = await mapRef.current.pointForCoordinate(coord);
-
-    // 3) Compute where you want that coordinate to appear on screen
-    // e.g. center (width/2, height/2), top (width/2, height*0.25), bottom (width/2, height*0.75)
-    const desired = { x: width / 2 + x, y: height / 2 + y };
-
-    // 4) Shift the map so that the target moves to `desired`
-    //    We do that by asking: "Which geo coordinate is currently at `desired`?"
-    const newCenter = await mapRef.current.coordinateForPoint(desired);
-
-    // 5) Animate to that center (target will appear at the desired screen position)
-    mapRef.current.animateCamera({ center: newCenter, zoom }, { duration: 400 });
-  };
   return (
-    <View className='relative' style={{ flex: 1 }}>
-      <View className='absolute border-white border-2 bg-orange-500 top-0 left-0 z-10 m-10 mt-20 rounded-full overflow-hidden' style={{ width: 60, height: 60 }}>
-        <Image
-          style={{ width: '100%', height: "100%" }}
-          source="https://calquest.s3.us-east-1.amazonaws.com/avatars/leviokoye@gmail.com_1755103361783_avatar.jpg"
-          contentFit="cover"
-          transition={1000}
+    <SafeAreaView>
+      <ScrollView>
+        <StatusBar style="dark"/>
+
+
+        <View className='flex-row items-center px-4 py-3'>
+          <TouchableOpacity
+            onPress={() => router.back?.()}
+            className="w-10 h-10 items-center justify-center"
+            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+          >
+            <Icon name="chevron-back" type="ionicon" />
+          </TouchableOpacity>
+
+          <AppText weight='bold' className="flex-1 text-center font-bold text-2xl">All Events</AppText>
+
+          <View className="w-10 h-10" />
+        </View>
+        <FlatList
+          style={{ marginTop: 15 }}
+          horizontal
+          data={dummyEventThemes}
+          keyExtractor={(item, index) => index.toString()}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          // nestedScrollEnabled
+          renderItem={({ item, index }) => (
+            <TouchableOpacity key={item.value} onPress={() => handleCategoryClick(index)} className='px-8 py-3 rounded-3xl flex-row items-center gap-x-2' style={{ backgroundColor: activeCategory == index ? ACCENT_COLOR : "#F3F4F6", height: 55, marginLeft: 10 }}>
+              {item.icon && <Icon size={20} color={activeCategory == index ? 'white' : '#4B5563'} name={item.icon} type={item.iconType} />}
+              <AppText weight='bold' style={{ color: activeCategory == index ? 'white' : "#4B5563" }} className='font-bold text-lg capitalize'>{item.value}</AppText>
+            </TouchableOpacity>
+          )}
         />
-      </View>
-      <View className='absolute top-0 right-0 z-10 m-10 mt-20 flex-row items-center gap-x-3'>
-        <Text>🌞</Text>
-        <Switch
-          trackColor={{ false: '#FF6F61', true: '#f4f3f4' }}
-          thumbColor={isEnabled ? '#FF6F61' : '#f4f3f4'}
-          ios_backgroundColor="#3e3e3e"
-          onValueChange={toggleSwitch}
-          value={isEnabled}
-        />
-        <Text>🌙</Text>
-      </View>
 
-      {/* <MapView
-        style={{
-          width: Platform.OS == 'android' ? width : '100%',
-          height: Platform.OS == 'android' ? height : "92%"
-        }} 
-        {...(Platform.OS === 'android' ? { provider: PROVIDER_GOOGLE } : {})}
-        initialRegion={initialPostion}
-        userInterfaceStyle={isEnabled ? "dark" : "light"}
-        showsUserLocation={true}
-        showsMyLocationButton={true}
-        showsCompass={true}
-        scrollEnabled={true}
-        zoomEnabled={true}
-        pitchEnabled={true}
-        rotateEnabled={true}
-        onMapReady={() => {
-          // Optional: if you had layout issues, you can force an update here
-        }}
-      /> */}
-
-      {Platform.OS == 'android' && <GoogleMaps.View
-        colorScheme={isEnabled ? GoogleMapsColorScheme.DARK : GoogleMapsColorScheme.LIGHT}
-        style={{ flex: 1 }}
-        cameraPosition={cameraPosition}
-        properties={{ isMyLocationEnabled: true }}
-        uiSettings={{ myLocationButtonEnabled: true }}
-      />}
-
-      {Platform.OS == 'ios' && <MapView
-        style={{
-          width: '100%',
-          height: "100%"
-        }}
-        ref={mapRef}
-        initialRegion={initialPostion}
-        userInterfaceStyle={isEnabled ? "dark" : "light"}
-        showsUserLocation={true}
-        showsMyLocationButton={true}
-        showsCompass={true}
-        scrollEnabled={true}
-        zoomEnabled={true}
-        pitchEnabled={true}
-        rotateEnabled={true}
-        onMapReady={() => {
-          // Optional: if you had layout issues, you can force an update here
-        }}
-      >
-
-        {events.filter((e: any) => e.latitude && e.longitude).map((event: any, index: number) => {
+        <View style={{
+          backgroundColor: 'white',
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 1 },
+          shadowOpacity: 0.2,
+          shadowRadius: 2,
+          elevation: 5
+        }} className='mt-10 mb-10 flex-row items-center mx-5 rounded-3xl px-5 py-4'>
+          <TextInput style={{ color: "#4B5563" }} className='flex-1' placeholder='search...' placeholderTextColor={'#4B5563'} />
+          <Icon name='search' type='feather' color={'#4B5563'} />
+        </View>
+        {dummyEvents.slice(0, 15).map((event: any, index: number) => {
           return (
-            <Marker
-              key={index}
-              title={event.name}
-              description={event.address}
-              coordinate={{
-                latitude: event.latitude,
-                longitude: event.longitude
-              }}
+            <TouchableOpacity onPress={() => {
+              router.push({
+                pathname: "/specific-event",
+                params: {
+                  eventData: JSON.stringify({ ...event, iconType: 'entypo', iconName: 'code', theme: colorCombos[Math.floor(Math.random() * 12)] })
+                }
+              });
+            }} key={event.id} className='px-5'>
 
-              onPress={() => {
-                setselectedEvent(event)
-                bottomSheetRef.current?.snapToIndex(1)
-                centerWithOffset({
-                  latitude: event.latitude,
-                  longitude: event.longitude
-                }, { y: height * 0.25, zoom: 19 });
-              }}
-            />
+              <EventCard
+                name={event.name}
+                iconName='code'
+                iconType='entypo'
+                category={event.categoryNames}
+                description={event.description}
+                date={event.startsOn}
+                location={event.location}
+                theme={colorCombos[Math.floor(Math.random() * 12)]}
+              />
+            </TouchableOpacity>
           )
         })}
-      </MapView>}
+      </ScrollView>
 
-
-      <BottomSheet
-        ref={bottomSheetRef}
-        onChange={handleSheetChanges}
-        // style={{ flex: 1 }}
-        // index={2}
-        snapPoints={snapPoints}
-        enablePanDownToClose={false}
-      >
-        <BottomSheetScrollView contentContainerStyle={{ paddingBottom: 150, paddingTop: 8, width: '100%' }}
-          showsVerticalScrollIndicator={false}>
-          {selectedEvent ? (
-            <View className="flex-row items-center justify-between px-5 py-2">
-              <View
-                className="flex-row items-center"
-                style={{ flex: 1, minWidth: 0 }} // allow the text to shrink on Android
-              >
-                <Text className="text-3xl mr-2">📍</Text>
-                <AppText
-                  className="text-2xl font-bold capitalize"
-                  style={{ flexShrink: 1 }}
-                  numberOfLines={2}                // or 1, your call
-                  ellipsizeMode="tail"
-                >
-                  {selectedEvent.name}
-                </AppText>
-              </View>
-
-              <TouchableOpacity
-                onPress={() => setselectedEvent(null)}
-                className="flex-row items-center"
-                style={{ flexShrink: 0, marginLeft: 12 }}
-                hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-              >
-                <Icon size={15} color="#4B5563" name="chevron-back" type="ionicon" />
-                <AppText style={{ color: "#4B5563", marginLeft: 4 }}>Back</AppText>
-              </TouchableOpacity>
-            </View>
-          ) : (
-            <View style={{ borderBottomWidth: 1 }} className='px-5 py-2 pb-5 flex-row items-center gap-x-3 border-gray-100'>
-              <View className=' justify-center items-center rounded-lg' style={{ width: 45, height: 45, backgroundColor: '#FFE2E2' }}>
-                <Icon color={ACCENT_COLOR} size={28} name='calendar-month-outline' type='material-community' />
-              </View>
-              <AppText weight='bold' className='text-3xl font-bold'>Campus Events</AppText>
-            </View>
-          )}
-
-          {selectedEvent ?
-            (
-              <View>
-
-              </View>
-            )
-            :
-            (
-              <React.Fragment>
-                <FlatList
-                  style={{ marginTop: 15 }}
-                  horizontal
-                  data={dummyEventThemes}
-                  keyExtractor={(item, index) => index.toString()}
-                  showsHorizontalScrollIndicator={false}
-                  showsVerticalScrollIndicator={false}
-                  // nestedScrollEnabled
-                  renderItem={({ item, index }) => (
-                    <TouchableOpacity onPress={() => handleCategoryClick(index)} key={index} className='px-8 py-3 rounded-3xl flex-row items-center gap-x-2' style={{ backgroundColor: activeCategory == index ? ACCENT_COLOR : "#F3F4F6", height: 55, marginLeft: 10 }}>
-                      {item.icon && <Icon size={20} color={activeCategory == index ? 'white' : '#4B5563'} name={item.icon} type={item.iconType} />}
-                      <AppText weight='bold' style={{ color: activeCategory == index ? 'white' : "#4B5563" }} className='font-bold text-lg capitalize'>{item.value}</AppText>
-                    </TouchableOpacity>
-                  )}
-                />
-
-
-                <View className='mt-10 px-5'>
-
-                  {events.filter((e: any) => e.latitude && e.longitude).slice(0, 5).map((event: Event, index: number) => {
-                    return (
-                      <TouchableOpacity onPress={() => {
-                        router.push({
-                          pathname: "/specific-event",
-                          params: {
-                            eventData: JSON.stringify({ ...event, iconType: 'entypo', iconName: 'code', theme: colorCombos[Math.floor(Math.random() * 12)] })
-                          }
-                        });
-                      }} key={index}>
-                        <EventCard
-                          name={event.name}
-                          iconName='code'
-                          iconType='entypo'
-                          category={event.categoryNames}
-                          description={event.description}
-                          date={event.startsOn}
-                          location={event.location}
-                          theme={colorCombos[Math.floor(Math.random() * 12)]}
-                        />
-                      </TouchableOpacity>
-                    )
-                  })}
-                </View>
-
-                <TouchableOpacity onPress={() => router.push("/(screens)/all-events")} className='mt-5' >
-                  <AppText weight='bold' style={{ backgroundColor: ACCENT_COLOR }} className='px-8 py-2 rounded-3xl text-white self-center text-xl font-bold'>View more...</AppText>
-                </TouchableOpacity>
-              </React.Fragment>
-            )
-          }
-
-        </BottomSheetScrollView>
-      </BottomSheet>
-    </View>
-  );
+    </SafeAreaView>
+  )
 }
 
+export default AllEvents

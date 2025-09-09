@@ -1,0 +1,1282 @@
+[
+  {
+    "code": "176WMCMILLN",
+    "name": "UC Alumni Association Offices",
+    "address": "176 W. McMillan, Cincinnati OH 45219",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "1819IHUB",
+    "name": "The 1819 Innovation Hub",
+    "address": "2900 Reading Road, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "60WCHARL",
+    "name": "60 W. Charlton",
+    "address": "60 W. Charlton St, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "ALMS",
+    "name": "Alms Building",
+    "address": "348 Clifton Ct, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "ARMORY",
+    "name": "Armory Fieldhouse",
+    "address": "121 W. Daniels St, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "ARONOFF",
+    "name": "Aronoff Center for Design & Art",
+    "address": "342 Clifton Ct, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "ARTSCI",
+    "name": "Arts & Sciences Hall",
+    "address": "2700 Campus Way, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "BA",
+    "name": "Blue Ash College",
+    "address": "9555 Plainfield Dr, Blue Ash OH 45236",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "BA ANNEX",
+    "name": "BA Annex (SCA-Senior Citizens Annex)",
+    "address": "4131 Cooper Rd, Blue Ash OH 45236",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "BA CENTER",
+    "name": "BA Student Center",
+    "address": "9555 Plainfield Dr, Blue Ash OH 45236",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "BA FLORY",
+    "name": "BA Flory Center",
+    "address": "3951 Walters Lane, Blue Ash OH 45236",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "BA MUNTZ",
+    "name": "BA Muntz Hall",
+    "address": "9555 Plainfield Dr, Blue Ash OH 45236",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "BA PROGRESS",
+    "name": "BA Progress Hall",
+    "address": "9555 Plainfield Dr, Blue Ash OH 45236",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "BA VETEC",
+    "name": "BA Veterinary Technology Building",
+    "address": "3900 Walters Lane, Blue Ash OH 45236",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "BA WALT",
+    "name": "BA Raymond Walters Hall",
+    "address": "9555 Plainfield Dr, Blue Ash OH 45236",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "BALDWIN",
+    "name": "Baldwin Hall",
+    "address": "2850 Campus Way, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "BLEGEN",
+    "name": "Carl Blegen Library",
+    "address": "2602 University Cir, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "BRAUNSTEIN",
+    "name": "John R. Braunstein Hall",
+    "address": "2825 Campus Way, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "CALHONGR",
+    "name": "Calhoun Street Garage",
+    "address": "230 Calhoun St, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "CALHOUN",
+    "name": "Calhoun Hall (Undergraduate)",
+    "address": "240 Calhoun St, Cincinnati OH 45219",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "CARE",
+    "name": "CARE/Crawley",
+    "address": "3230 Eden Ave, Cincinnati OH 45267",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "CCHMC",
+    "name": "Cincinnati Children's Hospital Medical Center",
+    "address": "3333 Burnet Ave, Cincinnati OH 45229",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "CENT HILL-A",
+    "name": "Center Hill-Bldg A, Combustion Research Lab",
+    "address": "5997 Center Hill Ave, Cincinnati OH 45224",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "CENT HILL-B",
+    "name": "Center Hill-Bldg B, Large Scale Test Facility",
+    "address": "5997 Center Hill Ave, Cincinnati OH 45224",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "CENT HILL-C",
+    "name": "Center Hill-Bldg C, Leather Research Lab",
+    "address": "5997 Center Hill Ave, Cincinnati OH 45224",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "CENT HILL-D",
+    "name": "Center Hill-Bldg D, Erosion Test Facility",
+    "address": "5997 Center Hill Ave, Cincinnati OH 45224",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "CENT UTIL",
+    "name": "Central Utility Building",
+    "address": "3000 Glendora Ave, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "CHRIST",
+    "name": "The Christ Hospital",
+    "address": "2139 Auburn Ave, Cincinnati OH 45219",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "CLER ACTCTR",
+    "name": "Clermont Student Activities Center",
+    "address": "4200 Clermont College Dr, Batavia OH 45103",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "CLER EASTGTE",
+    "name": "Clermont Eastgate Office",
+    "address": "4424 Aicholtz Road, Suite C, Cincinnati OH 45245",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "CLER JONES",
+    "name": "Clermont Edith Peters Jones Building",
+    "address": "4200 Clermont College Dr, Batavia OH 45103",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "CLER MCDONH",
+    "name": "Clermont James & Kathryn McDonough Hall",
+    "address": "4200 Clermont College Dr, Batavia OH 45103",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "CLER SNYDER",
+    "name": "Clermont College Snyder Addition",
+    "address": "4200 Clermont College Dr, Batavia OH 45103",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "CLER STUSVCS",
+    "name": "Clermont Student Services Building",
+    "address": "4200 Clermont College Dr, Batavia OH 45103",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "CLER UCEAST1",
+    "name": "Clermont UC East 1",
+    "address": "1981 James E. Sauls Sr. Dr., Batavia OH 45103",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "CLER WWAC",
+    "name": "Clermont West Woods Academic Center",
+    "address": "4200 Clermont College Dr, Batavia OH 45013",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "CLERMONT",
+    "name": "Clermont College",
+    "address": "4200 Clermont College Dr, Batavia OH 45103",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "CLIFTCT",
+    "name": "Clifton Court Hall",
+    "address": "2800 Clifton Avenue, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "COLLAW",
+    "name": "College of Law Building",
+    "address": "2925 Campus Green Dr, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "COMMONSN",
+    "name": "Commons Edge North",
+    "address": "57 West Daniels Street, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "COMMONSS",
+    "name": "Commons Edge South",
+    "address": "55 West Daniels Street, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "CORBETT",
+    "name": "Corbett Center",
+    "address": "290 CCM Blvd, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "CROSLEY",
+    "name": "Crosley Tower",
+    "address": "301 Clifton Ct, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "CVC",
+    "name": "Cardiovascular Research Center",
+    "address": "231 Albert Sabin Way, Cincinnati OH 45267",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "DAAP",
+    "name": "Design, Architecture, Art and Planning Building",
+    "address": "346 Clifton Ct, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "DABNEY",
+    "name": "Dabney Hall (Undergraduate)",
+    "address": "101 W. Daniels St, Cincinnati OH 45219",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "DANIELS",
+    "name": "Daniels Hall (Undergraduate)",
+    "address": "45 W. Daniels St, Cincinnati OH 45219",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "DIGITFUT",
+    "name": "Digital Futures",
+    "address": "3080 Exploration Avenue, Cincinnati OH 45206",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "DRAKE",
+    "name": "Drake Center Inc.",
+    "address": "151 W. Galbraith Rd, Cincinnati OH 45216",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "DVAC",
+    "name": "Dieterle Vocal Arts Center",
+    "address": "280 CCM Blvd, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "EC UTILITIES",
+    "name": "East Campus Utility Plant",
+    "address": "3220 Eden Ave, Cincinnati OH 45267",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "EDWARDS 1",
+    "name": "Vera C. Edwards Center",
+    "address": "45 W. Corry Blvd, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "EDWARDS 2",
+    "name": "Vera C. Edwards Center",
+    "address": "47 W. Corry Blvd, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "EDWARDS 3",
+    "name": "Vera C. Edwards Center",
+    "address": "49 W. Corry Blvd, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "EDWARDS 4",
+    "name": "Vera C. Edwards Center",
+    "address": "51 W. Corry Blvd, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "EMERY",
+    "name": "Mary Emery Hall",
+    "address": "290 CCM Blvd, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "FIFTH THIRD",
+    "name": "Fifth Third Arena, Myrl H. Shoemaker Ctr.",
+    "address": "2700 O'Varsity Way, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "FISHWICK",
+    "name": "Fishwick Building",
+    "address": "5121 Fishwick Drive, Cincinnati OH 45216",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "FRENCH-EAST",
+    "name": "Hastings L. & William A. French Building",
+    "address": "3202 Eden Ave, Cincinnati OH 45267",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "FRENCH-WEST",
+    "name": "French Hall",
+    "address": "2815 Commons Way, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "GATEHS",
+    "name": "Gatehouse",
+    "address": "2607 University Cir, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "GE",
+    "name": "General Electric",
+    "address": "1 Neumann Way (Evendale), Cincinnati OH 45215",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "GEO-PHYS",
+    "name": "Geology-Physics Building",
+    "address": "345 Clifton Ct, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "HEALTH-UC",
+    "name": "HEALTH-UC",
+    "address": "114 E. State St, Georgetown OH 45121-1497",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "HOXWORTH",
+    "name": "Hoxworth Blood Center",
+    "address": "3130 Highland Ave, Cincinnati OH 45267",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "HSB",
+    "name": "Health Sciences Building",
+    "address": "3225 Eden Avenue, Cincinnati OH 45267",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "KETTERING",
+    "name": "Kettering Laboratory Complex",
+    "address": "160 Panzeca Way, Cincinnati OH 45267",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "KOWALEWS",
+    "name": "Kowalewski Hall",
+    "address": "3255 Eden Ave, Cincinnati OH 45267",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "LANGSAM",
+    "name": "Walter C. Langsam Library",
+    "address": "2911 Woodside Dr, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "LINDHALL",
+    "name": "Carl H. Lindner Hall",
+    "address": "2906 Woodside Drive, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "LNDNRCTR",
+    "name": "Richard E. Lindner Center",
+    "address": "2751 O'Varsity Way, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "LOGAN",
+    "name": "Logan Hall",
+    "address": "265 Albert Sabin Way, Cincinnati OH 45267",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "MAB",
+    "name": "Medical Arts Building",
+    "address": "222 Piedmont Ave, Cincinnati OH 45219",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "MANTEI",
+    "name": "Mantei Center",
+    "address": "2901 Woodside Dr, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "MEMORIAL",
+    "name": "Memorial Hall",
+    "address": "285 CCM Blvd, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "MORGENS",
+    "name": "Morgens Hall (Graduate)",
+    "address": "2931 Scioto Ln, Cincinnati OH 45219",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "MRICENTER",
+    "name": "MRI Imaging Center",
+    "address": "2650 Varsity Village Dr, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "MSB",
+    "name": "Medical Sciences Building",
+    "address": "231 Albert Sabin Way, Cincinnati OH 45267",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "MSB SERV",
+    "name": "Medical Sciences Services Building",
+    "address": "3224 Eden Ave, Cincinnati OH 45267",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "MSPENCER",
+    "name": "Marian Spencer Hall",
+    "address": "2911 Scioto Lane, Cincinnati OH 45219",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "OLD CHEM",
+    "name": "Old Chemistry Building",
+    "address": "2855 Campus Way, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "PROCTER",
+    "name": "William Cooper Procter Hall",
+    "address": "3110 Vine St, Cincinnati OH 45267",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "RC",
+    "name": "UC Reading Campus",
+    "address": "2120 E. Galbraith Rd, Reading OH 45215",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "RCA",
+    "name": "UC Reading Campus - Bldg A",
+    "address": "2120 E. Galbraith Rd, Reading OH 45215",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "RCANNEX",
+    "name": "UC Reading Campus - Annex",
+    "address": "19 Knollcrest Dr, Reading OH 45237",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "RCB",
+    "name": "UC Reading Campus - Bldg B",
+    "address": "2140 E. Galbraith Rd, Reading OH 45215",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "RCC",
+    "name": "UC Reading Campus - Bldg C",
+    "address": "2160 E. Galbraith Rd, Reading OH 45215",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "RCD",
+    "name": "UC Reading Campus - Bldg D",
+    "address": "2180 E. Galbraith Rd, Reading OH 45215",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "RCE",
+    "name": "UC Reading Campus - Bldg E",
+    "address": "2170 E. Galbraith Rd, Reading OH 45215",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "RCF",
+    "name": "UC Reading Campus - Bldg F",
+    "address": "2150 E. Galbraith Rd, Reading OH 45215",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "RCG",
+    "name": "UC Reading Campus - Bldg G",
+    "address": "2130 E. Galbraith Rd, Reading OH 45215",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "RCJ",
+    "name": "UC Reading Campus - Bldg J",
+    "address": "8570 Reading Rd, Reading OH 45215",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "RECCENTER",
+    "name": "Campus Recreation Center (CRC)",
+    "address": "2840 Bearcat Way, Cincinnati OH 45219",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "RHODES",
+    "name": "James A. Rhodes Hall",
+    "address": "2851 Woodside Dr, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "RIEVESCHL",
+    "name": "George R. Rieveschl Hall",
+    "address": "318 College Dr, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "RSL",
+    "name": "Radiation Safety Lab",
+    "address": "170 Panzeca Way, Cincinnati OH 45267",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "SCHNEIDR",
+    "name": "Herman Schneider Hall (Undergraduate)",
+    "address": "60 W. Daniels St, Cincinnati OH 45219",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "SCIOTO",
+    "name": "Scioto Hall (Graduate)",
+    "address": "2921 Scioto Ln, Cincinnati OH 45219",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "SDI-DUBLIN",
+    "name": "Systems Development & Improvement Center Dublin",
+    "address": "5080 Tuttle Crossing Blvd, Ste 325, Columbus OH 43017",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "SERV GARAGE",
+    "name": "Campus Services Garage",
+    "address": "3141 Reading Rd, Cincinnati OH 45229",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "SHOEMAKER",
+    "name": "Myrl H. Shoemaker Multipurpose Center",
+    "address": "2700 O' Varsity Way, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "SHRINERS",
+    "name": "Shriners Hospitals for Children",
+    "address": "3229 Burnet Ave, Cincinnati OH 45229",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "SIDDALL",
+    "name": "Siddall Hall (Undergraduate)",
+    "address": "2540 Corbett Dr, Cincinnati OH 45219",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "SRU",
+    "name": "Surgical Research Unit",
+    "address": "3227 Levine Dr, Cincinnati OH 45267",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "STADIUM",
+    "name": "Nippert Stadium",
+    "address": "2700 Bearcat Way, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "STEGER",
+    "name": "Steger Student Life Center",
+    "address": "2801 UC MainStreet, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "STETSON",
+    "name": "Stetson Bldg",
+    "address": "260 Stetson St, Cincinnati OH 45219",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "STRATFORD1",
+    "name": "Stratford Heights Building # 1",
+    "address": "2657 Clifton Ave, Cincinnati OH 45220",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "STRATFORD10",
+    "name": "Stratford Heights Building # 10",
+    "address": "2643 Stratford Ave, Cincinnati OH 45220",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "STRATFORD11",
+    "name": "Stratford Heights Building # 11",
+    "address": "2641 Stratford Ave, Cincinnati OH 45220",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "STRATFORD12",
+    "name": "Stratford Heights Building # 12",
+    "address": "2639 Stratford Ave, Cincinnati OH 45220",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "STRATFORD13",
+    "name": "Stratford Heights Building # 13",
+    "address": "2637 Stratford Ave, Cincinnati OH 45220",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "STRATFORD14",
+    "name": "Stratford Heights Building # 14",
+    "address": "2635 Stratford Ave, Cincinnati OH 45220",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "STRATFORD15",
+    "name": "Stratford Heights Building # 15",
+    "address": "2633 Stratford Ave, Cincinnati OH 45220",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "STRATFORD16",
+    "name": "Stratford Heights Building # 16",
+    "address": "2634 Stratford Ave, Cincinnati OH 45220",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "STRATFORD17",
+    "name": "Stratford Heights Building # 17",
+    "address": "2647 Clifton Ave, Cincinnati OH 45220",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "STRATFORD18",
+    "name": "Stratford Heights Building # 18",
+    "address": "2643 Clifton Ave, Cincinnati OH 45220",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "STRATFORD19",
+    "name": "Stratford Heights Building # 19",
+    "address": "2639 Clifton Ave, Cincinnati OH 45220",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "STRATFORD2",
+    "name": "Stratford Heights Building # 2",
+    "address": "2653 Clifton Ave, Cincinnati OH 45220",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "STRATFORD20",
+    "name": "Stratford Heights Building # 20",
+    "address": "2629 Clifton Ave, Cincinnati OH 45220",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "STRATFORD21",
+    "name": "Stratford Heights Building # 21",
+    "address": "2625 Clifton Ave, Cincinnati OH 45220",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "STRATFORD3",
+    "name": "Stratford Heights Building # 3",
+    "address": "2661 Clifton Ave, Cincinnati OH 45220",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "STRATFORD4",
+    "name": "Stratford Heights Building # 4",
+    "address": "2646 Stratford Ave, Cincinnati OH 45220",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "STRATFORD5",
+    "name": "Stratford Heights Building # 5",
+    "address": "2650 Stratford Ave, Cincinnati OH 45220",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "STRATFORD6",
+    "name": "Stratford Heights Building # 6",
+    "address": "2659 Stratford Ave, Cincinnati OH 45220",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "STRATFORD7",
+    "name": "Stratford Heights Building # 7",
+    "address": "2649 Stratford Ave, Cincinnati OH 45220",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "STRATFORD8",
+    "name": "Stratford Heights Building # 8",
+    "address": "2647 Stratford Ave, Cincinnati OH 45220",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "STRATFORD9",
+    "name": "Stratford Heights Building # 9",
+    "address": "2645 Stratford Ave, Cincinnati OH 45220",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "STRATFORDHTS",
+    "name": "Stratford Heights Complex",
+    "address": "2634 Stratford Ave, Cincinnati OH 45220",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "SWIFT",
+    "name": "Swift Hall",
+    "address": "2842 Campus Way, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "TEACHER-DYER",
+    "name": "Teachers-Dyer Complex",
+    "address": "2610 University Cir, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "TUC",
+    "name": "Tangeman University Center",
+    "address": "2766 UC MainStreet, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "TURNER",
+    "name": "Darwin Turner Hall (Undergraduate)",
+    "address": "45 W. University Ave, Cincinnati OH 45219",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "UCBIOSCI",
+    "name": "UC Biosciences Center",
+    "address": "3159 Eden Avenue, Cincinnati OH 45219",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "UCHEALTH",
+    "name": "UC Health Medical Office Building",
+    "address": "3131 Harvey Ave., Cincinnati OH 45229",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "UCHEALTHWEST",
+    "name": "UC Health West Professional Building",
+    "address": "3120 Burnet Ave., Cincinnati OH 45229",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "UCMC",
+    "name": "University of Cincinnati Medical Center",
+    "address": "3188 Bellevue Ave, Cincinnati OH 45219",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "UCMC-BARRETT",
+    "name": "Barrett Center-UC Medical Center",
+    "address": "3151 Bellevue Ave, Cincinnati OH 45219",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "UCMC-HOLMES",
+    "name": "Holmes Hospital-UC Medical Center",
+    "address": "200 Albert Sabin Way, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "UCMC-MT REID",
+    "name": "Mont Reid Pavilion-UC Medical Center",
+    "address": "234 Goodman St, Cincinnati OH 45219",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "UNIPKAPTN",
+    "name": "University Park Apartments North (Univ Affiliated)",
+    "address": "2545 Dennis St, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "UNIPKAPTS",
+    "name": "University Park Apartments South (Univ Affiliated)",
+    "address": "140 - 220 Calhoun St, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "UNIV HALL",
+    "name": "University Hall",
+    "address": "51 Goodman Dr, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "UNIV PAV",
+    "name": "University Pavilion",
+    "address": "2618 University Cir, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "USQUARE",
+    "name": "U Square",
+    "address": "225 Calhoun Street, Cincinnati OH 45219",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "VAMC",
+    "name": "Veterans Affairs Medical Center",
+    "address": "3200 Vine St, Cincinnati OH 45220",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "VANWORMR",
+    "name": "Van Wormer Hall",
+    "address": "2614 University Cir, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "VICTORY PKWY",
+    "name": "UC Temporary Offices",
+    "address": "2830 Victory Pkwy, Cincinnati OH 45206",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "VONTZ",
+    "name": "Vontz Center for Molecular Studies",
+    "address": "3125 Eden Ave, Cincinnati OH 45267",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "VPC",
+    "name": "Victory Parkway Campus",
+    "address": "2220 Victory Pkwy, Cincinnati OH 45206",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "VPCADMIN",
+    "name": "VPC Administration Building",
+    "address": "2220 Victory Pkwy, Cincinnati OH 45206",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "VPCCLASS",
+    "name": "VPC Classroom Building",
+    "address": "2220 Victory Pkwy, Cincinnati OH 45206",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "VPCLIBRY",
+    "name": "VPC Library Building",
+    "address": "2220 Victory Pkwy, Cincinnati OH 45206",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "VPCNLAB",
+    "name": "VPC North Laboratory Building",
+    "address": "2220 Victory Pkwy, Cincinnati OH 45206",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "VPCSCIEN",
+    "name": "VPC Science Building",
+    "address": "2220 Victory Pkwy, Cincinnati OH 45206",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "WCMC",
+    "name": "West Chester Medical Center",
+    "address": "7700 University Dr, West Chester Tonwship OH 45069",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "WCMC-PHYSOFC",
+    "name": "UC Health Physician\ufffds Office South",
+    "address": "7675 Wellness Way, West Chester OH 45069",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "WHERRY",
+    "name": "William B. Wherry Hall",
+    "address": "3225 Eden Ave, Cincinnati OH 45267",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "WOLFSON",
+    "name": "Erwin S. Wolfson Center for Environmental Design",
+    "address": "344 Clifton Ct, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  },
+  {
+    "code": "ZIMMER",
+    "name": "Zimmer Hall",
+    "address": "315 College Dr, Cincinnati OH 45221",
+    "latitude": null,
+    "longitude": null,
+    "confidence": null
+  }
+]
