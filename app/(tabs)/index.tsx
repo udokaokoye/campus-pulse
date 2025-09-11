@@ -11,6 +11,7 @@ import { Dimensions, PermissionsAndroid, Platform, Switch, Text, TouchableOpacit
 import { FlatList } from 'react-native-gesture-handler';
 
 import MapView from 'react-native-maps';
+import RenderHTML from 'react-native-render-html';
 export default function HomeScreen() {
   const [initialPostion, setinitialPostion] = useState({
     latitude: 39.129894,
