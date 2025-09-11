@@ -150,7 +150,9 @@ const SpecificEvent = () => {
                 <View className='mt-3 px-5 py-5 pb-10 bg-white'>
                     <AppText weight='bold' className='font-bold text-2xl'>Organized By</AppText>
 
-                    <View className='flex-row items-center gap-x-3 mt-3'>
+                    <TouchableOpacity onPress={() => {
+                        router.navigate('/organization')
+                    }} className='flex-row items-center gap-x-3 mt-3'>
                         <View className='rounded-full overflow-hidden'>
                             <Image transition={200} source={{ uri: `https://getinvolved.uc.edu/image/${event.organizationProfilePicture}` }} style={{ width: 50, height: 50 }} />
 
@@ -163,7 +165,7 @@ const SpecificEvent = () => {
                         <TouchableOpacity style={{ backgroundColor: "#F3F4F6" }} className='px-6 py-2 rounded-3xl'>
                             <AppText className='font-bold'>Follow</AppText>
                         </TouchableOpacity>
-                    </View>
+                    </TouchableOpacity>
                 </View>
 
                 {/* <View className='mt-3 px-5 py-10 bg-white'>

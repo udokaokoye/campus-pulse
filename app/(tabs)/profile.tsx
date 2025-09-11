@@ -1669,7 +1669,7 @@ const Profile = () => {
 
                     {showMenu && (
                         <View className='absolute bg-white right-10 top-14 z-20 py-3 border-2 border-gray-300 items-center' style={{ minWidth: 180, height: 'auto' }}>
-                            <TouchableOpacity className='flex-row items-center justify-center gap-x-3' style={{ borderBottomWidth: 2, borderColor: GRAY_BG, width: '100%' }}>
+                            <TouchableOpacity onPress={() => router.navigate('/settings')} className='flex-row items-center justify-center gap-x-3' style={{ borderBottomWidth: 2, borderColor: GRAY_BG, width: '100%' }}>
                                 <Icon name='settings-outline' type='ionicon' />
                                 <AppText weight='bold' className='text-xl py-2 text-center'>settings</AppText>
                             </TouchableOpacity>
