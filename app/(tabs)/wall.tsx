@@ -1,10 +1,13 @@
+import { Icon } from '@rneui/base'
 import React from 'react'
 import { SafeAreaView, Text } from 'react-native'
 
 const Wall = () => {
   return (
     <SafeAreaView>
-      <Text>Wall</Text>
+      <Icon name='thunderbolt' type='antdesign' />
+      <Text className='text-center font-bold mt-20 text-3xl'>Welcome Back</Text>
+    <Text className='text-center mt-5'>Sign into your account</Text>
     </SafeAreaView>
   )
 }

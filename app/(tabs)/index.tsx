@@ -13,6 +13,7 @@ import { Dimensions, PermissionsAndroid, Platform, Switch, Text, TouchableOpacit
 import { FlatList } from 'react-native-gesture-handler';
 
 import MapView, { Marker } from 'react-native-maps';
+import RenderHTML from 'react-native-render-html';
 export default function HomeScreen() {
   const [initialPostion, setinitialPostion] = useState({
     latitude: 39.129894,
@@ -1945,8 +1946,8 @@ export default function HomeScreen() {
 
           {selectedEvent ?
             (
-              <View>
-
+              <View className='mx-5 mt-5'>
+                 <RenderHTML source={{ html: selectedEvent.description }} />
               </View>
             )
             :

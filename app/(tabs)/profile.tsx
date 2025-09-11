@@ -1703,7 +1703,7 @@ const Profile = () => {
                     </View>
 
                     <View className='text-center items-center mt-3'>
-                        <AppText weight='`bold`' className='text-4xl font-bold'>Levi Okoye</AppText>
+                        <AppText weight='bold' className='text-4xl'>Levi Okoye</AppText>
                         <AppText className='mt-2 opacity-85 '>@leviokoye567</AppText>
 
                         <View className='flex-row items-center gap-x-2 mt-4'>
