@@ -20,7 +20,7 @@
     "@react-navigation/native": "^7.1.6",
     "@rneui/base": "^4.0.0-rc.8",
     "@rneui/themed": "^4.0.0-rc.8",
-    "expo": "^54.0.2",
+    "expo": "^53.0.2",
     "expo-blur": "~14.1.5",
     "expo-constants": "~17.1.7",
     "expo-dev-client": "~5.2.4",
