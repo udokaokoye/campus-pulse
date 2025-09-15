@@ -150,9 +150,19 @@ const SpecificEvent = () => {
                 <View className='mt-3 px-5 py-5 pb-10 bg-white'>
                     <AppText weight='bold' className='font-bold text-2xl'>Organized By</AppText>
 
-                    <TouchableOpacity onPress={() => {
-                        router.navigate('/organization')
-                    }} className='flex-row items-center gap-x-3 mt-3'>
+                    <TouchableOpacity 
+                    onPress={() => {
+                        router.push({
+                            pathname: '/organization',
+                            params: {
+                                orgData: JSON.stringify({
+                                    orgName: event.organizationName,
+                                    orgProfile: event.organizationProfilePicture
+                                })
+                            }
+                        })
+                    }} 
+                    className='flex-row items-center gap-x-3 mt-3'>
                         <View className='rounded-full overflow-hidden'>
                             <Image transition={200} source={{ uri: `https://getinvolved.uc.edu/image/${event.organizationProfilePicture}` }} style={{ width: 50, height: 50 }} />
 
