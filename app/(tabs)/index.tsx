@@ -1967,7 +1967,12 @@ export default function HomeScreen() {
                 />
 
 
-                <View className='mt-10 px-5'>
+                <TouchableOpacity className='px-5 my-5'>
+                  <AppText weight='bold' style={{color: ACCENT_COLOR}}>View all Organizations</AppText>
+                </TouchableOpacity>
+
+
+                <View className='mt-5 px-5'>
 
                   {events.filter((e: any) => e.latitude && e.longitude).slice(0, 5).map((event: Event, index: number) => {
                     return (
