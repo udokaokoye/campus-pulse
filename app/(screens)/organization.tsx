@@ -59,7 +59,7 @@ const Organization = () => {
                 </View>
 
                 {/* Avatar overlapping */}
-                <View style={{width: 80, height: 80}} className="-mt-12 mx-5  z-10 rounded-full overflow-hidden bg-red-500">
+                <View style={{width: 80, height: 80}} className="-mt-12 mx-5  z-10 rounded-full overflow-hidden bg-gray-400">
                    
                     <Image transition={200} source={{ uri: `https://getinvolved.uc.edu/image/${orgDataParsed.orgProfile}` }} style={{ width: 80, height: 80 }} />
 
