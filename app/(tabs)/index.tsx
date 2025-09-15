@@ -1967,7 +1967,7 @@ export default function HomeScreen() {
                 />
 
 
-                <TouchableOpacity className='px-5 my-5'>
+                <TouchableOpacity className='px-5 my-5' onPress={() => router.push('/(screens)/all-organizations')}>
                   <AppText weight='bold' style={{color: ACCENT_COLOR}}>View all Organizations</AppText>
                 </TouchableOpacity>
 

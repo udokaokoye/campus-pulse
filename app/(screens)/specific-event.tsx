@@ -45,8 +45,7 @@ const SpecificEvent = () => {
     }
     return (
         <SafeAreaView className='bg-white'>
-            <ScrollView>
-                <StatusBar style="dark" backgroundColor="#fff" />
+            <StatusBar style="dark" backgroundColor="#fff" />
 
                 <View className=' bg-white flex-row items-center px-4 py-3'>
                     <TouchableOpacity
@@ -67,6 +66,8 @@ const SpecificEvent = () => {
                         <Icon name="dots-three-vertical" type="entypo" />
                     </TouchableOpacity>
                 </View>
+            <ScrollView>
+                
 
                 <View className='bg-white pb-5'>
 

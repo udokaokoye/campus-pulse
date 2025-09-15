@@ -25,3 +25,20 @@ export interface Event {
   recScore: number | null;
   rsvpTotal: number;
 }
+export interface Organization {
+  "@search.score": number;
+  Id: string;
+  InstitutionId: number;
+  ParentOrganizationId: number;
+  BranchId: number;
+  Name: string;
+  ShortName: string;
+  WebsiteKey: string;
+  ProfilePicture: string;
+  Description: string; // HTML string
+  Summary: string;
+  CategoryIds: string[];
+  CategoryNames: string[];
+  Status: "Active" | "Inactive"; // assuming only these two states
+  Visibility: "Public" | "Private"; // assuming these are the only options
+}
