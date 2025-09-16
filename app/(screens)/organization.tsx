@@ -1,17 +1,21 @@
 
 //import { Text, View } from 'react-native'
 import { AppText } from '@/components/AppText'
+import { prettyDate } from '@/utils/helpers'
+import { Event } from '@/utils/types'
 import { Icon } from '@rneui/base'
 import { Image } from 'expo-image'
 import { router, useLocalSearchParams } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
-import React, { useMemo } from 'react'
+import moment from 'moment'
+import React, { useEffect, useMemo, useState } from 'react'
 import { ScrollView, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const Organization = () => {
-
+    const [orgEvents, setorgEvents] = useState([])
     const { orgData } = useLocalSearchParams()
+    const emptySVG = require('../../assets/images/empty.png')
 
 
     const orgDataParsed: any = useMemo(() => {
@@ -22,6 +26,18 @@ const Organization = () => {
             return null;
         }
     }, [orgData]);
+
+    useEffect(() => {
+    //  fetchOrgEvents()
+    }, [orgDataParsed])
+    
+
+    const fetchOrgEvents = async () => {
+        const res = await fetch(`https://campuslink.uc.edu/api/discovery/event/search?take=4&endsAfter=${moment().format("YYYY-MM-DDTHH:mm:ssZ")}&orderByField=endsOn&orderByDirection=ascending&status=Approved&organizationIds%5B0%5D=${orgDataParsed.orgId}`)
+        const data = await res.json();
+        setorgEvents(data.value);
+        
+    }
     return (
         <SafeAreaView className="bg-white flex-1">
             <ScrollView>
@@ -77,7 +93,14 @@ const Organization = () => {
                 {/* Content */}
                 <View className="px-4 mt-4">
                     <AppText weight="bold" className="text-xl">{orgDataParsed.orgName}</AppText>
-                    <AppText className="text-gray-500">Industry • Location</AppText>
+                        <View className='flex-row gap-x-2 flex-wrap'>
+                            {orgDataParsed.orgCategories && orgDataParsed.orgCategories.map((catName: any, index: number) => (
+                            <>
+                            <AppText className='text-sm text-gray-500' key={index}>{catName}</AppText>
+                            {index !== orgDataParsed.orgCategories.length -1 && (<AppText>•</AppText>)}
+                            </>
+                        ))}
+                        </View>
                 </View>
 
                 {/* ===== Stats row: Followers • Events • Members ===== */}
@@ -104,7 +127,7 @@ const Organization = () => {
                 <View className="px-4 mt-6">
                     <View className="flex-row justify-between items-center mb-2">
                         <AppText weight="bold" className="text-lg">Followers</AppText>
-                        <TouchableOpacity onPress={() => router.navigate('/organization/followers')}>
+                        <TouchableOpacity>
                             <AppText className="text-black-600">See all</AppText>
                         </TouchableOpacity>
                     </View>
@@ -127,24 +150,27 @@ const Organization = () => {
                 <View className="px-4 mt-6">
                     <View className="flex-row justify-between items-center mb-2">
                         <AppText weight="bold" className="text-lg">Upcoming Events</AppText>
-                        <TouchableOpacity onPress={() => router.navigate('/organization/events')}>
+                        <TouchableOpacity>
                             <AppText className="text-black-600">See all</AppText>
                         </TouchableOpacity>
                     </View>
 
+                        {orgEvents.length <=0 && (
+                            <View className=' justify-center items-center my-4'>
+                                <Image source={emptySVG} style={{width: 100, height: 100}} />
+                                <AppText weight='bold' className='text-center capitalize'>this org has no upcoming events</AppText>
+                                </View>
+                        )}
                     {/* Simple event cards */}
-                    {[
-                        { id: 'e1', title: 'Tech Talk: Building Fast Apps', date: 'Sep 28, 6:00 PM', location: 'Main Hall A' },
-                        { id: 'e2', title: 'Networking Night', date: 'Oct 3, 7:30 PM', location: 'Student Center' },
-                    ].map((ev) => (
+                    {orgEvents.length > 0 && orgEvents.map((ev: Event, index) => (
                         <TouchableOpacity
-                            key={ev.id}
+                            key={index}
                             className="bg-white border border-gray-200 rounded-2xl p-4 mb-3"
-                            onPress={() => router.navigate(`/event/${ev.id}`)}
+                            
                             activeOpacity={0.8}
                         >
-                            <AppText weight="bold" className="text-base">{ev.title}</AppText>
-                            <AppText className="text-gray-500 mt-1">{ev.date} • {ev.location}</AppText>
+                            <AppText weight="bold" className="text-base">{ev.name}</AppText>
+                            <AppText className="text-gray-500 mt-1">{prettyDate(ev.startsOn)} • {ev.location}</AppText>
                         </TouchableOpacity>
                     ))}
                 </View>

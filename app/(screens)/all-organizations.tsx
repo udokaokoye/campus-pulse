@@ -1276,9 +1276,10 @@ const AllOrganizations = () => {
                     {allOrgs.map((org: any) => (
                         <View key={org.Id} className='mb-6'>
                             <OrganizationCard
-
+                                orgId={org.Id}
                                 orgName={org.Name}
                                 orgProfilePicture={org.ProfilePicture}
+                                orgCategories = {org.CategoryNames}
                                 orgFollowers='10.1K followers' />
                         </View>
                     ))}

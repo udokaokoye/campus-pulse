@@ -5,19 +5,25 @@ import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { AppText } from './AppText';
 interface OrgCardProps {
+    orgId: number
     orgName: string;
     orgProfilePicture: string;
     orgFollowers: string;
+    orgCategories: string[]
+
 }
-const OrganizationCard: React.FC<OrgCardProps> = ({ orgName, orgProfilePicture, orgFollowers }) => {
+const OrganizationCard: React.FC<OrgCardProps> = ({ orgId, orgName, orgProfilePicture, orgFollowers, orgCategories }) => {
     return (
         <TouchableOpacity onPress={() => {
             router.push({
                 pathname: '/organization',
                 params: {
                     orgData: JSON.stringify({
+                        orgId: orgId,
                         orgName: orgName,
-                        orgProfile: orgProfilePicture
+                        orgProfile: orgProfilePicture,
+                        orgCategories: orgCategories
+
                     })
                 }
             })
