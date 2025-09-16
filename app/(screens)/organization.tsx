@@ -1,9 +1,9 @@
 
 //import { Text, View } from 'react-native'
 import { AppText } from '@/components/AppText'
+import { Icon } from '@/components/Icon'
 import { prettyDate } from '@/utils/helpers'
 import { Event } from '@/utils/types'
-import { Icon } from '@rneui/base'
 import { Image } from 'expo-image'
 import { router, useLocalSearchParams } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
