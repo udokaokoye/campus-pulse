@@ -1,13 +1,15 @@
+import { Icon } from '@/components/Icon';
 import { ACCENT_COLOR } from '@/utils/constants';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
-import { Icon } from '@rneui/themed';
 import React, { useState } from 'react';
-import { SafeAreaView, Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
+// @ts-ignore
 const CustomTabBar = ({ state, descriptors, navigation }: BottomTabNavigationProp) => {
     const [activeTab, setactiveTab] = useState(1)
     return (
-        <SafeAreaView 
+        <SafeAreaView
         // edges={["top"]}
         >
 

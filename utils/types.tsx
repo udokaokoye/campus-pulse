@@ -24,6 +24,8 @@ export interface Event {
   longitude: string | null; // could also be number if you want to parse it
   recScore: number | null;
   rsvpTotal: number;
+  iconName?: string,
+  iconType?: string
 }
 export interface Organization {
   "@search.score": number;

@@ -1,14 +1,11 @@
 
 //import { Text, View } from 'react-native'
 import { AppText } from '@/components/AppText'
-import { prettyDate } from '@/utils/helpers'
-import { Event } from '@/utils/types'
-import { Icon } from '@rneui/base'
+import { Icon } from '@/components/Icon'
 import { Image } from 'expo-image'
 import { router, useLocalSearchParams } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
-import moment from 'moment'
-import React, { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { ScrollView, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 

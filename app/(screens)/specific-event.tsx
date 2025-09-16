@@ -1,12 +1,12 @@
 import { AppText } from '@/components/AppText'
+import { Icon } from '@/components/Icon'
 import { ACCENT_COLOR } from '@/utils/constants'
 import { Event } from '@/utils/types'
-import { Icon } from '@rneui/base'
 import { Image } from 'expo-image'
 import { router, useLocalSearchParams } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import moment from 'moment'
-import React, { useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import RenderHTML from 'react-native-render-html'
@@ -72,8 +72,8 @@ const SpecificEvent = () => {
                 <View className='bg-white pb-5'>
 
                     <View className='flex-row gap-x-3 px-5 mt-5'>
-                        <View className=' rounded-3xl items-center justify-center' style={{ width: 70, height: 70, backgroundColor: event.theme.light }}>
-                            <Icon name={event.iconName} type={event.iconType} color={event.theme.dark} />
+                        <View className=' rounded-3xl items-center justify-center' style={{ width: 70, height: 70, backgroundColor: event.theme?.light }}>
+                            <Icon name={event.iconName} type={event.iconType} color={event.theme?.dark} />
                         </View>
 
                         <View className='flex-1'>
