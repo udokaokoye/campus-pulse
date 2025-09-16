@@ -1,9 +1,9 @@
 import { AppText } from '@/components/AppText';
 import EventCard from '@/components/EventCard';
+import { Icon } from '@/components/Icon';
 import { ACCENT_COLOR, colorCombos } from '@/utils/constants';
 import { Event } from '@/utils/types';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
-import { Icon } from '@rneui/base';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';

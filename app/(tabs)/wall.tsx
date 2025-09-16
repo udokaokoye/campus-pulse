@@ -1,5 +1,4 @@
-import { Icon } from '@rneui/base'
-import React from 'react'
+import { Icon } from '@/components/Icon'
 import { Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 

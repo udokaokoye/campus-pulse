@@ -1,4 +1,4 @@
-import { Icon } from '@rneui/base';
+import { Icon } from '@/components/Icon';
 import moment from 'moment';
 import React from 'react';
 import { useWindowDimensions, View } from 'react-native';
