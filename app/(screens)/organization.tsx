@@ -8,12 +8,15 @@ import { Image } from 'expo-image'
 import { router, useLocalSearchParams } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import moment from 'moment'
-import { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { ScrollView, TouchableOpacity, View } from 'react-native'
+import RenderHTML from 'react-native-render-html'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const Organization = () => {
-    const [orgEvents, setorgEvents] = useState([])
+    const [orgEvents, setorgEvents] = useState<null | Event[]>(null)
+    const [orgCategories, setorgCategories] = useState([]);
+    const [orgAbout, setorgAbout] = useState("")
     const { orgData } = useLocalSearchParams()
     const emptySVG = require('../../assets/images/empty.png')
 
@@ -28,15 +31,33 @@ const Organization = () => {
     }, [orgData]);
 
     useEffect(() => {
-    //  fetchOrgEvents()
+        fetchOrgEvents()
+        fetchOrgCategoriesAndAbout()
     }, [orgDataParsed])
-    
+
 
     const fetchOrgEvents = async () => {
         const res = await fetch(`https://campuslink.uc.edu/api/discovery/event/search?take=4&endsAfter=${moment().format("YYYY-MM-DDTHH:mm:ssZ")}&orderByField=endsOn&orderByDirection=ascending&status=Approved&organizationIds%5B0%5D=${orgDataParsed.orgId}`)
         const data = await res.json();
         setorgEvents(data.value);
-        
+
+    }
+
+    const fetchOrgCategoriesAndAbout = async () => {
+        const res = await fetch(`https://campuslink.uc.edu/api/discovery/search/organizations?top=1&filter=&query=${orgDataParsed.orgName}&skip=0`)
+        const data = await res.json();
+        setorgCategories(data.value[0].CategoryNames)
+        setorgAbout(data.value[0].Description)
+
+
+    }
+
+    const fetchOrgMettingInfo = async () => {
+        const res = await fetch(`https://campuslink.uc.edu/api/discovery/organization/${orgDataParsed.orgId}/additionalFields?`)
+        const data = await res.json()
+
+        console.log(data);
+
     }
     return (
         <SafeAreaView className="bg-white flex-1">
@@ -69,14 +90,14 @@ const Organization = () => {
                     <Image
                         source={{ uri: "https://s3.amazonaws.com/files.galaxydigital.com/4722/images/banner-small.jpg?updated=1755277539" }}
                         className="w-full h-full"
-                        style={{width: '100%', height: 220}}
-                        
+                        style={{ width: '100%', height: 220 }}
+
                     />
                 </View>
 
                 {/* Avatar overlapping */}
-                <View style={{width: 80, height: 80}} className="-mt-12 mx-5  z-10 rounded-full overflow-hidden bg-gray-400">
-                   
+                <View style={{ width: 80, height: 80 }} className="-mt-12 mx-5  z-10 rounded-full overflow-hidden bg-gray-400">
+
                     <Image transition={200} source={{ uri: `https://getinvolved.uc.edu/image/${orgDataParsed.orgProfile}` }} style={{ width: 80, height: 80 }} />
 
                 </View>
@@ -93,14 +114,14 @@ const Organization = () => {
                 {/* Content */}
                 <View className="px-4 mt-4">
                     <AppText weight="bold" className="text-xl">{orgDataParsed.orgName}</AppText>
-                        <View className='flex-row gap-x-2 flex-wrap'>
-                            {orgDataParsed.orgCategories && orgDataParsed.orgCategories.map((catName: any, index: number) => (
-                            <>
-                            <AppText className='text-sm text-gray-500' key={index}>{catName}</AppText>
-                            {index !== orgDataParsed.orgCategories.length -1 && (<AppText>•</AppText>)}
-                            </>
+                    <View className='flex-row gap-x-2 flex-wrap'>
+                        {orgCategories && orgCategories.map((catName: any, index: number) => (
+                            <React.Fragment key={index}>
+                                <AppText className='text-sm text-gray-500' key={index}>{catName}</AppText>
+                                {index !== orgCategories.length - 1 && (<AppText>•</AppText>)}
+                            </React.Fragment>
                         ))}
-                        </View>
+                    </View>
                 </View>
 
                 {/* ===== Stats row: Followers • Events • Members ===== */}
@@ -155,18 +176,24 @@ const Organization = () => {
                         </TouchableOpacity>
                     </View>
 
-                        {orgEvents.length <=0 && (
-                            <View className=' justify-center items-center my-4'>
-                                <Image source={emptySVG} style={{width: 100, height: 100}} />
-                                <AppText weight='bold' className='text-center capitalize'>this org has no upcoming events</AppText>
-                                </View>
-                        )}
+                    {!orgEvents && (
+                        <View className='items-center justify-center'>
+                            <AppText>Loading Events...</AppText>
+                        </View>
+                    )}
+
+                    {orgEvents && orgEvents?.length <= 0 && (
+                        <View className=' justify-center items-center my-4'>
+                            <Image source={emptySVG} style={{ width: 100, height: 100 }} />
+                            <AppText weight='bold' className='text-center capitalize'>this org has no upcoming events</AppText>
+                        </View>
+                    )}
                     {/* Simple event cards */}
-                    {orgEvents.length > 0 && orgEvents.map((ev: Event, index) => (
+                    {orgEvents && orgEvents.length > 0 && orgEvents.map((ev: Event, index) => (
                         <TouchableOpacity
                             key={index}
                             className="bg-white border border-gray-200 rounded-2xl p-4 mb-3"
-                            
+
                             activeOpacity={0.8}
                         >
                             <AppText weight="bold" className="text-base">{ev.name}</AppText>
@@ -178,6 +205,8 @@ const Organization = () => {
                 {/* ===== About Section ===== */}
                 <View className="px-4 mt-6 mb-10">
                     <AppText weight="bold" className="text-lg mb-2">About us</AppText>
+
+                    <AppText><RenderHTML contentWidth={100} source={{ html: orgAbout }} /></AppText>
                 </View>
             </ScrollView>
         </SafeAreaView >

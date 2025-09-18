@@ -19,7 +19,7 @@ import {
 // type Pack = 'ionicon' | 'material' | 'material-community' | 'feather' | 'antdesign' | 'entypo';
 
 const packs: Record<any, any> = {
-  antdesign: AntDesign,
+  antDesign: AntDesign,
   entypo: Entypo,
   evilicon: EvilIcons,
   feather: Feather,

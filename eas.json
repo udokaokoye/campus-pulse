@@ -5,16 +5,12 @@
   },
   "build": {
     "development-simulator": {
-      "ios": {
-        "simulator": true
-      }
-    },
-    "development-device": {
-      "ios": {
-        "simulator": false
-      }
+      "environment": "development",
+      "developmentClient": true,
+      "ios": { "simulator": true }
     },
     "development": {
+      "environment": "development",
       "developmentClient": true,
       "distribution": "internal"
     },
