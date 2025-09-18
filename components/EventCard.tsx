@@ -2,13 +2,11 @@
 import { prettyDate } from '@/utils/helpers';
 
 import { Icon } from '@/components/Icon';
-import moment from 'moment';
 
 import React from 'react';
 import { useWindowDimensions, View } from 'react-native';
 import RenderHtml from 'react-native-render-html';
 import { AppText } from './AppText';
-import { Icon } from './Icon';
 type EventCardProps = {
     name: string;
     iconName: string;

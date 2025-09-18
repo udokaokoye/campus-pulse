@@ -7,7 +7,7 @@ import { router, useLocalSearchParams } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import moment from 'moment'
 import { useMemo, useState } from 'react'
-import { TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity, useWindowDimensions, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import RenderHTML from 'react-native-render-html'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -15,7 +15,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 const SpecificEvent = () => {
     const [parsedEventData, setparsedEventData] = useState(null)
     const { eventData } = useLocalSearchParams();
-
+    const { width } = useWindowDimensions();
     // Parse with error handling
     const event: Event | null = useMemo(() => {
         try {
@@ -47,27 +47,27 @@ const SpecificEvent = () => {
         <SafeAreaView className='bg-white'>
             <StatusBar style="dark" backgroundColor="#fff" />
 
-                <View className=' bg-white flex-row items-center px-4 py-3'>
-                    <TouchableOpacity
-                        onPress={() => router.back?.()}
-                        className="w-10 h-10 items-center justify-center"
-                        hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-                    >
-                        <Icon name="chevron-back" type="ionicon" />
-                    </TouchableOpacity>
+            <View className=' bg-white flex-row items-center px-4 py-3'>
+                <TouchableOpacity
+                    onPress={() => router.back?.()}
+                    className="w-10 h-10 items-center justify-center"
+                    hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                >
+                    <Icon name="chevron-back" type="ionicon" />
+                </TouchableOpacity>
 
-                    <AppText weight='bold' className="flex-1 text-center font-bold text-2xl">Event Details</AppText>
+                <AppText weight='bold' className="flex-1 text-center font-bold text-2xl">Event Details</AppText>
 
-                    <TouchableOpacity
-                        // onPress={() => router.back?.()}
-                        className="w-10 h-10 items-center justify-center"
-                        hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-                    >
-                        <Icon name="dots-three-vertical" type="entypo" />
-                    </TouchableOpacity>
-                </View>
+                <TouchableOpacity
+                    // onPress={() => router.back?.()}
+                    className="w-10 h-10 items-center justify-center"
+                    hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                >
+                    <Icon name="dots-three-vertical" type="entypo" />
+                </TouchableOpacity>
+            </View>
             <ScrollView>
-                
+
 
                 <View className='bg-white pb-5'>
 
@@ -111,7 +111,8 @@ const SpecificEvent = () => {
 
                 <View className='px-5 mt-3 bg-white py-5'>
                     <AppText weight='bold' className='font-bold text-2xl  mb-3'>About This Event</AppText>
-                    <RenderHTML source={{ html: event.description }} />
+                    <RenderHTML source={{ html: event.description }}
+                        tagsStyles={{p: {lineHeight: 24}}} contentWidth={width} />
                 </View>
 
                 <View className='px-5 pb-5 mt-3 bg-white'>
@@ -153,20 +154,20 @@ const SpecificEvent = () => {
                 <View className='mt-3 px-5 py-5 pb-10 bg-white'>
                     <AppText weight='bold' className='font-bold text-2xl'>Organized By</AppText>
 
-                    <TouchableOpacity 
-                    onPress={() => {
-                        router.push({
-                            pathname: '/organization',
-                            params: {
-                                orgData: JSON.stringify({
-                                    orgId: event.organizationId,
-                                    orgName: event.organizationName,
-                                    orgProfile: event.organizationProfilePicture
-                                })
-                            }
-                        })
-                    }} 
-                    className='flex-row items-center gap-x-3 mt-3'>
+                    <TouchableOpacity
+                        onPress={() => {
+                            router.push({
+                                pathname: '/organization',
+                                params: {
+                                    orgData: JSON.stringify({
+                                        orgId: event.organizationId,
+                                        orgName: event.organizationName,
+                                        orgProfile: event.organizationProfilePicture
+                                    })
+                                }
+                            })
+                        }}
+                        className='flex-row items-center gap-x-3 mt-3'>
                         <View className='rounded-full overflow-hidden'>
                             <Image transition={200} source={{ uri: `https://getinvolved.uc.edu/image/${event.organizationProfilePicture}` }} style={{ width: 50, height: 50 }} />
 

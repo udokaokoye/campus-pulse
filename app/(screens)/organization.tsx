@@ -11,10 +11,6 @@ import { StatusBar } from 'expo-status-bar'
 import moment from 'moment'
 import React, { useEffect, useMemo, useState } from 'react'
 
-import { Image } from 'expo-image'
-import { router, useLocalSearchParams } from 'expo-router'
-import { StatusBar } from 'expo-status-bar'
-import { useMemo } from 'react'
 
 import { ScrollView, TouchableOpacity, View } from 'react-native'
 import RenderHTML from 'react-native-render-html'
