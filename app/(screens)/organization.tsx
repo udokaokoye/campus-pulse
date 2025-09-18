@@ -31,8 +31,8 @@ const Organization = () => {
     }, [orgData]);
 
     useEffect(() => {
-        fetchOrgEvents()
-        fetchOrgCategoriesAndAbout()
+        // fetchOrgEvents()
+        // fetchOrgCategoriesAndAbout()
     }, [orgDataParsed])
 
 
