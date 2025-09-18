@@ -1,6 +1,5 @@
 export const ACCENT_COLOR = "#FF6F61"
 export const GRAY_BG= "#F3F4F6"
-
 export const colorCombos = [
   // Purple base
   { light: "#E0BBFF", dark: "#9B59B6" },

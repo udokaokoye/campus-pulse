@@ -2,6 +2,7 @@ import { AppText } from '@/components/AppText';
 import EventCard from '@/components/EventCard';
 import { Icon } from '@/components/Icon';
 import { ACCENT_COLOR, colorCombos } from '@/utils/constants';
+import { prettyDate } from '@/utils/helpers';
 import { Event } from '@/utils/types';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { Image } from 'expo-image';
@@ -20,7 +21,7 @@ export default function HomeScreen() {
     longitudeDelta: 0.01
   })
   const [events, setevents] = useState<any>([]);
-  const [selectedEvent, setselectedEvent] = useState<any>(null)
+  const [selectedEvent, setselectedEvent] = useState<null | Event>(null)
   const [activeCategory, setactiveCategory] = useState(0)
   const [isEnabled, setisEnabled] = useState(false)
   const { width, height } = Dimensions.get('window')
@@ -1777,30 +1778,10 @@ export default function HomeScreen() {
     setactiveCategory(index)
   }
 
-  const centerWithOffset = async (
-    coord: any,                 // target { latitude, longitude }
-    { x = 0, y = 0, zoom = 16 } // x/y in pixels (+y = down)
-  ) => {
-    if (!mapRef.current) return;
+  const mapSizeRef = useRef({ width: 0, height: 0 });
 
-    // 1) Make sure the map knows about the target coordinate
-    // (optional but helps correctness if you're jumping far)
-    await mapRef.current.animateCamera({ center: coord, zoom }, { duration: 0 });
 
-    // 2) Find the current screen point of the target coordinate
-    const pt = await mapRef.current.pointForCoordinate(coord);
 
-    // 3) Compute where you want that coordinate to appear on screen
-    // e.g. center (width/2, height/2), top (width/2, height*0.25), bottom (width/2, height*0.75)
-    const desired = { x: width / 2 + x, y: height / 2 + y };
-
-    // 4) Shift the map so that the target moves to `desired`
-    //    We do that by asking: "Which geo coordinate is currently at `desired`?"
-    const newCenter = await mapRef.current.coordinateForPoint(desired);
-
-    // 5) Animate to that center (target will appear at the desired screen position)
-    mapRef.current.animateCamera({ center: newCenter, zoom }, { duration: 400 });
-  };
   return (
     <View className='relative' style={{ flex: 1 }}>
       <View className='absolute border-white border-2 bg-orange-500 top-0 left-0 z-10 m-10 mt-20 rounded-full overflow-hidden' style={{ width: 60, height: 60 }}>
@@ -1851,49 +1832,58 @@ export default function HomeScreen() {
         uiSettings={{ myLocationButtonEnabled: true }}
       />}
 
-      {Platform.OS == 'ios' && <MapView
-        style={{
-          width: '100%',
-          height: "100%"
-        }}
-        ref={mapRef}
-        initialRegion={initialPostion}
-        userInterfaceStyle={isEnabled ? "dark" : "light"}
-        showsUserLocation={true}
-        showsMyLocationButton={true}
-        showsCompass={true}
-        scrollEnabled={true}
-        zoomEnabled={true}
-        pitchEnabled={true}
-        rotateEnabled={true}
-        onMapReady={() => {
-          // Optional: if you had layout issues, you can force an update here
-        }}
-      >
+      {Platform.OS === "ios" && (
+        <MapView
+          ref={mapRef}
+          style={{ width: "100%", height: "100%" }}
+          onLayout={(e) => {
+            const { width, height } = e.nativeEvent.layout;
+            mapSizeRef.current = { width, height };
+          }}
+          initialRegion={initialPostion} // (typo? "initialPosition"?)
+          userInterfaceStyle={isEnabled ? "dark" : "light"}
+          showsUserLocation
+          showsMyLocationButton
+          showsCompass
+          scrollEnabled
+          moveOnMarkerPress={false}
+          zoomEnabled
+          pitchEnabled
+          rotateEnabled
+          mapPadding={{ top: 0, right: 0, bottom: Math.round(mapSizeRef.current.height * 0.25) + 300, left: 0 }}
+          paddingAdjustmentBehavior="always"
+        >
+          {events
+            .filter((e: any) => e.latitude && e.longitude)
+            .map((event: any, index: number) => {
+              const lat = Number(event.latitude);
+              const lng = Number(event.longitude);
 
-        {events.filter((e: any) => e.latitude && e.longitude).map((event: any, index: number) => {
-          return (
-            <Marker
-              key={index}
-              title={event.name}
-              description={event.address}
-              coordinate={{
-                latitude: event.latitude,
-                longitude: event.longitude
-              }}
+              return (
+                <Marker
+                  key={index}
+                  title={event.name}
+                  description={event.address}
+                  coordinate={{ latitude: lat, longitude: lng }} // ensure numbers here too
+                  onPress={() => {
+                    setselectedEvent(event);
+                    bottomSheetRef.current?.snapToIndex(1);
 
-              onPress={() => {
-                setselectedEvent(event)
-                bottomSheetRef.current?.snapToIndex(1)
-                centerWithOffset({
-                  latitude: event.latitude,
-                  longitude: event.longitude
-                }, { y: height * 0.25, zoom: 19 });
-              }}
-            />
-          )
-        })}
-      </MapView>}
+                    mapRef.current?.animateToRegion(
+                      {
+                        latitude: lat,
+                        longitude: lng,
+                        latitudeDelta: 0.002,   // smaller numbers = closer zoom
+                        longitudeDelta: 0.002,
+                      },
+                      400 // duration ms
+                    );
+                  }}
+                />
+              );
+            })}
+        </MapView>
+      )}
 
 
       <BottomSheet
@@ -1912,8 +1902,9 @@ export default function HomeScreen() {
                 className="flex-row items-center"
                 style={{ flex: 1, minWidth: 0 }} // allow the text to shrink on Android
               >
-                <Text className="text-3xl mr-2">📍</Text>
+                <Icon className='mr-2' color='#EF4444' name='calendar' type={'font-awesome'} />
                 <AppText
+                  weight='bold'
                   className="text-2xl font-bold capitalize"
                   style={{ flexShrink: 1 }}
                   numberOfLines={2}                // or 1, your call
@@ -1924,7 +1915,13 @@ export default function HomeScreen() {
               </View>
 
               <TouchableOpacity
-                onPress={() => setselectedEvent(null)}
+                onPress={() => {
+                  setselectedEvent(null)
+
+                  mapRef.current?.animateToRegion(initialPostion,
+                    400 // duration ms
+                  );
+                }}
                 className="flex-row items-center"
                 style={{ flexShrink: 0, marginLeft: 12 }}
                 hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
@@ -1944,8 +1941,65 @@ export default function HomeScreen() {
 
           {selectedEvent ?
             (
-              <View className='mx-5 mt-5'>
-                <RenderHTML source={{ html: selectedEvent.description }} />
+              <View className='mx-5 mt-2'>
+                <AppText className=''>{selectedEvent.organizationName}</AppText>
+                <View className='flex-row gap-x-4 flex-wrap my-6'>
+                  <View className='flex-row items-center gap-x-2'>
+                    <Icon color={'#EF4444'} size={16} name='calendar' type={'font-awesome'} />
+                    <Text>{prettyDate(selectedEvent.startsOn)}</Text>
+                  </View>
+
+                  <View className='flex-row items-center gap-x-2'>
+                    <Icon color={'#EF4444'} size={16} name='clock' type={'feather'} />
+                    <Text>{prettyDate(selectedEvent.startsOn)}</Text>
+                  </View>
+                </View>
+                <View className='flex-row items-center gap-x-2 mb-4'>
+                  <Icon color={'#EF4444'} size={18} name='location' type='entypo' />
+                  <Text>{selectedEvent.location}</Text>
+                </View>
+
+                {selectedEvent.imagePath &&
+                  <View style={{ width: '100%' }} className=' self-center rounded-xl overflow-hidden mt-5'>
+                    <Image
+                      source={{ uri: `https://getinvolved.uc.edu/image/${selectedEvent.imagePath}` }}
+                      style={{ width: "100%", height: 200, borderRadius: 12, backgroundColor: "#f3f4f6" }}
+                      contentFit="cover"
+                      contentPosition="center"
+                      transition={200}
+                      placeholder={null}
+                      cachePolicy="disk"
+
+                    />
+                  </View>}
+
+                <AppText weight='bold' className='text-2xl mt-10 mb-3'>About this event</AppText>
+                <RenderHTML tagsStyles={{
+                  p: {
+                    lineHeight: 22
+                  }
+                }} source={{ html: selectedEvent.description }} contentWidth={width} />
+
+
+                <TouchableOpacity onPress={() => router.push({
+                  pathname: '/specific-event',
+                  params: {
+                    eventData:
+                      JSON.stringify({
+                        ...selectedEvent,
+                        iconType: 'entypo',
+                        iconName: 'code',
+                        theme: colorCombos[Math.floor(Math.random() * 12)]
+                      })
+                  }
+                })} className='py-4 items-center justify-center rounded-3xl mt-6' style={{ width: '95%', backgroundColor: '#A7ACB6' }}>
+                  <AppText className='text-white text-2xl' weight='bold'>View More...</AppText>
+                </TouchableOpacity>
+
+
+                <TouchableOpacity className='py-4 items-center justify-center rounded-3xl mt-4' style={{ width: '95%', backgroundColor: ACCENT_COLOR }}>
+                  <AppText className='text-white text-2xl' weight='bold'>RSVP</AppText>
+                </TouchableOpacity>
               </View>
             )
             :
@@ -1969,7 +2023,7 @@ export default function HomeScreen() {
 
 
                 <TouchableOpacity className='px-5 my-5' onPress={() => router.push('/(screens)/all-organizations')}>
-                  <AppText weight='bold' style={{color: ACCENT_COLOR}}>View all Organizations</AppText>
+                  <AppText weight='bold' style={{ color: ACCENT_COLOR }}>View all Organizations</AppText>
                 </TouchableOpacity>
 
 
@@ -1981,12 +2035,13 @@ export default function HomeScreen() {
                         router.push({
                           pathname: "/specific-event",
                           params: {
-                            eventData: 
-                            JSON.stringify({ 
-                              ...event, 
-                              iconType: 'entypo', 
-                              iconName: 'code', 
-                              theme: colorCombos[Math.floor(Math.random() * 12)] })
+                            eventData:
+                              JSON.stringify({
+                                ...event,
+                                iconType: 'entypo',
+                                iconName: 'code',
+                                theme: colorCombos[Math.floor(Math.random() * 12)]
+                              })
                           }
                         });
                       }} key={index}>
@@ -2014,7 +2069,7 @@ export default function HomeScreen() {
 
         </BottomSheetScrollView>
       </BottomSheet>
-    </View>
+    </View >
   );
 }
 
