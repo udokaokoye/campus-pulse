@@ -5,11 +5,12 @@ import { ACCENT_COLOR, colorCombos } from '@/utils/constants';
 import { Event } from '@/utils/types';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { Image } from 'expo-image';
+import { GoogleMaps } from 'expo-maps';
 import { router } from 'expo-router';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Dimensions, PermissionsAndroid, Platform, Switch, Text, TouchableOpacity, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import MapView from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import RenderHTML from 'react-native-render-html';
 export default function HomeScreen() {
   const [initialPostion, setinitialPostion] = useState({
@@ -1842,7 +1843,7 @@ export default function HomeScreen() {
         }}
       /> */}
 
-      {/* {Platform.OS == 'android' && <GoogleMaps.View
+      {Platform.OS == 'android' && <GoogleMaps.View
         // colorScheme={isEnabled ? GoogleMapsColorScheme.DARK : GoogleMapsColorScheme.LIGHT}
         style={{ flex: 1 }}
         cameraPosition={cameraPosition}
@@ -1892,7 +1893,7 @@ export default function HomeScreen() {
             />
           )
         })}
-      </MapView>} */}
+      </MapView>}
 
 
       <BottomSheet

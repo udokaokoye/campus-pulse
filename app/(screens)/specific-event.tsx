@@ -159,6 +159,7 @@ const SpecificEvent = () => {
                             pathname: '/organization',
                             params: {
                                 orgData: JSON.stringify({
+                                    orgId: event.organizationId,
                                     orgName: event.organizationName,
                                     orgProfile: event.organizationProfilePicture
                                 })

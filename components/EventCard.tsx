@@ -1,9 +1,14 @@
+
+import { prettyDate } from '@/utils/helpers';
+
 import { Icon } from '@/components/Icon';
 import moment from 'moment';
+
 import React from 'react';
 import { useWindowDimensions, View } from 'react-native';
 import RenderHtml from 'react-native-render-html';
 import { AppText } from './AppText';
+import { Icon } from './Icon';
 type EventCardProps = {
     name: string;
     iconName: string;
@@ -18,15 +23,7 @@ type EventCardProps = {
 const EventCard: React.FC<EventCardProps> = ({ name, iconName, iconType, category, description, date, location, theme }) => {
     const { width } = useWindowDimensions();
 
-    const prettyDate = (iso: string) =>
-        moment.parseZone(iso).local().calendar(null, {
-            sameDay: "[today] h:mma",
-            nextDay: "[tomorrow] h:mma",
-            lastDay: "[yesterday] h:mma",
-            nextWeek: "dddd h:mma",
-            lastWeek: "dddd h:mma",
-            sameElse: "Do MMMM h:mma" // e.g., 30th August 3:00pm
-        });
+    
     return (
         <View style={{
             width: '100%',
