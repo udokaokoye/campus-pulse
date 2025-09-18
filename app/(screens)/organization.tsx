@@ -2,6 +2,7 @@
 //import { Text, View } from 'react-native'
 import { AppText } from '@/components/AppText'
 import { Icon } from '@/components/Icon'
+
 import { prettyDate } from '@/utils/helpers'
 import { Event } from '@/utils/types'
 import { Image } from 'expo-image'
@@ -9,6 +10,12 @@ import { router, useLocalSearchParams } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import moment from 'moment'
 import React, { useEffect, useMemo, useState } from 'react'
+
+import { Image } from 'expo-image'
+import { router, useLocalSearchParams } from 'expo-router'
+import { StatusBar } from 'expo-status-bar'
+import { useMemo } from 'react'
+
 import { ScrollView, TouchableOpacity, View } from 'react-native'
 import RenderHTML from 'react-native-render-html'
 import { SafeAreaView } from 'react-native-safe-area-context'
