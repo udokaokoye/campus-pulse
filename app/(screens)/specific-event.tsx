@@ -6,13 +6,15 @@ import { Image } from 'expo-image'
 import { router, useLocalSearchParams } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import moment from 'moment'
-import { useMemo, useState } from 'react'
+import { useContext, useMemo, useState } from 'react'
+import { ThemeContext } from '@/Store/ThemeContext'
 import { TouchableOpacity, useWindowDimensions, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import RenderHTML from 'react-native-render-html'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const SpecificEvent = () => {
+    const { isDark } = useContext(ThemeContext);
     const [parsedEventData, setparsedEventData] = useState(null)
     const { eventData } = useLocalSearchParams();
     const { width } = useWindowDimensions();
@@ -44,32 +46,32 @@ const SpecificEvent = () => {
         );
     }
     return (
-        <SafeAreaView className='bg-white'>
-            <StatusBar style="dark" backgroundColor="#fff" />
+        <SafeAreaView className='bg-white dark:bg-gray-900'>
+            <StatusBar style={isDark ? 'light' : 'dark'} backgroundColor={isDark ? '#111827' : '#fff'} />
 
-            <View className=' bg-white flex-row items-center px-4 py-3'>
+            <View className=' bg-white dark:bg-gray-900 flex-row items-center px-4 py-3'>
                 <TouchableOpacity
                     onPress={() => router.back?.()}
                     className="w-10 h-10 items-center justify-center"
                     hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
                 >
-                    <Icon name="chevron-back" type="ionicon" />
+                    <Icon name="chevron-back" type="ionicon" color={isDark ? '#fff' : undefined} />
                 </TouchableOpacity>
 
-                <AppText weight='bold' className="flex-1 text-center font-bold text-2xl">Event Details</AppText>
+                <AppText weight='bold' className="flex-1 text-center font-bold text-2xl dark:text-white">Event Details</AppText>
 
                 <TouchableOpacity
                     // onPress={() => router.back?.()}
                     className="w-10 h-10 items-center justify-center"
                     hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
                 >
-                    <Icon name="dots-three-vertical" type="entypo" />
+                    <Icon name="dots-three-vertical" type="entypo" color={isDark ? '#fff' : undefined} />
                 </TouchableOpacity>
             </View>
             <ScrollView>
 
 
-                <View className='bg-white pb-5'>
+                <View className='bg-white dark:bg-gray-900 pb-5'>
 
                     <View className='flex-row gap-x-3 px-5 mt-5'>
                         {/* @ts-ignore */}
@@ -79,11 +81,11 @@ const SpecificEvent = () => {
                         </View>
 
                         <View className='flex-1'>
-                            <AppText weight='bold' className=' flex-shrink flex-wrap text-2xl font-bold capitalize mb-3' numberOfLines={2} ellipsizeMode='tail'>{event.name}</AppText>
+                            <AppText weight='bold' className=' flex-shrink flex-wrap text-2xl font-bold capitalize mb-3 dark:text-white' numberOfLines={2} ellipsizeMode='tail'>{event.name}</AppText>
 
                             <View className='flex-col gap-x-3 flex-wrap gap-y-3'>
-                                <View className='flex-row items-center gap-x-2'><Icon size={15} name='clock' type='entypo' /><AppText className='text-sm'>{prettyDate(event.startsOn)}</AppText></View>
-                                <View className='flex-row items-center gap-x-2'><Icon size={15} name='location' type='entypo' /><AppText className='text-sm capitalize'>{event.location}</AppText></View>
+                                <View className='flex-row items-center gap-x-2'><Icon size={15} name='clock' type='entypo' color={isDark ? '#9CA3AF' : undefined} /><AppText className='text-sm dark:text-gray-300'>{prettyDate(event.startsOn)}</AppText></View>
+                                <View className='flex-row items-center gap-x-2'><Icon size={15} name='location' type='entypo' color={isDark ? '#9CA3AF' : undefined} /><AppText className='text-sm capitalize dark:text-gray-300'>{event.location}</AppText></View>
                             </View>
 
                             <View className='flex-row gap-x-2 gap-y-3 flex-wrap mt-3'>
@@ -98,7 +100,7 @@ const SpecificEvent = () => {
                         <View style={{ width: '95%' }} className=' self-center rounded-xl overflow-hidden mt-5'>
                             <Image
                                 source={{ uri: `https://getinvolved.uc.edu/image/${event.imagePath}` }}
-                                style={{ width: "100%", height: 200, borderRadius: 12, backgroundColor: "#f3f4f6" }}
+                                style={{ width: "100%", height: 200, borderRadius: 12, backgroundColor: isDark ? '#374151' : '#f3f4f6' }}
                                 contentFit="cover"
                                 contentPosition="center"
                                 transition={200}
@@ -109,50 +111,60 @@ const SpecificEvent = () => {
                         </View>}
                 </View>
 
-                <View className='px-5 mt-3 bg-white py-5'>
-                    <AppText weight='bold' className='font-bold text-2xl  mb-3'>About This Event</AppText>
-                    <RenderHTML source={{ html: event.description }}
-                        tagsStyles={{p: {lineHeight: 24}}} contentWidth={width} />
+                <View className='px-5 mt-3 bg-white dark:bg-gray-900 py-5'>
+                    <AppText weight='bold' className='font-bold text-2xl mb-3 dark:text-white'>About This Event</AppText>
+                    <View style={{ backgroundColor: isDark ? '#1F2937' : '#F9FAFB', borderRadius: 12, padding: 16, borderLeftWidth: 3, borderLeftColor: '#FF6F61' }}>
+                        <RenderHTML
+                            source={{ html: event.description }}
+                            baseStyle={{ fontSize: 15, lineHeight: 24, color: isDark ? '#D1D5DB' : '#374151' }}
+                            tagsStyles={{
+                                p: { fontSize: 15, lineHeight: 24, color: isDark ? '#D1D5DB' : '#374151', marginBottom: 8 },
+                                strong: { color: isDark ? '#F9FAFB' : '#111827', fontWeight: '600' },
+                                a: { color: '#FF6F61', textDecorationLine: 'none' },
+                            }}
+                            contentWidth={width - 78}
+                        />
+                    </View>
                 </View>
 
-                <View className='px-5 pb-5 mt-3 bg-white'>
-                    <AppText weight='bold' className='font-bold text-2xl mt-12 mb-3'>Event Details</AppText>
+                <View className='px-5 pb-5 mt-3 bg-white dark:bg-gray-900'>
+                    <AppText weight='bold' className='font-bold text-2xl mt-12 mb-3 dark:text-white'>Event Details</AppText>
                     <View className='flex-row justify-between mb-5'>
                         <View className='flex-row items-center gap-x-2'>
                             <Icon color={ACCENT_COLOR} size={18} name='calendar' type='entypo' />
-                            <AppText>Date</AppText>
+                            <AppText className='dark:text-gray-100'>Date</AppText>
                         </View>
-                        <AppText className='capitalize'>{prettyDate(event.startsOn)}</AppText>
+                        <AppText className='capitalize dark:text-gray-300'>{prettyDate(event.startsOn)}</AppText>
                     </View>
 
                     <View className='flex-row justify-between mb-5'>
                         <View className='flex-row items-center gap-x-2'>
                             <Icon color={ACCENT_COLOR} size={18} name='clock' type='entypo' />
-                            <AppText>Time</AppText>
+                            <AppText className='dark:text-gray-100'>Time</AppText>
                         </View>
-                        <AppText className='capitalize'>{prettyDate(event.startsOn)}</AppText>
+                        <AppText className='capitalize dark:text-gray-300'>{prettyDate(event.startsOn)}</AppText>
                     </View>
 
                     <View className='flex-row justify-between mb-5'>
                         <View className='flex-row items-center gap-x-2'>
                             <Icon color={ACCENT_COLOR} size={18} name='group' type='font-awesome' />
-                            <AppText>Capacity</AppText>
+                            <AppText className='dark:text-gray-100'>Capacity</AppText>
                         </View>
-                        <AppText className='capitalize'>300 people</AppText>
+                        <AppText className='capitalize dark:text-gray-300'>300 people</AppText>
                     </View>
 
                     <View className='flex-row justify-between mb-5'>
                         <View className='flex-row items-center gap-x-2'>
                             <Icon color={ACCENT_COLOR} size={18} name='ticket' type='entypo' />
-                            <AppText>Price</AppText>
+                            <AppText className='dark:text-gray-100'>Price</AppText>
                         </View>
-                        <AppText className='capitalize'>Free</AppText>
+                        <AppText className='capitalize dark:text-gray-300'>Free</AppText>
                     </View>
 
                 </View>
 
-                <View className='mt-3 px-5 py-5 pb-10 bg-white'>
-                    <AppText weight='bold' className='font-bold text-2xl'>Organized By</AppText>
+                <View className='mt-3 px-5 py-5 pb-10 bg-white dark:bg-gray-900'>
+                    <AppText weight='bold' className='font-bold text-2xl dark:text-white'>Organized By</AppText>
 
                     <TouchableOpacity
                         onPress={() => {
@@ -173,12 +185,12 @@ const SpecificEvent = () => {
 
                         </View>
                         <View style={{ width: '60%' }}>
-                            <AppText className='font-bold text-xl flex-shrink flex-wrap' numberOfLines={2} ellipsizeMode='tail'>{event.organizationName}</AppText>
-                            <AppText>Campus Organization</AppText>
+                            <AppText className='font-bold text-xl flex-shrink flex-wrap dark:text-white' numberOfLines={2} ellipsizeMode='tail'>{event.organizationName}</AppText>
+                            <AppText className='dark:text-gray-400'>Campus Organization</AppText>
                         </View>
 
-                        <TouchableOpacity style={{ backgroundColor: "#F3F4F6" }} className='px-6 py-2 rounded-3xl'>
-                            <AppText className='font-bold'>Follow</AppText>
+                        <TouchableOpacity style={{ backgroundColor: isDark ? '#374151' : '#F3F4F6' }} className='px-6 py-2 rounded-3xl'>
+                            <AppText className='font-bold dark:text-white'>Follow</AppText>
                         </TouchableOpacity>
                     </TouchableOpacity>
                 </View>
@@ -197,17 +209,17 @@ const SpecificEvent = () => {
                     </TouchableOpacity>
                 </View> */}
 
-                <View className='mt-3 px-5 py-10 bg-white'>
-                    <AppText weight='bold' className='font-bold text-2xl'>Location</AppText>
+                <View className='mt-3 px-5 py-10 bg-white dark:bg-gray-900'>
+                    <AppText weight='bold' className='font-bold text-2xl dark:text-white'>Location</AppText>
 
                     <View className='flex-row items-center gap-x-3 mt-3'>
                         <Icon color={ACCENT_COLOR} name='location-pin' type='entypo' />
-                        <AppText>{event.location}</AppText>
+                        <AppText className='dark:text-gray-300'>{event.location}</AppText>
                     </View>
 
-                    <TouchableOpacity style={{ backgroundColor: '#F3F4F6' }} className='flex-row items-center mt-8 px-5 py-5 rounded-3xl justify-center'>
-                        <Icon color={'#384151'} name='directions-fork' type='material-community' />
-                        <AppText weight='bold' className='font-bold text-xl' style={{ color: '#384151' }}>Get Directions</AppText>
+                    <TouchableOpacity style={{ backgroundColor: isDark ? '#374151' : '#F3F4F6' }} className='flex-row items-center mt-8 px-5 py-5 rounded-3xl justify-center'>
+                        <Icon color={isDark ? '#D1D5DB' : '#384151'} name='directions-fork' type='material-community' />
+                        <AppText weight='bold' className='font-bold text-xl' style={{ color: isDark ? '#D1D5DB' : '#384151' }}>Get Directions</AppText>
                     </TouchableOpacity>
                 </View>
 
@@ -217,14 +229,14 @@ const SpecificEvent = () => {
                 </TouchableOpacity>
 
                 <View className='flex-row justify-between mx-5 mt-5'>
-                    <TouchableOpacity style={{ width: '40%', backgroundColor: '#F3F4F6' }} className='rounded-3xl py-4 flex-row justify-center items-center gap-x-2'>
-                        <Icon color={'#384151'} name='heart' type='foundation' />
-                        <AppText weight='bold' style={{ color: "#384151" }} className=' text-center text-2xl font-bold'>Save</AppText>
+                    <TouchableOpacity style={{ width: '40%', backgroundColor: isDark ? '#374151' : '#F3F4F6' }} className='rounded-3xl py-4 flex-row justify-center items-center gap-x-2'>
+                        <Icon color={isDark ? '#D1D5DB' : '#384151'} name='heart' type='foundation' />
+                        <AppText weight='bold' style={{ color: isDark ? '#D1D5DB' : '#384151' }} className=' text-center text-2xl font-bold'>Save</AppText>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={{ width: '40%', backgroundColor: '#F3F4F6' }} className='rounded-3xl py-4 flex-row justify-center items-center gap-x-2'>
-                        <Icon color={'#384151'} name='share' type='material-community' />
-                        <AppText weight='bold' style={{ color: "#384151" }} className=' text-center text-2xl font-bold'>Share</AppText>
+                    <TouchableOpacity style={{ width: '40%', backgroundColor: isDark ? '#374151' : '#F3F4F6' }} className='rounded-3xl py-4 flex-row justify-center items-center gap-x-2'>
+                        <Icon color={isDark ? '#D1D5DB' : '#384151'} name='share' type='material-community' />
+                        <AppText weight='bold' style={{ color: isDark ? '#D1D5DB' : '#384151' }} className=' text-center text-2xl font-bold'>Share</AppText>
                     </TouchableOpacity>
                 </View>
 

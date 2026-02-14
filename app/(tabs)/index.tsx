@@ -9,7 +9,8 @@ import { useQuery } from '@tanstack/react-query';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import moment from 'moment';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { ThemeContext } from '@/Store/ThemeContext';
 import { Dimensions, PermissionsAndroid, Platform, Switch, Text, TouchableOpacity, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import MapView, { Marker } from 'react-native-maps';
@@ -24,7 +25,7 @@ export default function HomeScreen() {
   const [events, setevents] = useState<any>([]);
   const [selectedEvent, setselectedEvent] = useState<null | Event>(null)
   const [activeCategory, setactiveCategory] = useState(0)
-  const [isEnabled, setisEnabled] = useState(false)
+  const { isDark, toggleTheme } = useContext(ThemeContext)
   const { width, height } = Dimensions.get('window')
   const [hideNav, sethideNav] = useState(false)
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -1789,7 +1790,7 @@ export default function HomeScreen() {
   }, [])
 
   const toggleSwitch = () => {
-    setisEnabled(!isEnabled)
+    toggleTheme()
   }
 
   const handleCategoryClick = (index: number) => {
@@ -1821,10 +1822,10 @@ export default function HomeScreen() {
           <Text>🌞</Text>
           <Switch
             trackColor={{ false: '#FF6F61', true: '#f4f3f4' }}
-            thumbColor={isEnabled ? '#FF6F61' : '#f4f3f4'}
+            thumbColor={isDark ? '#FF6F61' : '#f4f3f4'}
             ios_backgroundColor="#3e3e3e"
             onValueChange={toggleSwitch}
-            value={isEnabled}
+            value={isDark}
           />
           <Text>🌙</Text>
         </View>
@@ -1868,7 +1869,7 @@ export default function HomeScreen() {
               mapSizeRef.current = { width, height };
             }}
             initialRegion={initialPostion} // (typo? "initialPosition"?)
-            userInterfaceStyle={isEnabled ? "dark" : "light"}
+            userInterfaceStyle={isDark ? "dark" : "light"}
             showsUserLocation
             showsMyLocationButton
             showsCompass
@@ -1916,10 +1917,10 @@ export default function HomeScreen() {
       <BottomSheet
         ref={bottomSheetRef}
         onChange={handleSheetChanges}
-        // style={{ flex: 1 }}
-        // index={2}
         snapPoints={snapPoints}
         enablePanDownToClose={false}
+        backgroundStyle={{ backgroundColor: isDark ? '#111827' : '#fff' }}
+        handleIndicatorStyle={{ backgroundColor: isDark ? '#6B7280' : '#D1D5DB' }}
       >
         <BottomSheetScrollView contentContainerStyle={{ paddingBottom: 150, paddingTop: 8, width: '100%' }}
           showsVerticalScrollIndicator={false}>
@@ -1932,7 +1933,7 @@ export default function HomeScreen() {
                 <Icon className='mr-2' color='#EF4444' name='calendar' type={'font-awesome'} />
                 <AppText
                   weight='bold'
-                  className="text-2xl font-bold capitalize"
+                  className="text-2xl font-bold capitalize dark:text-white"
                   style={{ flexShrink: 1 }}
                   numberOfLines={2}                // or 1, your call
                   ellipsizeMode="tail"
@@ -1953,37 +1954,37 @@ export default function HomeScreen() {
                 style={{ flexShrink: 0, marginLeft: 12 }}
                 hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
               >
-                <Icon size={15} color="#4B5563" name="chevron-back" type="ionicon" />
-                <AppText style={{ color: "#4B5563", marginLeft: 4 }}>Back</AppText>
+                <Icon size={15} color={isDark ? '#9CA3AF' : '#4B5563'} name="chevron-back" type="ionicon" />
+                <AppText style={{ color: isDark ? '#9CA3AF' : '#4B5563', marginLeft: 4 }}>Back</AppText>
               </TouchableOpacity>
             </View>
           ) : (
-            <View style={{ borderBottomWidth: 1 }} className='px-5 py-2 pb-5 flex-row items-center gap-x-3 border-gray-100'>
+            <View style={{ borderBottomWidth: 1 }} className='px-5 py-2 pb-5 flex-row items-center gap-x-3 border-gray-100 dark:border-gray-700'>
               <View className=' justify-center items-center rounded-lg' style={{ width: 45, height: 45, backgroundColor: '#FFE2E2' }}>
                 <Icon color={ACCENT_COLOR} size={28} name='calendar-month-outline' type='material-community' />
               </View>
-              <AppText weight='bold' className='text-3xl font-bold'>Campus Events</AppText>
+              <AppText weight='bold' className='text-3xl font-bold dark:text-white'>Campus Events</AppText>
             </View>
           )}
 
           {selectedEvent ?
             (
               <View className='mx-5 mt-2'>
-                <AppText className=''>{selectedEvent.organizationName}</AppText>
+                <AppText className='dark:text-gray-300'>{selectedEvent.organizationName}</AppText>
                 <View className='flex-row gap-x-4 flex-wrap my-6'>
                   <View className='flex-row items-center gap-x-2'>
                     <Icon color={'#EF4444'} size={16} name='calendar' type={'font-awesome'} />
-                    <Text>{prettyDate(selectedEvent.startsOn)}</Text>
+                    <Text className='dark:text-gray-200'>{prettyDate(selectedEvent.startsOn)}</Text>
                   </View>
 
                   <View className='flex-row items-center gap-x-2'>
                     <Icon color={'#EF4444'} size={16} name='clock' type={'feather'} />
-                    <Text>{prettyDate(selectedEvent.startsOn)}</Text>
+                    <Text className='dark:text-gray-200'>{prettyDate(selectedEvent.startsOn)}</Text>
                   </View>
                 </View>
                 <View className='flex-row items-center gap-x-2 mb-4'>
                   <Icon color={'#EF4444'} size={18} name='location' type='entypo' />
-                  <Text>{selectedEvent.location}</Text>
+                  <Text className='dark:text-gray-200'>{selectedEvent.location}</Text>
                 </View>
 
                 {selectedEvent.imagePath &&
@@ -2000,12 +2001,20 @@ export default function HomeScreen() {
                     />
                   </View>}
 
-                <AppText weight='bold' className='text-2xl mt-10 mb-3'>About this event</AppText>
-                <RenderHTML tagsStyles={{
-                  p: {
-                    lineHeight: 22
-                  }
-                }} source={{ html: selectedEvent.description }} contentWidth={width} />
+                <View style={{ borderTopWidth: 1, borderTopColor: isDark ? '#374151' : '#E5E7EB', marginTop: 40, paddingTop: 24 }}>
+                  <AppText weight='bold' className='text-2xl mb-3 dark:text-white'>About this event</AppText>
+                  <View style={{ backgroundColor: isDark ? '#1F2937' : '#FAFAFA', borderRadius: 12, padding: 16 }}>
+                    <RenderHTML
+                      baseStyle={{ fontSize: 15, lineHeight: 24, color: isDark ? '#D1D5DB' : '#374151' }}
+                      tagsStyles={{
+                        p: { fontSize: 15, lineHeight: 24, color: isDark ? '#D1D5DB' : '#374151' },
+                        strong: { color: isDark ? '#F9FAFB' : '#111827' }
+                      }}
+                      source={{ html: selectedEvent.description }}
+                      contentWidth={width - 32}
+                    />
+                  </View>
+                </View>
 
 
                 <TouchableOpacity onPress={() => router.push({
@@ -2041,9 +2050,9 @@ export default function HomeScreen() {
                   showsVerticalScrollIndicator={false}
                   // nestedScrollEnabled
                   renderItem={({ item, index }) => (
-                    <TouchableOpacity onPress={() => handleCategoryClick(index)} key={index} className='px-8 py-3 rounded-3xl flex-row items-center gap-x-2' style={{ backgroundColor: activeCategory == index ? ACCENT_COLOR : "#F3F4F6", height: 55, marginLeft: 10 }}>
-                      {item.icon && <Icon size={20} color={activeCategory == index ? 'white' : '#4B5563'} name={item.icon} type={item.iconType} />}
-                      <AppText weight='bold' style={{ color: activeCategory == index ? 'white' : "#4B5563" }} className='font-bold text-lg capitalize'>{item.value}</AppText>
+                    <TouchableOpacity onPress={() => handleCategoryClick(index)} key={index} className='px-8 py-3 rounded-3xl flex-row items-center gap-x-2' style={{ backgroundColor: activeCategory == index ? ACCENT_COLOR : (isDark ? '#374151' : '#F3F4F6'), height: 55, marginLeft: 10 }}>
+                      {item.icon && <Icon size={20} color={activeCategory == index ? 'white' : (isDark ? '#9CA3AF' : '#4B5563')} name={item.icon} type={item.iconType} />}
+                      <AppText weight='bold' style={{ color: activeCategory == index ? 'white' : (isDark ? '#D1D5DB' : '#4B5563') }} className='font-bold text-lg capitalize'>{item.value}</AppText>
                     </TouchableOpacity>
                   )}
                 />

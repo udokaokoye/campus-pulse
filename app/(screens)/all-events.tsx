@@ -8,11 +8,13 @@ import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
 import { router } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import moment from 'moment'
-import React, { useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
+import { ThemeContext } from '@/Store/ThemeContext'
 import { ActivityIndicator, FlatList, TextInput, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const AllEvents = () => {
+  const { isDark } = useContext(ThemeContext);
   const [activeCategory, setactiveCategory] = useState(0)
   const [skip, setskip] = useState(0)
   const reachedDuringMomentum = useRef(false);
@@ -1750,8 +1752,8 @@ const AllEvents = () => {
     setactiveCategory(index)
   }
   return (
-    <SafeAreaView>
-      <StatusBar style="dark" />
+    <SafeAreaView className='bg-white dark:bg-gray-900 flex-1'>
+      <StatusBar style={isDark ? 'light' : 'dark'} />
 
       <TouchableOpacity onPress={() => {
         AsyncStorage.removeItem('RQ_CACHE')
@@ -1770,10 +1772,10 @@ const AllEvents = () => {
                 className="w-10 h-10 items-center justify-center"
                 hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
               >
-                <Icon name="chevron-back" type="ionicon" />
+                <Icon name="chevron-back" type="ionicon" color={isDark ? '#fff' : undefined} />
               </TouchableOpacity>
 
-              <AppText weight='bold' className="flex-1 text-center font-bold text-2xl">All Events</AppText>
+              <AppText weight='bold' className="flex-1 text-center font-bold text-2xl dark:text-white">All Events</AppText>
 
               <View className="w-10 h-10" />
             </View>
@@ -1786,23 +1788,23 @@ const AllEvents = () => {
               showsVerticalScrollIndicator={false}
               // nestedScrollEnabled
               renderItem={({ item, index }) => (
-                <TouchableOpacity key={item.value} onPress={() => handleCategoryClick(index)} className='px-8 py-3 rounded-3xl flex-row items-center gap-x-2' style={{ backgroundColor: activeCategory == index ? ACCENT_COLOR : "#F3F4F6", height: 55, marginLeft: 10 }}>
-                  {item.icon && <Icon size={20} color={activeCategory == index ? 'white' : '#4B5563'} name={item.icon} type={item.iconType} />}
-                  <AppText weight='bold' style={{ color: activeCategory == index ? 'white' : "#4B5563" }} className='font-bold text-lg capitalize'>{item.value}</AppText>
+                <TouchableOpacity key={item.value} onPress={() => handleCategoryClick(index)} className='px-8 py-3 rounded-3xl flex-row items-center gap-x-2' style={{ backgroundColor: activeCategory == index ? ACCENT_COLOR : (isDark ? '#374151' : '#F3F4F6'), height: 55, marginLeft: 10 }}>
+                  {item.icon && <Icon size={20} color={activeCategory == index ? 'white' : (isDark ? '#D1D5DB' : '#4B5563')} name={item.icon} type={item.iconType} />}
+                  <AppText weight='bold' style={{ color: activeCategory == index ? 'white' : (isDark ? '#D1D5DB' : '#4B5563') }} className='font-bold text-lg capitalize'>{item.value}</AppText>
                 </TouchableOpacity>
               )}
             />
 
             <View style={{
-              backgroundColor: 'white',
+              backgroundColor: isDark ? '#1F2937' : 'white',
               shadowColor: '#000',
               shadowOffset: { width: 0, height: 1 },
-              shadowOpacity: 0.2,
+              shadowOpacity: isDark ? 0.4 : 0.2,
               shadowRadius: 2,
               elevation: 5
             }} className='mt-10 mb-10 flex-row items-center mx-5 rounded-3xl px-5 py-4'>
-              <TextInput style={{ color: "#4B5563" }} className='flex-1' placeholder='search...' placeholderTextColor={'#4B5563'} />
-              <Icon name='search' type='feather' color={'#4B5563'} />
+              <TextInput style={{ color: isDark ? '#D1D5DB' : '#4B5563' }} className='flex-1' placeholder='search...' placeholderTextColor={isDark ? '#9CA3AF' : '#4B5563'} />
+              <Icon name='search' type='feather' color={isDark ? '#9CA3AF' : '#4B5563'} />
             </View>
           </React.Fragment>
         )}

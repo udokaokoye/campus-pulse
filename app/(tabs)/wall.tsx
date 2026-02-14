@@ -1,4 +1,5 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useContext } from 'react';
+import { ThemeContext } from '@/Store/ThemeContext';
 import {
   View,
   FlatList,
@@ -259,15 +260,16 @@ function AvatarCircle({ alias, color, size = 36 }: { alias: string; color: strin
 // ── Reply Item ─────────────────────────────────────────────────────────
 
 function ReplyItem({ reply }: { reply: WallReply }) {
+  const { isDark } = useContext(ThemeContext);
   return (
     <View style={{ flexDirection: 'row', marginLeft: 40, marginTop: 12, gap: 10 }}>
       <AvatarCircle alias={reply.alias} color={reply.avatarColor} size={28} />
       <View style={{ flex: 1 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-          <AppText weight="semibold" style={{ fontSize: 13, color: '#333' }}>{reply.alias}</AppText>
-          <AppText style={{ fontSize: 11, color: '#999' }}>{reply.timestamp}</AppText>
+          <AppText weight="semibold" style={{ fontSize: 13, color: isDark ? '#E5E7EB' : '#333' }}>{reply.alias}</AppText>
+          <AppText style={{ fontSize: 11, color: isDark ? '#6B7280' : '#999' }}>{reply.timestamp}</AppText>
         </View>
-        <AppText style={{ fontSize: 13, color: '#555', marginTop: 2 }}>{reply.text}</AppText>
+        <AppText style={{ fontSize: 13, color: isDark ? '#9CA3AF' : '#555', marginTop: 2 }}>{reply.text}</AppText>
       </View>
     </View>
   );
@@ -276,16 +278,17 @@ function ReplyItem({ reply }: { reply: WallReply }) {
 // ── Comment Item ───────────────────────────────────────────────────────
 
 function CommentItem({ comment, onReply }: { comment: WallComment; onReply: (commentId: string, alias: string) => void }) {
+  const { isDark } = useContext(ThemeContext);
   return (
     <View style={{ marginTop: 16 }}>
       <View style={{ flexDirection: 'row', gap: 10 }}>
         <AvatarCircle alias={comment.alias} color={comment.avatarColor} size={32} />
         <View style={{ flex: 1 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-            <AppText weight="semibold" style={{ fontSize: 14, color: '#333' }}>{comment.alias}</AppText>
-            <AppText style={{ fontSize: 12, color: '#999' }}>{comment.timestamp}</AppText>
+            <AppText weight="semibold" style={{ fontSize: 14, color: isDark ? '#E5E7EB' : '#333' }}>{comment.alias}</AppText>
+            <AppText style={{ fontSize: 12, color: isDark ? '#6B7280' : '#999' }}>{comment.timestamp}</AppText>
           </View>
-          <AppText style={{ fontSize: 14, color: '#444', marginTop: 3 }}>{comment.text}</AppText>
+          <AppText style={{ fontSize: 14, color: isDark ? '#D1D5DB' : '#444', marginTop: 3 }}>{comment.text}</AppText>
           <TouchableOpacity onPress={() => onReply(comment.id, comment.alias)} style={{ marginTop: 6 }}>
             <AppText weight="medium" style={{ fontSize: 12, color: ACCENT_COLOR }}>Reply</AppText>
           </TouchableOpacity>
@@ -301,6 +304,7 @@ function CommentItem({ comment, onReply }: { comment: WallComment; onReply: (com
 // ── Post Card ──────────────────────────────────────────────────────────
 
 function PostCard({ post, onOpenComments }: { post: WallPost; onOpenComments: (post: WallPost) => void }) {
+  const { isDark } = useContext(ThemeContext);
   const [upvotes, setUpvotes] = useState(post.upvotes);
   const [downvotes, setDownvotes] = useState(post.downvotes);
   const [upvoted, setUpvoted] = useState(false);
@@ -339,6 +343,8 @@ function PostCard({ post, onOpenComments }: { post: WallPost; onOpenComments: (p
       onPress={() => onOpenComments(post)}
       style={{
         ...CARD_SHADOW,
+        backgroundColor: isDark ? '#1F2937' : '#fff',
+        shadowColor: isDark ? '#000' : '#000',
         borderRadius: 16,
         padding: 16,
         marginHorizontal: 16,
@@ -350,11 +356,11 @@ function PostCard({ post, onOpenComments }: { post: WallPost; onOpenComments: (p
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
           <AvatarCircle alias={post.alias} color={post.avatarColor} />
           <View>
-            <AppText weight="semibold" style={{ fontSize: 15, color: '#222' }}>{post.alias}</AppText>
-            <AppText style={{ fontSize: 12, color: '#999' }}>{post.timestamp}</AppText>
+            <AppText weight="semibold" style={{ fontSize: 15, color: isDark ? '#F3F4F6' : '#222' }}>{post.alias}</AppText>
+            <AppText style={{ fontSize: 12, color: isDark ? '#9CA3AF' : '#999' }}>{post.timestamp}</AppText>
           </View>
         </View>
-        <View style={{ backgroundColor: GRAY_BG, borderRadius: 12, paddingHorizontal: 10, paddingVertical: 4 }}>
+        <View style={{ backgroundColor: isDark ? '#374151' : GRAY_BG, borderRadius: 12, paddingHorizontal: 10, paddingVertical: 4 }}>
           <AppText weight="medium" style={{ fontSize: 11, color: ACCENT_COLOR }}>
             🔥 {post.timeRemaining}
           </AppText>
@@ -362,7 +368,7 @@ function PostCard({ post, onOpenComments }: { post: WallPost; onOpenComments: (p
       </View>
 
       {/* Content */}
-      <AppText style={{ fontSize: 15, color: '#333', lineHeight: 22, marginTop: 12 }}>
+      <AppText style={{ fontSize: 15, color: isDark ? '#D1D5DB' : '#333', lineHeight: 22, marginTop: 12 }}>
         {post.content}
       </AppText>
 
@@ -372,7 +378,7 @@ function PostCard({ post, onOpenComments }: { post: WallPost; onOpenComments: (p
           style={{
             height: 180,
             borderRadius: 12,
-            backgroundColor: GRAY_BG,
+            backgroundColor: isDark ? '#374151' : GRAY_BG,
             marginTop: 12,
             alignItems: 'center',
             justifyContent: 'center',
@@ -391,15 +397,15 @@ function PostCard({ post, onOpenComments }: { post: WallPost; onOpenComments: (p
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            backgroundColor: upvoted ? '#FFF0EE' : GRAY_BG,
+            backgroundColor: upvoted ? (isDark ? '#4B2520' : '#FFF0EE') : (isDark ? '#374151' : GRAY_BG),
             borderRadius: 20,
             paddingHorizontal: 12,
             paddingVertical: 6,
             gap: 4,
           }}
         >
-          <Icon name="flame" type="ionicon" size={18} color={upvoted ? ACCENT_COLOR : '#888'} />
-          <AppText weight="medium" style={{ fontSize: 13, color: upvoted ? ACCENT_COLOR : '#666' }}>
+          <Icon name="flame" type="ionicon" size={18} color={upvoted ? ACCENT_COLOR : (isDark ? '#9CA3AF' : '#888')} />
+          <AppText weight="medium" style={{ fontSize: 13, color: upvoted ? ACCENT_COLOR : (isDark ? '#9CA3AF' : '#666') }}>
             {upvotes}
           </AppText>
         </TouchableOpacity>
@@ -410,15 +416,15 @@ function PostCard({ post, onOpenComments }: { post: WallPost; onOpenComments: (p
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            backgroundColor: downvoted ? '#EEF0FF' : GRAY_BG,
+            backgroundColor: downvoted ? (isDark ? '#1E2340' : '#EEF0FF') : (isDark ? '#374151' : GRAY_BG),
             borderRadius: 20,
             paddingHorizontal: 12,
             paddingVertical: 6,
             gap: 4,
           }}
         >
-          <Icon name="arrow-down" type="ionicon" size={18} color={downvoted ? '#5C6BC0' : '#888'} />
-          <AppText weight="medium" style={{ fontSize: 13, color: downvoted ? '#5C6BC0' : '#666' }}>
+          <Icon name="arrow-down" type="ionicon" size={18} color={downvoted ? '#5C6BC0' : (isDark ? '#9CA3AF' : '#888')} />
+          <AppText weight="medium" style={{ fontSize: 13, color: downvoted ? '#5C6BC0' : (isDark ? '#9CA3AF' : '#666') }}>
             {downvotes}
           </AppText>
         </TouchableOpacity>
@@ -429,7 +435,7 @@ function PostCard({ post, onOpenComments }: { post: WallPost; onOpenComments: (p
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            backgroundColor: GRAY_BG,
+            backgroundColor: isDark ? '#374151' : GRAY_BG,
             borderRadius: 20,
             paddingHorizontal: 12,
             paddingVertical: 6,
@@ -437,8 +443,8 @@ function PostCard({ post, onOpenComments }: { post: WallPost; onOpenComments: (p
             marginLeft: 'auto',
           }}
         >
-          <Icon name="chatbubble-outline" type="ionicon" size={16} color="#888" />
-          <AppText weight="medium" style={{ fontSize: 13, color: '#666' }}>
+          <Icon name="chatbubble-outline" type="ionicon" size={16} color={isDark ? '#9CA3AF' : '#888'} />
+          <AppText weight="medium" style={{ fontSize: 13, color: isDark ? '#9CA3AF' : '#666' }}>
             {post.commentCount}
           </AppText>
         </TouchableOpacity>
@@ -450,6 +456,7 @@ function PostCard({ post, onOpenComments }: { post: WallPost; onOpenComments: (p
 // ── Main Screen ────────────────────────────────────────────────────────
 
 export default function WallScreen() {
+  const { isDark } = useContext(ThemeContext);
   const [posts, setPosts] = useState<WallPost[]>(MOCK_POSTS);
   const [refreshing, setRefreshing] = useState(false);
   const [selectedPost, setSelectedPost] = useState<WallPost | null>(null);
@@ -548,11 +555,11 @@ export default function WallScreen() {
   );
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: isDark ? '#111827' : '#fff' }}>
       {/* Header */}
       <View style={{ paddingHorizontal: 20, paddingTop: 8, paddingBottom: 12 }}>
-        <AppText weight="bold" style={{ fontSize: 28, color: '#222' }}>The Wall</AppText>
-        <AppText style={{ fontSize: 14, color: '#999', marginTop: 2 }}>Anonymous • Ephemeral • 24h</AppText>
+        <AppText weight="bold" style={{ fontSize: 28, color: isDark ? '#F9FAFB' : '#222' }}>The Wall</AppText>
+        <AppText style={{ fontSize: 14, color: isDark ? '#6B7280' : '#999', marginTop: 2 }}>Anonymous • Ephemeral • 24h</AppText>
       </View>
 
       {/* Feed */}
@@ -594,15 +601,15 @@ export default function WallScreen() {
       <Modal visible={showCompose} animationType="slide" transparent>
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
           <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.4)', justifyContent: 'flex-end' }}>
-            <View style={{ backgroundColor: '#fff', borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 20, minHeight: 320 }}>
+            <View style={{ backgroundColor: isDark ? '#1F2937' : '#fff', borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 20, minHeight: 320 }}>
               {/* Handle bar */}
-              <View style={{ width: 40, height: 4, borderRadius: 2, backgroundColor: '#DDD', alignSelf: 'center', marginBottom: 16 }} />
+              <View style={{ width: 40, height: 4, borderRadius: 2, backgroundColor: isDark ? '#4B5563' : '#DDD', alignSelf: 'center', marginBottom: 16 }} />
 
               {/* User alias */}
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 16 }}>
                 <AvatarCircle alias={USER_ALIAS} color={ACCENT_COLOR} />
                 <View>
-                  <AppText weight="semibold" style={{ fontSize: 15, color: '#222' }}>Posting as</AppText>
+                  <AppText weight="semibold" style={{ fontSize: 15, color: isDark ? '#E5E7EB' : '#222' }}>Posting as</AppText>
                   <AppText weight="bold" style={{ fontSize: 16, color: ACCENT_COLOR }}>{USER_ALIAS}</AppText>
                 </View>
               </View>
@@ -618,10 +625,10 @@ export default function WallScreen() {
                   flex: 1,
                   minHeight: 100,
                   fontSize: 16,
-                  color: '#333',
+                  color: isDark ? '#E5E7EB' : '#333',
                   textAlignVertical: 'top',
                   padding: 12,
-                  backgroundColor: GRAY_BG,
+                  backgroundColor: isDark ? '#374151' : GRAY_BG,
                   borderRadius: 12,
                   fontFamily: 'Roboto_400Regular',
                 }}
@@ -634,14 +641,14 @@ export default function WallScreen() {
                     flexDirection: 'row',
                     alignItems: 'center',
                     gap: 6,
-                    backgroundColor: GRAY_BG,
+                    backgroundColor: isDark ? '#374151' : GRAY_BG,
                     borderRadius: 20,
                     paddingHorizontal: 14,
                     paddingVertical: 8,
                   }}
                 >
-                  <Icon name="image-outline" type="ionicon" size={20} color="#888" />
-                  <AppText weight="medium" style={{ fontSize: 13, color: '#888' }}>Add Image</AppText>
+                  <Icon name="image-outline" type="ionicon" size={20} color={isDark ? '#9CA3AF' : '#888'} />
+                  <AppText weight="medium" style={{ fontSize: 13, color: isDark ? '#9CA3AF' : '#888' }}>Add Image</AppText>
                 </TouchableOpacity>
 
                 <View style={{ flexDirection: 'row', gap: 10 }}>
@@ -673,28 +680,28 @@ export default function WallScreen() {
       <Modal visible={!!selectedPost} animationType="slide" transparent>
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
           <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.4)', justifyContent: 'flex-end' }}>
-            <View style={{ backgroundColor: '#fff', borderTopLeftRadius: 24, borderTopRightRadius: 24, maxHeight: '90%', minHeight: '60%' }}>
+            <View style={{ backgroundColor: isDark ? '#1F2937' : '#fff', borderTopLeftRadius: 24, borderTopRightRadius: 24, maxHeight: '90%', minHeight: '60%' }}>
               {/* Handle bar */}
-              <View style={{ width: 40, height: 4, borderRadius: 2, backgroundColor: '#DDD', alignSelf: 'center', marginTop: 10 }} />
+              <View style={{ width: 40, height: 4, borderRadius: 2, backgroundColor: isDark ? '#4B5563' : '#DDD', alignSelf: 'center', marginTop: 10 }} />
 
               {/* Close */}
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20, paddingTop: 12, paddingBottom: 8 }}>
-                <AppText weight="bold" style={{ fontSize: 18, color: '#222' }}>Comments</AppText>
+                <AppText weight="bold" style={{ fontSize: 18, color: isDark ? '#F3F4F6' : '#222' }}>Comments</AppText>
                 <TouchableOpacity onPress={() => setSelectedPost(null)}>
-                  <Icon name="close" type="ionicon" size={24} color="#999" />
+                  <Icon name="close" type="ionicon" size={24} color={isDark ? '#9CA3AF' : '#999'} />
                 </TouchableOpacity>
               </View>
 
               <ScrollView style={{ flex: 1, paddingHorizontal: 20 }} showsVerticalScrollIndicator={false}>
                 {/* Original post */}
                 {selectedPost && (
-                  <View style={{ backgroundColor: GRAY_BG, borderRadius: 14, padding: 14, marginBottom: 8 }}>
+                  <View style={{ backgroundColor: isDark ? '#374151' : GRAY_BG, borderRadius: 14, padding: 14, marginBottom: 8 }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 8 }}>
                       <AvatarCircle alias={selectedPost.alias} color={selectedPost.avatarColor} size={30} />
-                      <AppText weight="semibold" style={{ fontSize: 14, color: '#333' }}>{selectedPost.alias}</AppText>
-                      <AppText style={{ fontSize: 12, color: '#999' }}>{selectedPost.timestamp}</AppText>
+                      <AppText weight="semibold" style={{ fontSize: 14, color: isDark ? '#E5E7EB' : '#333' }}>{selectedPost.alias}</AppText>
+                      <AppText style={{ fontSize: 12, color: isDark ? '#9CA3AF' : '#999' }}>{selectedPost.timestamp}</AppText>
                     </View>
-                    <AppText style={{ fontSize: 14, color: '#444', lineHeight: 20 }}>{selectedPost.content}</AppText>
+                    <AppText style={{ fontSize: 14, color: isDark ? '#D1D5DB' : '#444', lineHeight: 20 }}>{selectedPost.content}</AppText>
                   </View>
                 )}
 
@@ -714,7 +721,7 @@ export default function WallScreen() {
               </ScrollView>
 
               {/* Comment input */}
-              <View style={{ borderTopWidth: 1, borderTopColor: '#F0F0F0', paddingHorizontal: 16, paddingVertical: 10 }}>
+              <View style={{ borderTopWidth: 1, borderTopColor: isDark ? '#374151' : '#F0F0F0', paddingHorizontal: 16, paddingVertical: 10 }}>
                 {replyTarget && (
                   <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 6, gap: 6 }}>
                     <AppText style={{ fontSize: 12, color: '#999' }}>
@@ -734,12 +741,12 @@ export default function WallScreen() {
                     placeholderTextColor="#BBB"
                     style={{
                       flex: 1,
-                      backgroundColor: GRAY_BG,
+                      backgroundColor: isDark ? '#374151' : GRAY_BG,
                       borderRadius: 20,
                       paddingHorizontal: 14,
                       paddingVertical: 8,
                       fontSize: 14,
-                      color: '#333',
+                      color: isDark ? '#E5E7EB' : '#333',
                       fontFamily: 'Roboto_400Regular',
                     }}
                   />

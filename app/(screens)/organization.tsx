@@ -9,7 +9,8 @@ import { Image } from 'expo-image'
 import { router, useLocalSearchParams } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import moment from 'moment'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
+import { ThemeContext } from '@/Store/ThemeContext'
 
 
 import { ScrollView, TouchableOpacity, View } from 'react-native'
@@ -17,6 +18,7 @@ import RenderHTML from 'react-native-render-html'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const Organization = () => {
+    const { isDark } = useContext(ThemeContext);
     const [orgEvents, setorgEvents] = useState<null | Event[]>(null)
     const [orgCategories, setorgCategories] = useState([]);
     const [orgAbout, setorgAbout] = useState("")
@@ -63,30 +65,30 @@ const Organization = () => {
 
     }
     return (
-        <SafeAreaView className="bg-white flex-1">
+        <SafeAreaView className="bg-white dark:bg-gray-900 flex-1">
             <ScrollView>
-                <StatusBar style="dark" backgroundColor="#fff" />
+                <StatusBar style={isDark ? 'light' : 'dark'} backgroundColor={isDark ? '#111827' : '#fff'} />
 
-                <View className=' bg-white flex-row items-center px-4 py-3'>
+                <View className=' bg-white dark:bg-gray-900 flex-row items-center px-4 py-3'>
                     <TouchableOpacity
                         onPress={() => router.back?.()}
                         className="w-10 h-10 items-center justify-center"
                         hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
                     >
-                        <Icon name="chevron-back" type="ionicon" />
+                        <Icon name="chevron-back" type="ionicon" color={isDark ? '#fff' : undefined} />
                     </TouchableOpacity>
 
-                    <AppText weight='bold' className="flex-1 text-center font-bold text-2xl">Organization</AppText>
+                    <AppText weight='bold' className="flex-1 text-center font-bold text-2xl dark:text-white">Organization</AppText>
 
                     <TouchableOpacity
                         // onPress={() => router.back?.()}
                         className="w-10 h-10 items-center justify-center"
                         hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
                     >
-                        <Icon name="dots-three-vertical" type="entypo" />
+                        <Icon name="dots-three-vertical" type="entypo" color={isDark ? '#fff' : undefined} />
                     </TouchableOpacity>
                 </View>
-                <View className='h-px bg-gray-200' />
+                <View className='h-px bg-gray-200 dark:bg-gray-700' />
 
                 {/* Poster / Banner */}
                 <View className="w-full bg-gray-200" style={{ height: 220 }}>
@@ -116,7 +118,7 @@ const Organization = () => {
 
                 {/* Content */}
                 <View className="px-4 mt-4">
-                    <AppText weight="bold" className="text-xl">{orgDataParsed.orgName}</AppText>
+                    <AppText weight="bold" className="text-xl dark:text-white">{orgDataParsed.orgName}</AppText>
                     <View className='flex-row gap-x-2 flex-wrap'>
                         {orgCategories && orgCategories.map((catName: any, index: number) => (
                             <React.Fragment key={index}>
@@ -131,18 +133,18 @@ const Organization = () => {
                 <View className="px-4 mt-4">
                     <View className="flex-row justify-between">
                         <View className="items-center flex-1">
-                            <AppText weight="bold" className="text-2xl">1.2k</AppText>
-                            <AppText className="text-gray-500">Followers</AppText>
+                            <AppText weight="bold" className="text-2xl dark:text-white">1.2k</AppText>
+                            <AppText className="text-gray-500 dark:text-gray-400">Followers</AppText>
                         </View>
-                        <View className="w-px bg-gray-200 mx-3" />
+                        <View className="w-px bg-gray-200 dark:bg-gray-700 mx-3" />
                         <View className="items-center flex-1">
-                            <AppText weight="bold" className="text-2xl">42</AppText>
-                            <AppText className="text-gray-500">Events</AppText>
+                            <AppText weight="bold" className="text-2xl dark:text-white">42</AppText>
+                            <AppText className="text-gray-500 dark:text-gray-400">Events</AppText>
                         </View>
-                        <View className="w-px bg-gray-200 mx-3" />
+                        <View className="w-px bg-gray-200 dark:bg-gray-700 mx-3" />
                         <View className="items-center flex-1">
-                            <AppText weight="bold" className="text-2xl">15</AppText>
-                            <AppText className="text-gray-500">Members</AppText>
+                            <AppText weight="bold" className="text-2xl dark:text-white">15</AppText>
+                            <AppText className="text-gray-500 dark:text-gray-400">Members</AppText>
                         </View>
                     </View>
                 </View>
@@ -150,7 +152,7 @@ const Organization = () => {
                 {/* ===== Followers Section ===== */}
                 <View className="px-4 mt-6">
                     <View className="flex-row justify-between items-center mb-2">
-                        <AppText weight="bold" className="text-lg">Followers</AppText>
+                        <AppText weight="bold" className="text-lg dark:text-white">Followers</AppText>
                         <TouchableOpacity>
                             <AppText className="text-black-600">See all</AppText>
                         </TouchableOpacity>
@@ -173,7 +175,7 @@ const Organization = () => {
                 {/* ===== Events Section ===== */}
                 <View className="px-4 mt-6">
                     <View className="flex-row justify-between items-center mb-2">
-                        <AppText weight="bold" className="text-lg">Upcoming Events</AppText>
+                        <AppText weight="bold" className="text-lg dark:text-white">Upcoming Events</AppText>
                         <TouchableOpacity>
                             <AppText className="text-black-600">See all</AppText>
                         </TouchableOpacity>
@@ -195,19 +197,19 @@ const Organization = () => {
                     {orgEvents && orgEvents.length > 0 && orgEvents.map((ev: Event, index) => (
                         <TouchableOpacity
                             key={index}
-                            className="bg-white border border-gray-200 rounded-2xl p-4 mb-3"
+                            className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-4 mb-3"
 
                             activeOpacity={0.8}
                         >
-                            <AppText weight="bold" className="text-base">{ev.name}</AppText>
-                            <AppText className="text-gray-500 mt-1">{prettyDate(ev.startsOn)} • {ev.location}</AppText>
+                            <AppText weight="bold" className="text-base dark:text-white">{ev.name}</AppText>
+                            <AppText className="text-gray-500 dark:text-gray-400 mt-1">{prettyDate(ev.startsOn)} • {ev.location}</AppText>
                         </TouchableOpacity>
                     ))}
                 </View>
 
                 {/* ===== About Section ===== */}
                 <View className="px-4 mt-6 mb-10">
-                    <AppText weight="bold" className="text-lg mb-2">About us</AppText>
+                    <AppText weight="bold" className="text-lg mb-2 dark:text-white">About us</AppText>
 
                     <AppText><RenderHTML contentWidth={100} source={{ html: orgAbout }} /></AppText>
                 </View>
