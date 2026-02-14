@@ -2,7 +2,7 @@ import { ACCENT_COLOR, GRAY_BG } from '@/utils/constants'
 import { Icon } from '@/components/Icon'
 import { router } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
-import { useState, useRef } from 'react'
+import { useState, useRef, useMemo } from 'react'
 import {
   Alert,
   KeyboardAvoidingView,
@@ -18,6 +18,14 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 
 const TOTAL_STEPS = 4
 const GRAD_LEVELS = ['Freshman', 'Sophomore', 'Junior', 'Senior', 'Graduate']
+
+const INPUT_STYLE = {
+  backgroundColor: GRAY_BG,
+  borderRadius: 16,
+  paddingHorizontal: 20,
+  height: 56,
+  fontSize: 16,
+}
 
 export default function Signup() {
   const [step, setStep] = useState(1)
@@ -114,133 +122,242 @@ export default function Signup() {
     Alert.alert('Pick Avatar', 'expo-image-picker is not installed. This is a placeholder.')
   }
 
-  // ─── Shared input style ───
-  const inputStyle = {
-    backgroundColor: GRAY_BG,
-    borderRadius: 16,
-    paddingHorizontal: 20,
-    height: 56,
-    fontSize: 16,
-  }
+  const buttonLabel = step === 2 ? 'Verify' : step === 4 ? 'Create Account' : 'Next'
 
-  // ─── Progress Bar ───
-  const ProgressBar = () => (
-    <View className="flex-row items-center mt-2 mb-6" style={{ gap: 8 }}>
-      {Array.from({ length: TOTAL_STEPS }).map((_, i) => (
-        <View
-          key={i}
-          className="flex-1"
-          style={{
-            height: 5,
-            borderRadius: 3,
-            backgroundColor: i < step ? ACCENT_COLOR : '#E5E7EB',
-          }}
-        />
-      ))}
-    </View>
-  )
-
-  // ─── Stage 1 ───
-  const Stage1 = () => (
-    <View style={{ gap: 16 }}>
-      <Text style={{ fontSize: 28, fontWeight: '700' }}>Personal Info</Text>
-      <Text className="text-gray-500 mb-2">Let's get to know you</Text>
-      <TextInput
-        placeholder="First Name"
-        value={firstName}
-        onChangeText={setFirstName}
-        style={inputStyle}
-        placeholderTextColor="#9CA3AF"
-      />
-      <TextInput
-        placeholder="Last Name"
-        value={lastName}
-        onChangeText={setLastName}
-        style={inputStyle}
-        placeholderTextColor="#9CA3AF"
-      />
-      <TextInput
-        placeholder="Email (@mail.uc.edu)"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
-        style={inputStyle}
-        placeholderTextColor="#9CA3AF"
-      />
-    </View>
-  )
-
-  // ─── Stage 2 ───
-  const Stage2 = () => (
-    <View style={{ gap: 16 }} className="items-center">
-      <Icon type="material-community" name="email-check-outline" size={64} color={ACCENT_COLOR} />
-      <Text style={{ fontSize: 28, fontWeight: '700', textAlign: 'center' }}>Verify Email</Text>
-      <Text className="text-gray-500 text-center" style={{ fontSize: 15 }}>
-        We sent a 5-digit code to{'\n'}
-        <Text style={{ fontWeight: '600', color: '#111' }}>{email}</Text>
-      </Text>
-      <View className="flex-row justify-center mt-4" style={{ gap: 12 }}>
-        {otp.map((digit, i) => (
-          <TextInput
-            key={i}
-            ref={(r) => { otpRefs.current[i] = r }}
-            value={digit}
-            onChangeText={(t) => handleOtpChange(t, i)}
-            onKeyPress={({ nativeEvent }) => handleOtpKey(nativeEvent.key, i)}
-            keyboardType="number-pad"
-            maxLength={1}
-            style={{
-              width: 52,
-              height: 60,
-              backgroundColor: GRAY_BG,
-              borderRadius: 14,
-              fontSize: 24,
-              fontWeight: '700',
-              textAlign: 'center',
-            }}
-          />
-        ))}
-      </View>
-    </View>
-  )
-
-  // ─── Stage 3 ───
-  const Stage3 = () => (
-    <View style={{ gap: 16 }}>
-      <Text style={{ fontSize: 28, fontWeight: '700' }}>Academic Info</Text>
-      <Text className="text-gray-500 mb-2">Tell us about your studies</Text>
-      <TextInput
-        placeholder="College Major"
-        value={major}
-        onChangeText={setMajor}
-        style={inputStyle}
-        placeholderTextColor="#9CA3AF"
-      />
-      <TextInput
-        placeholder="Graduation Year (e.g. 2027)"
-        value={gradYear}
-        onChangeText={setGradYear}
-        keyboardType="number-pad"
-        style={inputStyle}
-        placeholderTextColor="#9CA3AF"
-      />
-      <TouchableOpacity
-        onPress={() => setShowPicker(true)}
-        style={{
-          ...inputStyle,
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
+  return (
+    <SafeAreaView className="bg-white flex-1">
+      <StatusBar style="dark" backgroundColor="#fff" />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        className="flex-1"
       >
-        <Text style={{ fontSize: 16, color: gradLevel ? '#111' : '#9CA3AF' }}>
-          {gradLevel || 'Grad Level'}
-        </Text>
-        <Icon type="ionicon" name="chevron-down" size={20} color="#9CA3AF" />
-      </TouchableOpacity>
+        <ScrollView
+          className="flex-1 px-8"
+          contentContainerStyle={{ flexGrow: 1, paddingBottom: 32 }}
+          keyboardShouldPersistTaps="handled"
+        >
+          {/* Header */}
+          <TouchableOpacity onPress={handleBack} className="flex-row items-center mt-1" style={{ gap: 4 }}>
+            <Icon type="ionicon" name="chevron-back" size={24} color="#111" />
+            <Text style={{ fontSize: 16, fontWeight: '500' }}>Back</Text>
+          </TouchableOpacity>
 
-      {/* Picker Modal */}
+          {/* Progress Bar */}
+          <View className="flex-row items-center mt-2 mb-6" style={{ gap: 8 }}>
+            {Array.from({ length: TOTAL_STEPS }).map((_, i) => (
+              <View
+                key={i}
+                className="flex-1"
+                style={{
+                  height: 5,
+                  borderRadius: 3,
+                  backgroundColor: i < step ? ACCENT_COLOR : '#E5E7EB',
+                }}
+              />
+            ))}
+          </View>
+
+          {/* ─── Stage 1: Personal Info ─── */}
+          {step === 1 && (
+            <View style={{ gap: 16 }}>
+              <Text style={{ fontSize: 28, fontWeight: '700' }}>Personal Info</Text>
+              <Text className="text-gray-500 mb-2">Let's get to know you</Text>
+              <TextInput
+                placeholder="First Name"
+                value={firstName}
+                onChangeText={setFirstName}
+                style={INPUT_STYLE}
+                placeholderTextColor="#9CA3AF"
+              />
+              <TextInput
+                placeholder="Last Name"
+                value={lastName}
+                onChangeText={setLastName}
+                style={INPUT_STYLE}
+                placeholderTextColor="#9CA3AF"
+              />
+              <TextInput
+                placeholder="Email (@mail.uc.edu)"
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
+                style={INPUT_STYLE}
+                placeholderTextColor="#9CA3AF"
+              />
+            </View>
+          )}
+
+          {/* ─── Stage 2: Email Verification ─── */}
+          {step === 2 && (
+            <View style={{ gap: 16 }} className="items-center">
+              <Icon type="material-community" name="email-check-outline" size={64} color={ACCENT_COLOR} />
+              <Text style={{ fontSize: 28, fontWeight: '700', textAlign: 'center' }}>Verify Email</Text>
+              <Text className="text-gray-500 text-center" style={{ fontSize: 15 }}>
+                We sent a 5-digit code to{'\n'}
+                <Text style={{ fontWeight: '600', color: '#111' }}>{email}</Text>
+              </Text>
+              <View className="flex-row justify-center mt-4" style={{ gap: 12 }}>
+                {otp.map((digit, i) => (
+                  <TextInput
+                    key={i}
+                    ref={(r) => {
+                      otpRefs.current[i] = r
+                    }}
+                    value={digit}
+                    onChangeText={(t) => handleOtpChange(t, i)}
+                    onKeyPress={({ nativeEvent }) => handleOtpKey(nativeEvent.key, i)}
+                    keyboardType="number-pad"
+                    maxLength={1}
+                    style={{
+                      width: 52,
+                      height: 60,
+                      backgroundColor: GRAY_BG,
+                      borderRadius: 14,
+                      fontSize: 24,
+                      fontWeight: '700',
+                      textAlign: 'center',
+                    }}
+                  />
+                ))}
+              </View>
+            </View>
+          )}
+
+          {/* ─── Stage 3: Academic Info ─── */}
+          {step === 3 && (
+            <View style={{ gap: 16 }}>
+              <Text style={{ fontSize: 28, fontWeight: '700' }}>Academic Info</Text>
+              <Text className="text-gray-500 mb-2">Tell us about your studies</Text>
+              <TextInput
+                placeholder="College Major"
+                value={major}
+                onChangeText={setMajor}
+                style={INPUT_STYLE}
+                placeholderTextColor="#9CA3AF"
+              />
+              <TextInput
+                placeholder="Graduation Year (e.g. 2027)"
+                value={gradYear}
+                onChangeText={setGradYear}
+                keyboardType="number-pad"
+                style={INPUT_STYLE}
+                placeholderTextColor="#9CA3AF"
+              />
+              <TouchableOpacity
+                onPress={() => setShowPicker(true)}
+                style={{
+                  ...INPUT_STYLE,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <Text style={{ fontSize: 16, color: gradLevel ? '#111' : '#9CA3AF' }}>
+                  {gradLevel || 'Grad Level'}
+                </Text>
+                <Icon type="ionicon" name="chevron-down" size={20} color="#9CA3AF" />
+              </TouchableOpacity>
+            </View>
+          )}
+
+          {/* ─── Stage 4: Profile Setup ─── */}
+          {step === 4 && (
+            <View style={{ gap: 20 }}>
+              <Text style={{ fontSize: 28, fontWeight: '700' }}>Profile Setup</Text>
+              <Text className="text-gray-500 mb-1">Almost there! Personalize your profile</Text>
+
+              {/* Avatar */}
+              <TouchableOpacity onPress={pickAvatar} className="self-center items-center" style={{ gap: 8 }}>
+                <View
+                  style={{
+                    width: 100,
+                    height: 100,
+                    borderRadius: 50,
+                    backgroundColor: GRAY_BG,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  {avatarUri ? (
+                    <Icon type="ionicon" name="checkmark-circle" size={48} color={ACCENT_COLOR} />
+                  ) : (
+                    <Icon type="ionicon" name="person" size={48} color="#9CA3AF" />
+                  )}
+                </View>
+                <Text style={{ color: ACCENT_COLOR, fontWeight: '600', fontSize: 14 }}>Choose Photo</Text>
+              </TouchableOpacity>
+
+              <TextInput
+                placeholder="Website URL (optional)"
+                value={url}
+                onChangeText={setUrl}
+                autoCapitalize="none"
+                keyboardType="url"
+                style={INPUT_STYLE}
+                placeholderTextColor="#9CA3AF"
+              />
+              <TextInput
+                placeholder="Bio (optional)"
+                value={bio}
+                onChangeText={setBio}
+                multiline
+                numberOfLines={4}
+                style={{
+                  ...INPUT_STYLE,
+                  height: 110,
+                  paddingTop: 16,
+                  textAlignVertical: 'top',
+                }}
+                placeholderTextColor="#9CA3AF"
+              />
+
+              {/* Terms checkbox */}
+              <TouchableOpacity
+                onPress={() => setAgreedTerms(!agreedTerms)}
+                className="flex-row items-center"
+                style={{ gap: 12 }}
+              >
+                <View
+                  style={{
+                    width: 26,
+                    height: 26,
+                    borderRadius: 8,
+                    borderWidth: 2,
+                    borderColor: agreedTerms ? ACCENT_COLOR : '#D1D5DB',
+                    backgroundColor: agreedTerms ? ACCENT_COLOR : 'transparent',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  {agreedTerms && <Icon type="ionicon" name="checkmark" size={16} color="#fff" />}
+                </View>
+                <Text style={{ flex: 1, fontSize: 14, color: '#6B7280' }}>
+                  I agree to the <Text style={{ color: ACCENT_COLOR, fontWeight: '600' }}>Terms of Service</Text> and{' '}
+                  <Text style={{ color: ACCENT_COLOR, fontWeight: '600' }}>Privacy Policy</Text>
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )}
+
+          {/* Action Button */}
+          <View style={{ marginTop: 'auto', paddingTop: 24 }}>
+            <TouchableOpacity
+              onPress={step === 4 ? handleCreate : handleNext}
+              className="items-center justify-center"
+              style={{
+                height: 80,
+                borderRadius: 50,
+                backgroundColor: ACCENT_COLOR,
+              }}
+            >
+              <Text className="text-white font-bold text-xl">{buttonLabel}</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+
+      {/* Grad Level Picker Modal — rendered outside ScrollView to avoid layout issues */}
       <Modal visible={showPicker} transparent animationType="fade">
         <TouchableOpacity
           activeOpacity={1}
@@ -249,7 +366,12 @@ export default function Signup() {
           style={{ backgroundColor: 'rgba(0,0,0,0.35)' }}
         >
           <View
-            style={{ backgroundColor: '#fff', borderTopLeftRadius: 24, borderTopRightRadius: 24, paddingBottom: 40 }}
+            style={{
+              backgroundColor: '#fff',
+              borderTopLeftRadius: 24,
+              borderTopRightRadius: 24,
+              paddingBottom: 40,
+            }}
           >
             <View className="items-center py-4">
               <View style={{ width: 40, height: 5, borderRadius: 3, backgroundColor: '#D1D5DB' }} />
@@ -280,132 +402,6 @@ export default function Signup() {
           </View>
         </TouchableOpacity>
       </Modal>
-    </View>
-  )
-
-  // ─── Stage 4 ───
-  const Stage4 = () => (
-    <View style={{ gap: 20 }}>
-      <Text style={{ fontSize: 28, fontWeight: '700' }}>Profile Setup</Text>
-      <Text className="text-gray-500 mb-1">Almost there! Personalize your profile</Text>
-
-      {/* Avatar */}
-      <TouchableOpacity onPress={pickAvatar} className="self-center items-center" style={{ gap: 8 }}>
-        <View
-          style={{
-            width: 100,
-            height: 100,
-            borderRadius: 50,
-            backgroundColor: GRAY_BG,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          {avatarUri ? (
-            <Icon type="ionicon" name="checkmark-circle" size={48} color={ACCENT_COLOR} />
-          ) : (
-            <Icon type="ionicon" name="person" size={48} color="#9CA3AF" />
-          )}
-        </View>
-        <Text style={{ color: ACCENT_COLOR, fontWeight: '600', fontSize: 14 }}>Choose Photo</Text>
-      </TouchableOpacity>
-
-      <TextInput
-        placeholder="Website URL (optional)"
-        value={url}
-        onChangeText={setUrl}
-        autoCapitalize="none"
-        keyboardType="url"
-        style={inputStyle}
-        placeholderTextColor="#9CA3AF"
-      />
-      <TextInput
-        placeholder="Bio (optional)"
-        value={bio}
-        onChangeText={setBio}
-        multiline
-        numberOfLines={4}
-        style={{
-          ...inputStyle,
-          height: 110,
-          paddingTop: 16,
-          textAlignVertical: 'top',
-        }}
-        placeholderTextColor="#9CA3AF"
-      />
-
-      {/* Terms checkbox */}
-      <TouchableOpacity
-        onPress={() => setAgreedTerms(!agreedTerms)}
-        className="flex-row items-center"
-        style={{ gap: 12 }}
-      >
-        <View
-          style={{
-            width: 26,
-            height: 26,
-            borderRadius: 8,
-            borderWidth: 2,
-            borderColor: agreedTerms ? ACCENT_COLOR : '#D1D5DB',
-            backgroundColor: agreedTerms ? ACCENT_COLOR : 'transparent',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          {agreedTerms && <Icon type="ionicon" name="checkmark" size={16} color="#fff" />}
-        </View>
-        <Text style={{ flex: 1, fontSize: 14, color: '#6B7280' }}>
-          I agree to the <Text style={{ color: ACCENT_COLOR, fontWeight: '600' }}>Terms of Service</Text> and{' '}
-          <Text style={{ color: ACCENT_COLOR, fontWeight: '600' }}>Privacy Policy</Text>
-        </Text>
-      </TouchableOpacity>
-    </View>
-  )
-
-  const buttonLabel = step === 2 ? 'Verify' : step === 4 ? 'Create Account' : 'Next'
-
-  return (
-    <SafeAreaView className="bg-white flex-1">
-      <StatusBar style="dark" backgroundColor="#fff" />
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        className="flex-1"
-      >
-        <ScrollView
-          className="flex-1 px-8"
-          contentContainerStyle={{ flexGrow: 1, paddingBottom: 32 }}
-          keyboardShouldPersistTaps="handled"
-        >
-          {/* Header */}
-          <TouchableOpacity onPress={handleBack} className="flex-row items-center mt-1" style={{ gap: 4 }}>
-            <Icon type="ionicon" name="chevron-back" size={24} color="#111" />
-            <Text style={{ fontSize: 16, fontWeight: '500' }}>Back</Text>
-          </TouchableOpacity>
-
-          <ProgressBar />
-
-          {/* Stage content */}
-          {step === 1 && <Stage1 />}
-          {step === 2 && <Stage2 />}
-          {step === 3 && <Stage3 />}
-          {step === 4 && <Stage4 />}
-
-          {/* Button */}
-          <View style={{ marginTop: 'auto', paddingTop: 24 }}>
-            <TouchableOpacity
-              onPress={step === 4 ? handleCreate : handleNext}
-              className="items-center justify-center"
-              style={{
-                height: 80,
-                borderRadius: 50,
-                backgroundColor: ACCENT_COLOR,
-              }}
-            >
-              <Text className="text-white font-bold text-xl">{buttonLabel}</Text>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
     </SafeAreaView>
   )
 }
