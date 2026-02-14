@@ -1,4 +1,3 @@
-import Loading from '@/components/loading';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { AuthContext, UserInfoProps } from '@/Store/AuthContext';
 import QueryProvider from '@/Store/QueryProvider';
@@ -17,7 +16,7 @@ import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import 'react-native-reanimated';
 import '../global.css';
@@ -56,7 +55,7 @@ export default function RootLayout() {
   if (!loaded || loading) {
     return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
-       <Loading /> 
+       <Text>Loading</Text>
        </View>); // or splash screen
   }
 
