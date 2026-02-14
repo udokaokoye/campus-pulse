@@ -1678,10 +1678,10 @@ const Profile = () => {
                                 <AppText weight='bold' className='text-xl py-2 text-center'>Edit Profile</AppText></TouchableOpacity>
 
                                 <TouchableOpacity className='flex-row items-center justify-center gap-x-3' style={{ borderBottomWidth: 2, borderColor: GRAY_BG, width: '100%' }}>
-                                <Icon name='shield' type='foundation' />
+                                {/* <Icon name='shield' type='foundation' /> */}
                                 <AppText weight='bold' className='text-xl py-2 text-center'>Privacy Policy</AppText></TouchableOpacity>
                             <TouchableOpacity className='flex-row items-center justify-center gap-x-3' style={{ borderBottomWidth: 2, borderColor: GRAY_BG, width: '100%' }}>
-                                <Icon size={18} name='logout' type='ant-design' />
+                                <Icon size={18} name='logout' type='simple-line-icon' />
                                 <AppText weight='bold' className='text-xl py-2 text-center'>Logout</AppText></TouchableOpacity>
                         </View>
                     )}
@@ -1691,7 +1691,7 @@ const Profile = () => {
                     <View className='relative self-center' style={{ width: 140, height: 140 }}>
                         <View className='self-center bg-red-500' style={{ width: 140, height: 140, borderRadius: '50%', overflow: 'hidden', borderWidth: 5, borderColor: ACCENT_COLOR }}>
                             <Image
-                                source='https://calquest.s3.us-east-1.amazonaws.com/avatars/leviokoye@gmail.com_1755103361783_avatar.jpg'
+                                source='https://calquest.s3.us-east-1.amazonaws.com/avatars/leviokoye%40gmail.com_1759859074581_avatar.jpg'
                                 style={{ width: '100%', height: '100%' }}
                                 contentFit="cover"
                                 transition={200}

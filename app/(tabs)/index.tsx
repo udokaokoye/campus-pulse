@@ -5,9 +5,10 @@ import { ACCENT_COLOR, colorCombos } from '@/utils/constants';
 import { prettyDate } from '@/utils/helpers';
 import { Event } from '@/utils/types';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
+import { useQuery } from '@tanstack/react-query';
 import { Image } from 'expo-image';
-import { GoogleMaps } from 'expo-maps';
 import { router } from 'expo-router';
+import moment from 'moment';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Dimensions, PermissionsAndroid, Platform, Switch, Text, TouchableOpacity, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
@@ -25,14 +26,18 @@ export default function HomeScreen() {
   const [activeCategory, setactiveCategory] = useState(0)
   const [isEnabled, setisEnabled] = useState(false)
   const { width, height } = Dimensions.get('window')
-
+  const [hideNav, sethideNav] = useState(false)
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => ['30%', '60%'], []);
+  const snapPoints = useMemo(() => ['30%', '60%', '90%', '100%'], []);
   const mapRef = useRef<MapView>(null);
   // callbacks
   const handleSheetChanges = useCallback((index: number) => {
-    console.log('handleSheetChanges', index);
-  }, []);
+    if (index === snapPoints.length - 1 || index === snapPoints.length - 2) {
+      sethideNav(true)
+    } else if (index !== snapPoints.length - 1 || index === snapPoints.length - 2) {
+      sethideNav(false)
+    }
+  }, [snapPoints]);
 
 
   const categories = [
@@ -1747,12 +1752,25 @@ export default function HomeScreen() {
   ]
 
   const fetchEvents = async () => {
-    const res = await fetch("https://campuslink.uc.edu/api/discovery/event/search?take=50&endsAfter=2025-08-28T00:00:00Z");
+    const res = await fetch(`https://campuslink.uc.edu/api/discovery/event/search?take=50&endsAfter=${moment.utc().startOf('day').format("YYYY-MM-DDTHH:mm:ss[Z]")}`);
     const data = await res.json();
+    console.log('FIRST FETCH');
+    // console.log(data.value);
 
-    setevents(data.value);
+    return data.value;
 
   }
+
+  const { data: allevents, isLoading, error } = useQuery({
+    queryKey: ['events'],
+    queryFn: fetchEvents,
+  });
+
+
+
+
+
+
 
   useEffect(() => {
     // If you show user location, request permission first (Android)
@@ -1767,7 +1785,7 @@ export default function HomeScreen() {
 
   useEffect(() => {
     // fetchEvents()
-    setevents(dummyEvents)
+    // setevents(dummyEvents)
   }, [])
 
   const toggleSwitch = () => {
@@ -1781,27 +1799,35 @@ export default function HomeScreen() {
   const mapSizeRef = useRef({ width: 0, height: 0 });
 
 
+  if (isLoading) {
+    return <Text>Loading</Text>
+  }
 
+  if (error) {
+    return <Text>Something went wrong</Text>
+  }
   return (
     <View className='relative' style={{ flex: 1 }}>
-      <View className='absolute border-white border-2 bg-orange-500 top-0 left-0 z-10 m-10 mt-20 rounded-full overflow-hidden' style={{ width: 60, height: 60 }}>
-        <Image
-          style={{ width: '100%', height: "100%" }}
-          source="https://calquest.s3.us-east-1.amazonaws.com/avatars/leviokoye@gmail.com_1755103361783_avatar.jpg"
-          contentFit="cover"
-          transition={1000}
-        />
-      </View>
-      <View className='absolute top-0 right-0 z-10 m-10 mt-20 flex-row items-center gap-x-3'>
-        <Text>🌞</Text>
-        <Switch
-          trackColor={{ false: '#FF6F61', true: '#f4f3f4' }}
-          thumbColor={isEnabled ? '#FF6F61' : '#f4f3f4'}
-          ios_backgroundColor="#3e3e3e"
-          onValueChange={toggleSwitch}
-          value={isEnabled}
-        />
-        <Text>🌙</Text>
+      <View style={{opacity: hideNav ? 0 : 1}}>
+        <View className='absolute border-white border-2 bg-orange-500 top-0 left-0 z-10 m-10 mt-20 rounded-full overflow-hidden' style={{ width: 60, height: 60 }}>
+          <Image
+            style={{ width: '100%', height: "100%" }}
+            source="https://calquest.s3.us-east-1.amazonaws.com/avatars/leviokoye%40gmail.com_1759859074581_avatar.jpg"
+            contentFit="cover"
+            transition={1000}
+          />
+        </View>
+        <View className='absolute top-0 right-0 z-10 m-10 mt-20 flex-row items-center gap-x-3'>
+          <Text>🌞</Text>
+          <Switch
+            trackColor={{ false: '#FF6F61', true: '#f4f3f4' }}
+            thumbColor={isEnabled ? '#FF6F61' : '#f4f3f4'}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={toggleSwitch}
+            value={isEnabled}
+          />
+          <Text>🌙</Text>
+        </View>
       </View>
 
       {/* <MapView
@@ -1824,66 +1850,67 @@ export default function HomeScreen() {
         }}
       /> */}
 
-      {Platform.OS == 'android' && <GoogleMaps.View
+      {/* {Platform.OS == 'android' && <GoogleMaps.View
         // colorScheme={isEnabled ? GoogleMapsColorScheme.DARK : GoogleMapsColorScheme.LIGHT}
         style={{ flex: 1 }}
         cameraPosition={cameraPosition}
         properties={{ isMyLocationEnabled: true }}
         uiSettings={{ myLocationButtonEnabled: true }}
-      />}
+      />} */}
 
-      {Platform.OS === "ios" && (
-        <MapView
-          ref={mapRef}
-          style={{ width: "100%", height: "100%" }}
-          onLayout={(e) => {
-            const { width, height } = e.nativeEvent.layout;
-            mapSizeRef.current = { width, height };
-          }}
-          initialRegion={initialPostion} // (typo? "initialPosition"?)
-          userInterfaceStyle={isEnabled ? "dark" : "light"}
-          showsUserLocation
-          showsMyLocationButton
-          showsCompass
-          scrollEnabled
-          moveOnMarkerPress={false}
-          zoomEnabled
-          pitchEnabled
-          rotateEnabled
-          mapPadding={{ top: 0, right: 0, bottom: Math.round(mapSizeRef.current.height * 0.25) + 300, left: 0 }}
-          paddingAdjustmentBehavior="always"
-        >
-          {events
-            .filter((e: any) => e.latitude && e.longitude)
-            .map((event: any, index: number) => {
-              const lat = Number(event.latitude);
-              const lng = Number(event.longitude);
+      {Platform.OS === "ios" &&
+        (
+          <MapView
+            ref={mapRef}
+            style={{ width: "100%", height: "100%" }}
+            onLayout={(e) => {
+              const { width, height } = e.nativeEvent.layout;
+              mapSizeRef.current = { width, height };
+            }}
+            initialRegion={initialPostion} // (typo? "initialPosition"?)
+            userInterfaceStyle={isEnabled ? "dark" : "light"}
+            showsUserLocation
+            showsMyLocationButton
+            showsCompass
+            scrollEnabled
+            moveOnMarkerPress={false}
+            zoomEnabled
+            pitchEnabled
+            rotateEnabled
+            mapPadding={{ top: 0, right: 0, bottom: Math.round(mapSizeRef.current.height * 0.25) + 300, left: 0 }}
+            paddingAdjustmentBehavior="always"
+          >
+            {allevents
+              ?.filter((e: any) => e.latitude && e.longitude)
+              .map((event: any, index: number) => {
+                const lat = Number(event.latitude);
+                const lng = Number(event.longitude);
 
-              return (
-                <Marker
-                  key={index}
-                  title={event.name}
-                  description={event.address}
-                  coordinate={{ latitude: lat, longitude: lng }} // ensure numbers here too
-                  onPress={() => {
-                    setselectedEvent(event);
-                    bottomSheetRef.current?.snapToIndex(1);
+                return (
+                  <Marker
+                    key={index}
+                    title={event.name}
+                    description={event.address}
+                    coordinate={{ latitude: lat, longitude: lng }} // ensure numbers here too
+                    onPress={() => {
+                      setselectedEvent(event);
+                      bottomSheetRef.current?.snapToIndex(1);
 
-                    mapRef.current?.animateToRegion(
-                      {
-                        latitude: lat,
-                        longitude: lng,
-                        latitudeDelta: 0.002,   // smaller numbers = closer zoom
-                        longitudeDelta: 0.002,
-                      },
-                      400 // duration ms
-                    );
-                  }}
-                />
-              );
-            })}
-        </MapView>
-      )}
+                      mapRef.current?.animateToRegion(
+                        {
+                          latitude: lat,
+                          longitude: lng,
+                          latitudeDelta: 0.002,   // smaller numbers = closer zoom
+                          longitudeDelta: 0.002,
+                        },
+                        400 // duration ms
+                      );
+                    }}
+                  />
+                );
+              })}
+          </MapView>
+        )}
 
 
       <BottomSheet
@@ -2029,7 +2056,7 @@ export default function HomeScreen() {
 
                 <View className='mt-5 px-5'>
 
-                  {events.filter((e: any) => e.latitude && e.longitude).slice(0, 5).map((event: Event, index: number) => {
+                  {allevents?.filter((e: any) => e.latitude && e.longitude).slice(0, 5).map((event: Event, index: number) => {
                     return (
                       <TouchableOpacity onPress={() => {
                         router.push({

@@ -2,15 +2,21 @@ import { AppText } from '@/components/AppText'
 import EventCard from '@/components/EventCard'
 import { Icon } from '@/components/Icon'
 import { ACCENT_COLOR, colorCombos } from '@/utils/constants'
+import { Event } from '@/utils/types'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
 import { router } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
-import { useState } from 'react'
-import { FlatList, TextInput, TouchableOpacity, View } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
+import moment from 'moment'
+import React, { useRef, useState } from 'react'
+import { ActivityIndicator, FlatList, TextInput, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const AllEvents = () => {
   const [activeCategory, setactiveCategory] = useState(0)
+  const [skip, setskip] = useState(0)
+  const reachedDuringMomentum = useRef(false);
+  const qc = useQueryClient();
 
   const dummyEventThemes = [
     {
@@ -1691,56 +1697,153 @@ const AllEvents = () => {
     }
   ]
 
+  const resetFetch = async () => {
+    await qc.removeQueries({ queryKey: ['all-events'] }); // clears all pages
+    // then either:
+    // await qc.prefetchInfiniteQuery({
+    //   queryKey: ['all-events'],
+    //   queryFn: ({ pageParam = 0 }) => fetchAllEvent(pageParam),
+    //   initialPageParam: 0,
+    // });
+  }
+
+  const fetchAllEvent = async (skip: number) => {
+    const res = await fetch(`https://campuslink.uc.edu/api/discovery/event/search?take=15&skip=${skip}&endsAfter=${encodeURIComponent(moment.utc().startOf('day').format("YYYY-MM-DDTHH:mm:ss[Z]"))}`);
+    const data = await res.json()
+    console.log(`Fetching page: skip=${skip}, take=15`);
+    // console.log(data.value);
+
+    return data.value;
+  }
+
+  const { data, isLoading, error, hasNextPage, fetchNextPage, isFetchingNextPage, refetch, isRefetching } = useInfiniteQuery({
+    queryKey: ['all-events'],
+    queryFn: ({ pageParam = 0 }) => fetchAllEvent(pageParam),
+    initialPageParam: 0, // start with skip=0
+    getNextPageParam: (lastPage, allPages) => {
+      // if API returned fewer than 15 items, no more pages      
+      if (lastPage.length < 15) return undefined;
+
+      // otherwise, skip = number of items already fetched
+      return allPages.length * 15;
+    },
+
+
+    staleTime: 24 * 60 * 60 * 1000,   // 24 hours
+    gcTime: 48 * 60 * 60 * 1000,      // garbage collect after 48 hours
+    refetchOnWindowFocus: false,      // don’t auto-refetch when focus
+    refetchOnReconnect: false,
+  });
+
+  const onEndReached = () => {
+    if (hasNextPage && !isLoading) {
+      fetchNextPage()
+    }
+  }
+
+
+
+
+
+
   const handleCategoryClick = (index: number) => {
     setactiveCategory(index)
   }
   return (
     <SafeAreaView>
-      <ScrollView>
-        <StatusBar style="dark"/>
+      <StatusBar style="dark" />
+
+      <TouchableOpacity onPress={() => {
+        AsyncStorage.removeItem('RQ_CACHE')
+        // refetch()
+      }}><AppText>CLEAR</AppText></TouchableOpacity>
 
 
-        <View className='flex-row items-center px-4 py-3'>
-          <TouchableOpacity
-            onPress={() => router.back?.()}
-            className="w-10 h-10 items-center justify-center"
-            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-          >
-            <Icon name="chevron-back" type="ionicon" />
+
+
+      <FlatList
+        ListHeaderComponent={() => (
+          <React.Fragment>
+            <View className='flex-row items-center px-4 py-3'>
+              <TouchableOpacity
+                onPress={() => router.back?.()}
+                className="w-10 h-10 items-center justify-center"
+                hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+              >
+                <Icon name="chevron-back" type="ionicon" />
+              </TouchableOpacity>
+
+              <AppText weight='bold' className="flex-1 text-center font-bold text-2xl">All Events</AppText>
+
+              <View className="w-10 h-10" />
+            </View>
+            <FlatList
+              style={{ marginTop: 15 }}
+              horizontal
+              data={dummyEventThemes}
+              keyExtractor={(item, index) => index.toString()}
+              showsHorizontalScrollIndicator={false}
+              showsVerticalScrollIndicator={false}
+              // nestedScrollEnabled
+              renderItem={({ item, index }) => (
+                <TouchableOpacity key={item.value} onPress={() => handleCategoryClick(index)} className='px-8 py-3 rounded-3xl flex-row items-center gap-x-2' style={{ backgroundColor: activeCategory == index ? ACCENT_COLOR : "#F3F4F6", height: 55, marginLeft: 10 }}>
+                  {item.icon && <Icon size={20} color={activeCategory == index ? 'white' : '#4B5563'} name={item.icon} type={item.iconType} />}
+                  <AppText weight='bold' style={{ color: activeCategory == index ? 'white' : "#4B5563" }} className='font-bold text-lg capitalize'>{item.value}</AppText>
+                </TouchableOpacity>
+              )}
+            />
+
+            <View style={{
+              backgroundColor: 'white',
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 1 },
+              shadowOpacity: 0.2,
+              shadowRadius: 2,
+              elevation: 5
+            }} className='mt-10 mb-10 flex-row items-center mx-5 rounded-3xl px-5 py-4'>
+              <TextInput style={{ color: "#4B5563" }} className='flex-1' placeholder='search...' placeholderTextColor={'#4B5563'} />
+              <Icon name='search' type='feather' color={'#4B5563'} />
+            </View>
+          </React.Fragment>
+        )}
+        data={data?.pages.flat() ?? []}
+        keyExtractor={(item: Event, index) => item?.id}
+        refreshing={isRefetching}
+        onRefresh={resetFetch}
+        renderItem={({ item }) => (
+          <TouchableOpacity onPress={() => {
+            router.push({
+              pathname: "/specific-event",
+              params: {
+                eventData: JSON.stringify({ ...event, iconType: 'entypo', iconName: 'code', theme: colorCombos[Math.floor(Math.random() * 12)] })
+              }
+            });
+          }} className='px-5'>
+
+            <EventCard
+              name={item.name}
+              iconName='code'
+              iconType='entypo'
+              category={item.categoryNames}
+              description={item.description}
+              date={item.startsOn}
+              location={item.location}
+              theme={colorCombos[Math.floor(Math.random() * 12)]}
+            />
           </TouchableOpacity>
-
-          <AppText weight='bold' className="flex-1 text-center font-bold text-2xl">All Events</AppText>
-
-          <View className="w-10 h-10" />
-        </View>
-        <FlatList
-          style={{ marginTop: 15 }}
-          horizontal
-          data={dummyEventThemes}
-          keyExtractor={(item, index) => index.toString()}
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          // nestedScrollEnabled
-          renderItem={({ item, index }) => (
-            <TouchableOpacity key={item.value} onPress={() => handleCategoryClick(index)} className='px-8 py-3 rounded-3xl flex-row items-center gap-x-2' style={{ backgroundColor: activeCategory == index ? ACCENT_COLOR : "#F3F4F6", height: 55, marginLeft: 10 }}>
-              {item.icon && <Icon size={20} color={activeCategory == index ? 'white' : '#4B5563'} name={item.icon} type={item.iconType} />}
-              <AppText weight='bold' style={{ color: activeCategory == index ? 'white' : "#4B5563" }} className='font-bold text-lg capitalize'>{item.value}</AppText>
-            </TouchableOpacity>
-          )}
-        />
-
-        <View style={{
-          backgroundColor: 'white',
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 1 },
-          shadowOpacity: 0.2,
-          shadowRadius: 2,
-          elevation: 5
-        }} className='mt-10 mb-10 flex-row items-center mx-5 rounded-3xl px-5 py-4'>
-          <TextInput style={{ color: "#4B5563" }} className='flex-1' placeholder='search...' placeholderTextColor={'#4B5563'} />
-          <Icon name='search' type='feather' color={'#4B5563'} />
-        </View>
-        {dummyEvents.slice(0, 15).map((event: any, index: number) => {
+        )}
+        onEndReachedThreshold={0.5}                // was 0.5 -> too aggressive
+        onEndReached={() => {
+          if (hasNextPage && !isLoading && !isFetchingNextPage && !isRefetching) {
+            console.log('end reached');
+            fetchNextPage()
+          }
+        }}
+        ListFooterComponent={
+          isFetchingNextPage ? <ActivityIndicator /> : null
+        }
+      />
+      {/* {dummyEvents.slice(0, 15).map((event: any, index: number) => {
           return (
             <TouchableOpacity onPress={() => {
               router.push({
@@ -1763,8 +1866,7 @@ const AllEvents = () => {
               />
             </TouchableOpacity>
           )
-        })}
-      </ScrollView>
+        })} */}
 
     </SafeAreaView>
   )
