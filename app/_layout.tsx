@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { useColorScheme } from 'nativewind';
+=======
+import { useColorScheme } from '@/hooks/useColorScheme';
+>>>>>>> b9f4f69 (fixed loading bug)
 import { AuthContext, UserInfoProps } from '@/Store/AuthContext';
 import { ThemeContext } from '@/Store/ThemeContext';
 import QueryProvider from '@/Store/QueryProvider';
@@ -45,7 +49,7 @@ export default function RootLayout() {
         // setuser(JSON.parse(userLoggedIn));
         setisLoggedIn(true);
       } else {
-        setisLoggedIn(false);
+        setisLoggedIn(true);
       }
 
       setloading(false);
@@ -57,7 +61,11 @@ export default function RootLayout() {
   if (!loaded || loading) {
     return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
+<<<<<<< HEAD
        <Text>Loading</Text>
+=======
+       <Text> Loading</Text> 
+>>>>>>> b9f4f69 (fixed loading bug)
        </View>); // or splash screen
   }
 
