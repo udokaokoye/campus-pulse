@@ -5,12 +5,14 @@ import { ACCENT_COLOR, colorCombos, GRAY_BG } from '@/utils/constants'
 import { Image } from 'expo-image'
 import { router } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { ThemeContext } from '@/Store/ThemeContext'
 import { Text, TouchableOpacity, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 const Profile = () => {
 
+    const { isDark } = useContext(ThemeContext)
     const [profileTab, setprofileTab] = useState<number>(0)
     const [showMenu, setshowMenu] = useState<boolean>(false)
 
@@ -1645,9 +1647,9 @@ const Profile = () => {
         }
     ]
     return (
-        <SafeAreaView className='bg-white'>
+        <SafeAreaView className='bg-white dark:bg-gray-900'>
             <ScrollView>
-                <StatusBar style="dark" backgroundColor="#fff" />
+                <StatusBar style={isDark ? "light" : "dark"} backgroundColor={isDark ? "#111827" : "#fff"} />
 
                 <View className=' relative flex-row items-center px-4 py-2'>
                     <View
@@ -1657,32 +1659,32 @@ const Profile = () => {
                         {/* <Icon name="chevron-back" type="ionicon" /> */}
                     </View>
 
-                    <Text className="flex-1 text-center font-bold text-2xl">Profile</Text>
+                    <Text className="flex-1 text-center font-bold text-2xl dark:text-white">Profile</Text>
 
                     <TouchableOpacity
                         onPress={() => setshowMenu(!showMenu)}
                         className="w-10 h-10 items-center justify-center"
                         hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
                     >
-                        <Icon name="dots-three-vertical" type="entypo" />
+                        <Icon name="dots-three-vertical" type="entypo" color={isDark ? '#fff' : undefined} />
                     </TouchableOpacity>
 
                     {showMenu && (
-                        <View className='absolute bg-white right-10 top-14 z-20 py-3 border-2 border-gray-300 items-center' style={{ minWidth: 180, height: 'auto' }}>
-                            <TouchableOpacity onPress={() => router.navigate('/settings')} className='flex-row items-center justify-center gap-x-3' style={{ borderBottomWidth: 2, borderColor: GRAY_BG, width: '100%' }}>
-                                <Icon name='settings-outline' type='ionicon' />
-                                <AppText weight='bold' className='text-xl py-2 text-center'>settings</AppText>
+                        <View className='absolute bg-white dark:bg-gray-800 right-10 top-14 z-20 py-3 border-2 border-gray-300 dark:border-gray-600 items-center' style={{ minWidth: 180, height: 'auto' }}>
+                            <TouchableOpacity onPress={() => router.navigate('/settings')} className='flex-row items-center justify-center gap-x-3' style={{ borderBottomWidth: 2, borderColor: isDark ? '#374151' : GRAY_BG, width: '100%' }}>
+                                <Icon name='settings-outline' type='ionicon' color={isDark ? '#D1D5DB' : undefined} />
+                                <AppText weight='bold' className='text-xl py-2 text-center dark:text-gray-100'>settings</AppText>
                             </TouchableOpacity>
-                            <TouchableOpacity className='flex-row items-center justify-center gap-x-3' style={{ borderBottomWidth: 2, borderColor: GRAY_BG, width: '100%' }}>
-                                <Icon name='shield' type='foundation' />
-                                <AppText weight='bold' className='text-xl py-2 text-center'>Edit Profile</AppText></TouchableOpacity>
+                            <TouchableOpacity className='flex-row items-center justify-center gap-x-3' style={{ borderBottomWidth: 2, borderColor: isDark ? '#374151' : GRAY_BG, width: '100%' }}>
+                                <Icon name='shield' type='foundation' color={isDark ? '#D1D5DB' : undefined} />
+                                <AppText weight='bold' className='text-xl py-2 text-center dark:text-gray-100'>Edit Profile</AppText></TouchableOpacity>
 
-                                <TouchableOpacity className='flex-row items-center justify-center gap-x-3' style={{ borderBottomWidth: 2, borderColor: GRAY_BG, width: '100%' }}>
+                                <TouchableOpacity className='flex-row items-center justify-center gap-x-3' style={{ borderBottomWidth: 2, borderColor: isDark ? '#374151' : GRAY_BG, width: '100%' }}>
                                 {/* <Icon name='shield' type='foundation' /> */}
-                                <AppText weight='bold' className='text-xl py-2 text-center'>Privacy Policy</AppText></TouchableOpacity>
-                            <TouchableOpacity className='flex-row items-center justify-center gap-x-3' style={{ borderBottomWidth: 2, borderColor: GRAY_BG, width: '100%' }}>
-                                <Icon size={18} name='logout' type='simple-line-icon' />
-                                <AppText weight='bold' className='text-xl py-2 text-center'>Logout</AppText></TouchableOpacity>
+                                <AppText weight='bold' className='text-xl py-2 text-center dark:text-gray-100'>Privacy Policy</AppText></TouchableOpacity>
+                            <TouchableOpacity className='flex-row items-center justify-center gap-x-3' style={{ borderBottomWidth: 2, borderColor: isDark ? '#374151' : GRAY_BG, width: '100%' }}>
+                                <Icon size={18} name='logout' type='simple-line-icon' color={isDark ? '#D1D5DB' : undefined} />
+                                <AppText weight='bold' className='text-xl py-2 text-center dark:text-gray-100'>Logout</AppText></TouchableOpacity>
                         </View>
                     )}
                 </View>
@@ -1703,16 +1705,16 @@ const Profile = () => {
                     </View>
 
                     <View className='text-center items-center mt-3'>
-                        <AppText weight='bold' className='text-4xl'>Levi Okoye</AppText>
-                        <AppText className='mt-2 opacity-85 '>@leviokoye567</AppText>
+                        <AppText weight='bold' className='text-4xl dark:text-white'>Levi Okoye</AppText>
+                        <AppText className='mt-2 opacity-85 dark:text-gray-300'>@leviokoye567</AppText>
 
                         <View className='flex-row items-center gap-x-2 mt-4'>
-                            <AppText>Junior</AppText>
-                            <AppText>|</AppText>
-                            <AppText>Software Eng</AppText>
-                            <AppText>|</AppText>
-                            <AppText>27'</AppText>
-                            <AppText>|</AppText>
+                            <AppText className='dark:text-gray-300'>Junior</AppText>
+                            <AppText className='dark:text-gray-300'>|</AppText>
+                            <AppText className='dark:text-gray-300'>Software Eng</AppText>
+                            <AppText className='dark:text-gray-300'>|</AppText>
+                            <AppText className='dark:text-gray-300'>27'</AppText>
+                            <AppText className='dark:text-gray-300'>|</AppText>
                             <View style={{ width: 20, height: 20 }}>
                                 <Image
                                     source={{ uri: profileTab == 0 ? 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Cincinnati_Bearcats_logo.svg/800px-Cincinnati_Bearcats_logo.svg.png?20200803122224' : "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Kentucky_Wildcats_logo.svg/1024px-Kentucky_Wildcats_logo.svg.png?20170712231132" }}
@@ -1724,7 +1726,7 @@ const Profile = () => {
 
                         </View>
 
-                        <AppText weight='regular' className='mt-4 opacity-90 text-center px-10'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet.</AppText>
+                        <AppText weight='regular' className='mt-4 opacity-90 text-center px-10 dark:text-gray-300'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet.</AppText>
                         <View className='flex-row mt-3 items-center'>
                             <AppText weight='bold' style={{ color: ACCENT_COLOR }} className=' underline'>https://beacons.ai/leviokoye...</AppText>
                             <Icon color={ACCENT_COLOR} size={20} name='link' type='antDesign' />
@@ -1733,17 +1735,20 @@ const Profile = () => {
                 </View>
 
 
-                <View className='bg-white mt-10 px-3' style={{ minHeight: 500, borderTopLeftRadius: 50, borderTopRightRadius: 50 }}>
+                <View className='bg-white dark:bg-gray-900 mt-10 px-3' style={{ minHeight: 500, borderTopLeftRadius: 50, borderTopRightRadius: 50 }}>
 
-                    <View className='mt-5 flex-row items-center px-3 mb-10' style={{ height: 60, borderRadius: 50, backgroundColor: GRAY_BG }}>
-                        <TouchableOpacity onPress={() => setprofileTab(0)} className='items-center justify-center px-8 py-0' style={{ borderRadius: 50, height: "70%", backgroundColor: profileTab == 0 ? ACCENT_COLOR : GRAY_BG }}>
-                            <Text style={{ color: profileTab == 0 ? 'white' : "#5B6471" }} className=' font-bold text-xl'>My RSVPs</Text>
+                    <View className='mt-5 flex-row items-center p-1 mb-10' style={{ height: 52, borderRadius: 12, backgroundColor: isDark ? '#1F2937' : GRAY_BG }}>
+                        <TouchableOpacity onPress={() => setprofileTab(0)} className='flex-1 flex-row items-center justify-center gap-1.5' style={{ borderRadius: 10, height: "100%", backgroundColor: profileTab == 0 ? ACCENT_COLOR : 'transparent', shadowColor: profileTab == 0 ? ACCENT_COLOR : 'transparent', shadowOffset: { width: 0, height: 2 }, shadowOpacity: profileTab == 0 ? 0.25 : 0, shadowRadius: 4, elevation: profileTab == 0 ? 3 : 0 }}>
+                            <Icon name="calendar-outline" size={16} color={profileTab == 0 ? 'white' : isDark ? '#9CA3AF' : '#5B6471'} />
+                            <AppText style={{ color: profileTab == 0 ? 'white' : isDark ? '#9CA3AF' : '#5B6471', fontWeight: profileTab == 0 ? '700' : '600', fontSize: 14 }}>RSVPs</AppText>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => setprofileTab(1)} className='items-center justify-center px-8 py-0' style={{ borderRadius: 50, height: "70%", backgroundColor: profileTab == 1 ? ACCENT_COLOR : GRAY_BG }}>
-                            <Text style={{ color: profileTab == 1 ? 'white' : "#5B6471" }} className='text-xl font-bold'>Attended</Text>
+                        <TouchableOpacity onPress={() => setprofileTab(1)} className='flex-1 flex-row items-center justify-center gap-1.5' style={{ borderRadius: 10, height: "100%", backgroundColor: profileTab == 1 ? ACCENT_COLOR : 'transparent', shadowColor: profileTab == 1 ? ACCENT_COLOR : 'transparent', shadowOffset: { width: 0, height: 2 }, shadowOpacity: profileTab == 1 ? 0.25 : 0, shadowRadius: 4, elevation: profileTab == 1 ? 3 : 0 }}>
+                            <Icon name="checkmark-circle-outline" size={16} color={profileTab == 1 ? 'white' : isDark ? '#9CA3AF' : '#5B6471'} />
+                            <AppText style={{ color: profileTab == 1 ? 'white' : isDark ? '#9CA3AF' : '#5B6471', fontWeight: profileTab == 1 ? '700' : '600', fontSize: 14 }}>Attended</AppText>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => setprofileTab(2)} className='items-center justify-center px-8 py-0' style={{ borderRadius: 50, height: "70%", backgroundColor: profileTab == 2 ? ACCENT_COLOR : GRAY_BG }}>
-                            <Text style={{ color: profileTab == 2 ? 'white' : "#5B6471" }} className='text-xl font-bold'>Favorites</Text>
+                        <TouchableOpacity onPress={() => setprofileTab(2)} className='flex-1 flex-row items-center justify-center gap-1.5' style={{ borderRadius: 10, height: "100%", backgroundColor: profileTab == 2 ? ACCENT_COLOR : 'transparent', shadowColor: profileTab == 2 ? ACCENT_COLOR : 'transparent', shadowOffset: { width: 0, height: 2 }, shadowOpacity: profileTab == 2 ? 0.25 : 0, shadowRadius: 4, elevation: profileTab == 2 ? 3 : 0 }}>
+                            <Icon name="heart-outline" size={16} color={profileTab == 2 ? 'white' : isDark ? '#9CA3AF' : '#5B6471'} />
+                            <AppText style={{ color: profileTab == 2 ? 'white' : isDark ? '#9CA3AF' : '#5B6471', fontWeight: profileTab == 2 ? '700' : '600', fontSize: 14 }}>Favorites</AppText>
                         </TouchableOpacity>
                     </View>
 

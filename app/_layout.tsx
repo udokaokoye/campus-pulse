@@ -1,5 +1,6 @@
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { useColorScheme } from 'nativewind';
 import { AuthContext, UserInfoProps } from '@/Store/AuthContext';
+import { ThemeContext } from '@/Store/ThemeContext';
 import QueryProvider from '@/Store/QueryProvider';
 import { isUserLoggedIn } from '@/utils/helpers';
 import {
@@ -22,9 +23,10 @@ import 'react-native-reanimated';
 import '../global.css';
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
+  const { colorScheme, setColorScheme } = useColorScheme();
+  const toggleTheme = () => setColorScheme(colorScheme === 'dark' ? 'light' : 'dark');
   const [loading, setloading] = useState(false)
-  const [isLoggedIn, setisLoggedIn] = useState(false)
+  const [isLoggedIn, setisLoggedIn] = useState(true)
 
   const [user, setuser] = useState<UserInfoProps | null>(null)
   const [loaded] = useFonts({
@@ -61,6 +63,7 @@ export default function RootLayout() {
 
   return (
     // <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <ThemeContext.Provider value={{ isDark: colorScheme === 'dark', toggleTheme }}>
     <QueryProvider>
 
       <AuthContext.Provider value={{ user: user, setuser: setuser, isLoggedIn: isLoggedIn, setisLoggedIn: setisLoggedIn }}>
@@ -68,23 +71,17 @@ export default function RootLayout() {
 
           <React.Fragment>
 
-            {/* {!isLoggedIn && (<Stack.Screen name='(screens)/(auth)/signup.tsx' options={{ headerShown: false }} />)}
-
-            <Stack>
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              <Stack.Screen name='(screens)' options={{ headerShown: false }} />
-              <Stack.Screen name="+not-found" />
-            </Stack> */}
             <Stack screenOptions={{ headerShown: false }}>
               <Stack.Screen name="(auth)" />
               <Stack.Screen name="(tabs)" />
               <Stack.Screen name="(screens)" />
             </Stack>
-            <StatusBar style="auto" />
+            <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
           </React.Fragment>
         </GestureHandlerRootView>
       </AuthContext.Provider>
     </QueryProvider>
+    </ThemeContext.Provider>
     // </ThemeProvider>
 
   );

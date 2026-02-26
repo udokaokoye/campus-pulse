@@ -2,7 +2,8 @@ import { ACCENT_COLOR, GRAY_BG } from '@/utils/constants'
 import { Icon } from '@/components/Icon'
 import { router } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
-import { useState, useRef, useMemo } from 'react'
+import { useState, useRef, useMemo, useContext } from 'react'
+import { ThemeContext } from '@/Store/ThemeContext'
 import {
   Alert,
   KeyboardAvoidingView,
@@ -19,15 +20,18 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 const TOTAL_STEPS = 4
 const GRAD_LEVELS = ['Freshman', 'Sophomore', 'Junior', 'Senior', 'Graduate']
 
-const INPUT_STYLE = {
-  backgroundColor: GRAY_BG,
-  borderRadius: 16,
-  paddingHorizontal: 20,
-  height: 56,
-  fontSize: 16,
-}
-
 export default function Signup() {
+  const { isDark } = useContext(ThemeContext);
+
+  const INPUT_STYLE = {
+    backgroundColor: isDark ? '#374151' : GRAY_BG,
+    borderRadius: 16,
+    paddingHorizontal: 20,
+    height: 56,
+    fontSize: 16,
+    color: isDark ? '#F9FAFB' : '#111',
+  }
+
   const [step, setStep] = useState(1)
 
   // Stage 1
@@ -125,8 +129,8 @@ export default function Signup() {
   const buttonLabel = step === 2 ? 'Verify' : step === 4 ? 'Create Account' : 'Next'
 
   return (
-    <SafeAreaView className="bg-white flex-1">
-      <StatusBar style="dark" backgroundColor="#fff" />
+    <SafeAreaView className="bg-white dark:bg-gray-900 flex-1">
+      <StatusBar style={isDark ? 'light' : 'dark'} backgroundColor={isDark ? '#111827' : '#fff'} />
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         className="flex-1"
@@ -138,8 +142,8 @@ export default function Signup() {
         >
           {/* Header */}
           <TouchableOpacity onPress={handleBack} className="flex-row items-center mt-1" style={{ gap: 4 }}>
-            <Icon type="ionicon" name="chevron-back" size={24} color="#111" />
-            <Text style={{ fontSize: 16, fontWeight: '500' }}>Back</Text>
+            <Icon type="ionicon" name="chevron-back" size={24} color={isDark ? '#fff' : '#111'} />
+            <Text style={{ fontSize: 16, fontWeight: '500', color: isDark ? '#fff' : '#111' }}>Back</Text>
           </TouchableOpacity>
 
           {/* Progress Bar */}
@@ -160,8 +164,8 @@ export default function Signup() {
           {/* ─── Stage 1: Personal Info ─── */}
           {step === 1 && (
             <View style={{ gap: 16 }}>
-              <Text style={{ fontSize: 28, fontWeight: '700' }}>Personal Info</Text>
-              <Text className="text-gray-500 mb-2">Let's get to know you</Text>
+              <Text style={{ fontSize: 28, fontWeight: '700', color: isDark ? '#fff' : '#000' }}>Personal Info</Text>
+              <Text className="text-gray-500 dark:text-gray-400 mb-2">Let's get to know you</Text>
               <TextInput
                 placeholder="First Name"
                 value={firstName}
@@ -192,10 +196,10 @@ export default function Signup() {
           {step === 2 && (
             <View style={{ gap: 16 }} className="items-center">
               <Icon type="material-community" name="email-check-outline" size={64} color={ACCENT_COLOR} />
-              <Text style={{ fontSize: 28, fontWeight: '700', textAlign: 'center' }}>Verify Email</Text>
-              <Text className="text-gray-500 text-center" style={{ fontSize: 15 }}>
+              <Text style={{ fontSize: 28, fontWeight: '700', textAlign: 'center', color: isDark ? '#fff' : '#000' }}>Verify Email</Text>
+              <Text className="text-gray-500 dark:text-gray-400 text-center" style={{ fontSize: 15 }}>
                 We sent a 5-digit code to{'\n'}
-                <Text style={{ fontWeight: '600', color: '#111' }}>{email}</Text>
+                <Text style={{ fontWeight: '600', color: isDark ? '#F9FAFB' : '#111' }}>{email}</Text>
               </Text>
               <View className="flex-row justify-center mt-4" style={{ gap: 12 }}>
                 {otp.map((digit, i) => (
@@ -212,11 +216,12 @@ export default function Signup() {
                     style={{
                       width: 52,
                       height: 60,
-                      backgroundColor: GRAY_BG,
+                      backgroundColor: isDark ? '#374151' : GRAY_BG,
                       borderRadius: 14,
                       fontSize: 24,
                       fontWeight: '700',
                       textAlign: 'center',
+                      color: isDark ? '#F9FAFB' : '#000',
                     }}
                   />
                 ))}
@@ -227,8 +232,8 @@ export default function Signup() {
           {/* ─── Stage 3: Academic Info ─── */}
           {step === 3 && (
             <View style={{ gap: 16 }}>
-              <Text style={{ fontSize: 28, fontWeight: '700' }}>Academic Info</Text>
-              <Text className="text-gray-500 mb-2">Tell us about your studies</Text>
+              <Text style={{ fontSize: 28, fontWeight: '700', color: isDark ? '#fff' : '#000' }}>Academic Info</Text>
+              <Text className="text-gray-500 dark:text-gray-400 mb-2">Tell us about your studies</Text>
               <TextInput
                 placeholder="College Major"
                 value={major}
@@ -253,7 +258,7 @@ export default function Signup() {
                   justifyContent: 'space-between',
                 }}
               >
-                <Text style={{ fontSize: 16, color: gradLevel ? '#111' : '#9CA3AF' }}>
+                <Text style={{ fontSize: 16, color: gradLevel ? (isDark ? '#F9FAFB' : '#111') : '#9CA3AF' }}>
                   {gradLevel || 'Grad Level'}
                 </Text>
                 <Icon type="ionicon" name="chevron-down" size={20} color="#9CA3AF" />
@@ -264,8 +269,8 @@ export default function Signup() {
           {/* ─── Stage 4: Profile Setup ─── */}
           {step === 4 && (
             <View style={{ gap: 20 }}>
-              <Text style={{ fontSize: 28, fontWeight: '700' }}>Profile Setup</Text>
-              <Text className="text-gray-500 mb-1">Almost there! Personalize your profile</Text>
+              <Text style={{ fontSize: 28, fontWeight: '700', color: isDark ? '#fff' : '#000' }}>Profile Setup</Text>
+              <Text className="text-gray-500 dark:text-gray-400 mb-1">Almost there! Personalize your profile</Text>
 
               {/* Avatar */}
               <TouchableOpacity onPress={pickAvatar} className="self-center items-center" style={{ gap: 8 }}>
@@ -274,7 +279,7 @@ export default function Signup() {
                     width: 100,
                     height: 100,
                     borderRadius: 50,
-                    backgroundColor: GRAY_BG,
+                    backgroundColor: isDark ? '#374151' : GRAY_BG,
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}
@@ -332,7 +337,7 @@ export default function Signup() {
                 >
                   {agreedTerms && <Icon type="ionicon" name="checkmark" size={16} color="#fff" />}
                 </View>
-                <Text style={{ flex: 1, fontSize: 14, color: '#6B7280' }}>
+                <Text style={{ flex: 1, fontSize: 14, color: isDark ? '#9CA3AF' : '#6B7280' }}>
                   I agree to the <Text style={{ color: ACCENT_COLOR, fontWeight: '600' }}>Terms of Service</Text> and{' '}
                   <Text style={{ color: ACCENT_COLOR, fontWeight: '600' }}>Privacy Policy</Text>
                 </Text>
@@ -367,7 +372,7 @@ export default function Signup() {
         >
           <View
             style={{
-              backgroundColor: '#fff',
+              backgroundColor: isDark ? '#1F2937' : '#fff',
               borderTopLeftRadius: 24,
               borderTopRightRadius: 24,
               paddingBottom: 40,
@@ -385,14 +390,14 @@ export default function Signup() {
                 }}
                 className="px-8 py-4"
                 style={{
-                  backgroundColor: gradLevel === level ? GRAY_BG : 'transparent',
+                  backgroundColor: gradLevel === level ? (isDark ? '#374151' : GRAY_BG) : 'transparent',
                 }}
               >
                 <Text
                   style={{
                     fontSize: 17,
                     fontWeight: gradLevel === level ? '600' : '400',
-                    color: gradLevel === level ? ACCENT_COLOR : '#111',
+                    color: gradLevel === level ? ACCENT_COLOR : (isDark ? '#F9FAFB' : '#111'),
                   }}
                 >
                   {level}

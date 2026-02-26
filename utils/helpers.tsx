@@ -18,5 +18,5 @@ export async function isUserLoggedIn(): Promise<boolean> {
     // } else {
     //     return null
     // }
-    return false
+    return true
 }

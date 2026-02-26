@@ -1,12 +1,14 @@
 import { Icon } from '@/components/Icon';
 import { ACCENT_COLOR } from '@/utils/constants';
+import { ThemeContext } from '@/Store/ThemeContext';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 // @ts-ignore
 const CustomTabBar = ({ state, descriptors, navigation }: BottomTabNavigationProp) => {
+    const { isDark } = useContext(ThemeContext)
     const [activeTab, setactiveTab] = useState(1)
     return (
         <SafeAreaView
@@ -24,8 +26,8 @@ const CustomTabBar = ({ state, descriptors, navigation }: BottomTabNavigationPro
             borderRadius: 10,
             padding: 8,
             flexDirection: "row",
-            backgroundColor: "#fafafa",
-            shadowColor: "#000",
+            backgroundColor: isDark ? '#1F2937' : '#fafafa',
+            shadowColor: isDark ? '#000' : '#000',
             shadowOffset: { width: 0, height: 4 },
             shadowOpacity: 0.15,
             shadowRadius: 6,
@@ -66,15 +68,16 @@ type CustomBarItemProps = {
 };
 
 export const CustomBarItem: React.FC<CustomBarItemProps> = ({ name, iconName, iconType, active, onPress, navigation }) => {
+    const { isDark } = useContext(ThemeContext)
     return (
         <TouchableOpacity onPress={onPress} className='flex-col items-center justify-center gap-y-2'>
             <Icon
                 name={iconName}
                 type={iconType}
                 size={25}
-                color={active ? ACCENT_COLOR : "#9DA3AF"}
+                color={active ? ACCENT_COLOR : (isDark ? '#6B7280' : '#9DA3AF')}
             />
-            <Text style={{fontWeight: active ? "bold" : "regular", color: active ? ACCENT_COLOR : '#9DA3AF'}} className="capitalize text-s">{name}</Text>
+            <Text style={{fontWeight: active ? "bold" : "regular", color: active ? ACCENT_COLOR : (isDark ? '#6B7280' : '#9DA3AF')}} className="capitalize text-s">{name}</Text>
         </TouchableOpacity>
     );
 }

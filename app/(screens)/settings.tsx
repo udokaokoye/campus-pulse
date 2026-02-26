@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Text, View } from 'react-native'
+import { ThemeContext } from '@/Store/ThemeContext'
 
 const Settings = () => {
+  const { isDark } = useContext(ThemeContext);
   return (
-    <View>
-      <Text>Settings</Text>
+    <View className='flex-1 bg-white dark:bg-gray-900 items-center justify-center'>
+      <Text className='dark:text-white'>Settings</Text>
     </View>
   )
 }

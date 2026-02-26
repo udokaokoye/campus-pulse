@@ -2,12 +2,15 @@ import { AppText } from '@/components/AppText'
 import { Icon } from '@/components/Icon'
 import OrganizationCard from '@/components/OrganizationCard'
 import { GRAY_BG } from '@/utils/constants'
+import { ThemeContext } from '@/Store/ThemeContext'
 import { router } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
+import { useContext } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { ScrollView, TextInput } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 const AllOrganizations = () => {
+    const { isDark } = useContext(ThemeContext);
 
     const allOrgs = [
         {
@@ -1242,32 +1245,32 @@ const AllOrganizations = () => {
         }
     ]
     return (
-        <SafeAreaView className='bg-white flex-1'>
-            <StatusBar style="dark" backgroundColor="#fff" />
+        <SafeAreaView className='bg-white dark:bg-gray-900 flex-1'>
+            <StatusBar style={isDark ? 'light' : 'dark'} backgroundColor={isDark ? '#111827' : '#fff'} />
 
-            <View className=' bg-white flex-row items-center px-4 py-3'>
+            <View className=' bg-white dark:bg-gray-900 flex-row items-center px-4 py-3'>
                 <TouchableOpacity
                     onPress={() => router.back?.()}
                     className="w-10 h-10 items-center justify-center"
                     hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
                 >
-                    <Icon name="chevron-back" type="ionicon" />
+                    <Icon name="chevron-back" type="ionicon" color={isDark ? '#fff' : undefined} />
                 </TouchableOpacity>
 
-                <AppText weight='bold' className="flex-1 text-center font-bold text-2xl">All Organizations</AppText>
+                <AppText weight='bold' className="flex-1 text-center font-bold text-2xl dark:text-white">All Organizations</AppText>
 
                 <TouchableOpacity
                     // onPress={() => router.back?.()}
                     className="w-10 h-10 items-center justify-center"
                     hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
                 >
-                    <Icon name="dots-three-vertical" type="entypo" />
+                    <Icon name="dots-three-vertical" type="entypo" color={isDark ? '#fff' : undefined} />
                 </TouchableOpacity>
             </View>
             <ScrollView>
-                <View className='rounded-3xl mx-5 flex-row items-center px-3 gap-x-3' style={{ height: 50, backgroundColor: GRAY_BG }}>
-                    <Icon name='search' type='feather' />
-                    <TextInput style={{ height: '100%', width: '85%' }} placeholderTextColor={'#6B6A6A'} placeholder='search organizations...' />
+                <View className='rounded-3xl mx-5 flex-row items-center px-3 gap-x-3' style={{ height: 50, backgroundColor: isDark ? '#374151' : GRAY_BG }}>
+                    <Icon name='search' type='feather' color={isDark ? '#9CA3AF' : undefined} />
+                    <TextInput style={{ height: '100%', width: '85%', color: isDark ? '#F9FAFB' : undefined }} placeholderTextColor={isDark ? '#9CA3AF' : '#6B6A6A'} placeholder='search organizations...' />
                 </View>
 
                 <View className='px-5 mt-10'>
