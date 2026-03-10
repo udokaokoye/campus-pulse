@@ -1,6 +1,7 @@
 import { AppText } from '@/components/AppText'
 import EventCard from '@/components/EventCard'
 import { Icon } from '@/components/Icon'
+import { ThemeContext } from '@/Store/ThemeContext'
 import { ACCENT_COLOR, colorCombos } from '@/utils/constants'
 import { Event } from '@/utils/types'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -9,7 +10,6 @@ import { router } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import moment from 'moment'
 import React, { useContext, useRef, useState } from 'react'
-import { ThemeContext } from '@/Store/ThemeContext'
 import { ActivityIndicator, FlatList, TextInput, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -1752,7 +1752,9 @@ const AllEvents = () => {
     setactiveCategory(index)
   }
   return (
+
     <SafeAreaView className='bg-white dark:bg-gray-900 flex-1'>
+
       <StatusBar style={isDark ? 'light' : 'dark'} />
 
       <TouchableOpacity onPress={() => {
@@ -1871,6 +1873,7 @@ const AllEvents = () => {
         })} */}
 
     </SafeAreaView>
+
   )
 }
 

@@ -1,11 +1,6 @@
-<<<<<<< HEAD
-import { useColorScheme } from 'nativewind';
-=======
-import { useColorScheme } from '@/hooks/useColorScheme';
->>>>>>> b9f4f69 (fixed loading bug)
 import { AuthContext, UserInfoProps } from '@/Store/AuthContext';
-import { ThemeContext } from '@/Store/ThemeContext';
 import QueryProvider from '@/Store/QueryProvider';
+import { ThemeContext } from '@/Store/ThemeContext';
 import { isUserLoggedIn } from '@/utils/helpers';
 import {
   Inter_400Regular,
@@ -20,6 +15,7 @@ import {
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { useColorScheme } from 'nativewind';
 import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -61,11 +57,7 @@ export default function RootLayout() {
   if (!loaded || loading) {
     return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
-<<<<<<< HEAD
-       <Text>Loading</Text>
-=======
        <Text> Loading</Text> 
->>>>>>> b9f4f69 (fixed loading bug)
        </View>); // or splash screen
   }
 

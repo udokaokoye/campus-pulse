@@ -1,5 +1,6 @@
 import { AppText } from '@/components/AppText'
 import { Icon } from '@/components/Icon'
+import { ThemeContext } from '@/Store/ThemeContext'
 import { ACCENT_COLOR } from '@/utils/constants'
 import { Event } from '@/utils/types'
 import { Image } from 'expo-image'
@@ -7,7 +8,6 @@ import { router, useLocalSearchParams } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import moment from 'moment'
 import { useContext, useMemo, useState } from 'react'
-import { ThemeContext } from '@/Store/ThemeContext'
 import { TouchableOpacity, useWindowDimensions, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import RenderHTML from 'react-native-render-html'
@@ -126,6 +126,12 @@ const SpecificEvent = () => {
                         />
                     </View>
                 </View>
+
+                {/* <View className='p-5'>
+                    <AppText weight='bold' className='font-bold text-2xl mb-3 dark:text-white'>Stories</AppText>
+                    <StoriesCard />
+
+                </View> */}
 
                 <View className='px-5 pb-5 mt-3 bg-white dark:bg-gray-900'>
                     <AppText weight='bold' className='font-bold text-2xl mt-12 mb-3 dark:text-white'>Event Details</AppText>

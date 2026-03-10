@@ -1,12 +1,12 @@
 import { AppText } from '@/components/AppText'
 import EventCard from '@/components/EventCard'
 import { Icon } from '@/components/Icon'
+import { ThemeContext } from '@/Store/ThemeContext'
 import { ACCENT_COLOR, colorCombos, GRAY_BG } from '@/utils/constants'
 import { Image } from 'expo-image'
 import { router } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
-import { useState, useContext } from 'react'
-import { ThemeContext } from '@/Store/ThemeContext'
+import { useContext, useState } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -1715,9 +1715,9 @@ const Profile = () => {
                             <AppText className='dark:text-gray-300'>|</AppText>
                             <AppText className='dark:text-gray-300'>27'</AppText>
                             <AppText className='dark:text-gray-300'>|</AppText>
-                            <View style={{ width: 20, height: 20 }}>
+                            <View style={{ width: 30, height: 30 }}>
                                 <Image
-                                    source={{ uri: profileTab == 0 ? 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Cincinnati_Bearcats_logo.svg/800px-Cincinnati_Bearcats_logo.svg.png?20200803122224' : "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Kentucky_Wildcats_logo.svg/1024px-Kentucky_Wildcats_logo.svg.png?20170712231132" }}
+                                    source={{ uri: 'https://1000logos.net/wp-content/uploads/2021/12/Cincinnati-Bearcats-Logo.png' }}
                                     style={{ width: '100%', height: '100%' }}
                                     contentFit='contain'
                                     transition={1000}

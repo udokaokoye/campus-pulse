@@ -1,6 +1,7 @@
 import { AppText } from '@/components/AppText';
 import EventCard from '@/components/EventCard';
 import { Icon } from '@/components/Icon';
+import { ThemeContext } from '@/Store/ThemeContext';
 import { ACCENT_COLOR, colorCombos } from '@/utils/constants';
 import { prettyDate } from '@/utils/helpers';
 import { Event } from '@/utils/types';
@@ -10,8 +11,7 @@ import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import moment from 'moment';
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { ThemeContext } from '@/Store/ThemeContext';
-import { Dimensions, PermissionsAndroid, Platform, Switch, Text, TouchableOpacity, View } from 'react-native';
+import { Dimensions, PermissionsAndroid, Platform, StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import MapView, { Marker } from 'react-native-maps';
 import RenderHTML from 'react-native-render-html';
@@ -1809,7 +1809,7 @@ export default function HomeScreen() {
   }
   return (
     <View className='relative' style={{ flex: 1 }}>
-      <View style={{opacity: hideNav ? 0 : 1}}>
+      <View style={{ opacity: hideNav ? 0 : 1 }}>
         <View className='absolute border-white border-2 bg-orange-500 top-0 left-0 z-10 m-10 mt-20 rounded-full overflow-hidden' style={{ width: 60, height: 60 }}>
           <Image
             style={{ width: '100%', height: "100%" }}
@@ -1830,6 +1830,12 @@ export default function HomeScreen() {
           <Text>🌙</Text>
         </View>
       </View>
+
+      {/* <View className=' absolute z-10 self-center pt-2 pb-2' style={{ width: '90%', height: 130, top: 140, opacity: hideNav ? 0 : 1 }}>
+        <BlurView intensity={10} tint="light" style={style.glass}>
+          <StoriesCard />
+        </BlurView>
+      </View> */}
 
       {/* <MapView
         style={{
@@ -1919,8 +1925,9 @@ export default function HomeScreen() {
         onChange={handleSheetChanges}
         snapPoints={snapPoints}
         enablePanDownToClose={false}
-        backgroundStyle={{ backgroundColor: isDark ? '#111827' : '#fff' }}
+        backgroundStyle={{ backgroundColor: isDark ? '#111827' : '#fff', }}
         handleIndicatorStyle={{ backgroundColor: isDark ? '#6B7280' : '#D1D5DB' }}
+
       >
         <BottomSheetScrollView contentContainerStyle={{ paddingBottom: 150, paddingTop: 8, width: '100%' }}
           showsVerticalScrollIndicator={false}>
@@ -2000,6 +2007,12 @@ export default function HomeScreen() {
 
                     />
                   </View>}
+
+                {/* <View className='mt-8'>
+                  <AppText weight='bold' className='text-2xl mb-3 dark:text-white'>Stories</AppText>
+
+                  <StoriesCard />
+                </View> */}
 
                 <View style={{ borderTopWidth: 1, borderTopColor: isDark ? '#374151' : '#E5E7EB', marginTop: 40, paddingTop: 24 }}>
                   <AppText weight='bold' className='text-2xl mb-3 dark:text-white'>About this event</AppText>
@@ -2108,4 +2121,19 @@ export default function HomeScreen() {
     </View >
   );
 }
+
+const style = StyleSheet.create({
+  glass: {
+    width: "100%",
+    height: '100%',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(255,255,255,0.1)", // transparency layer
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.2)",
+    paddingVertical: 5,
+    overflow: 'hidden',
+    borderRadius: 20
+  },
+})
 
