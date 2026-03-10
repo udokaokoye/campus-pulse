@@ -1651,6 +1651,15 @@ const Profile = () => {
             <ScrollView>
                 <StatusBar style={isDark ? "light" : "dark"} backgroundColor={isDark ? "#111827" : "#fff"} />
 
+                <View className='flex-row justify-end px-4 pt-1'>
+                    <TouchableOpacity
+                        onPress={() => router.push('/(screens)/story-viewer' as any)}
+                        style={{ backgroundColor: isDark ? '#1F2937' : GRAY_BG, paddingHorizontal: 12, paddingVertical: 6, borderRadius: 8 }}
+                    >
+                        <AppText weight='medium' style={{ fontSize: 13, color: isDark ? '#D1D5DB' : '#374151' }}>📸 Test Stories</AppText>
+                    </TouchableOpacity>
+                </View>
+
                 <View className=' relative flex-row items-center px-4 py-2'>
                     <View
                         className="w-10 h-10 items-center justify-center"

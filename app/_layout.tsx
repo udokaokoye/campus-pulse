@@ -75,6 +75,7 @@ export default function RootLayout() {
               <Stack.Screen name="(auth)" />
               <Stack.Screen name="(tabs)" />
               <Stack.Screen name="(screens)" />
+              <Stack.Screen name="(screens)/story-viewer" options={{ presentation: 'modal', animation: 'slide_from_bottom' }} />
             </Stack>
             <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
           </React.Fragment>
